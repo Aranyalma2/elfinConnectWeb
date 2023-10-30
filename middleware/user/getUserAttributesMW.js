@@ -8,12 +8,10 @@ module.exports = function (objectrepository) {
 	const dbUser = requireOption(objectrepository, "User");
 
 	return function (req, res, next) {
-		const user = req.local.user;
-		if (!user) {
-			return next("Unknown session");
+		if (typeof res.locals.user === "undefined") {
+			return next();
 		}
 
-		res.local.user.username = req.session.user.username;
 		return next();
 	};
 };
