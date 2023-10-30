@@ -13,6 +13,8 @@ module.exports = function (app) {
 
 	app.use("/home", authMW.isLoggedIn(), renderMW(objRepo, "home"));
 
+	app.use("/devices", authMW.isLoggedIn(), getDevicesMW(objRepo), renderMW(objRepo, "devices"));
+
 	app.use("/logout", authMW.logout());
 
 	app.use("/login", authMW.login(objRepo), renderMW(objRepo, "login"));

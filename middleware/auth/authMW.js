@@ -4,7 +4,6 @@ const requireOption = require("../requireOption");
 // Middleware to check if a user is logged in
 exports.isLoggedIn = function () {
 	return function (req, res, next) {
-		console.log(req.session.user);
 		if (typeof req.session.logedIn === "undefined" || req.session.logedIn !== true) {
 			return res.redirect("/login");
 		}

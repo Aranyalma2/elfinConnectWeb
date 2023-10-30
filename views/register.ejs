@@ -1,9 +1,9 @@
 <!-- views/register.ejs -->
-<%- include('header') -%>
+<%- include('frameTop') -%>
 
-<body>
+<section>
 	<div class="container">
-		<h2>Register</h2>
+		<h2>Register new user</h2>
 		<% if (typeof error !=='undefined' ) { %>
 		<p class="alert alert-danger"><%= error %></p>
 		<% } %> <% if (typeof success !=='undefined' ) { %>
@@ -27,5 +27,5 @@
 			<button type="submit" class="btn btn-primary">Register</button>
 		</form>
 	</div>
-</body>
-<%- include('footer') -%>
+</section>
+<%- include('frameBottom') -%>

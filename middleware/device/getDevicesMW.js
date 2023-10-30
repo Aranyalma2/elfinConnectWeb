@@ -15,6 +15,7 @@ module.exports = function (objectrepository) {
 		database.Device.find({ _id: { $in: user.deviceCollection } })
 			.exec()
 			.then((devices) => {
+				console.log(devices);
 				res.locals.devices = devices;
 				return next();
 			})

@@ -1,22 +1,8 @@
 <!-- views/devices.ejs -->
-<%- include('header') -%>
+<%- include('frameTop') -%>
+<section>
+	<h2 class="mb-4">Devices</h2>
+	
+</section>
 
-<body>
-	<div class="container">
-		<h2>Welcome, <%= user.name %></h2>
-		<h3>Device List:</h3>
-		<ul class="list-group">
-			<% devices.forEach(device=> { %>
-			<li class="list-group-item">
-				<strong>Hostname:</strong>
-				<%= device.hostname %><br />
-				<strong>MAC Address:</strong>
-				<%= device.macaddress %><br />
-				<strong>Last Seen Date:</strong>
-				<%= device.lastSeenDate %>
-			</li>
-			<% }); %>
-		</ul>
-	</div>
-</body>
-<%- include('footer') -%>
+<%- include('frameBottom') -%>
