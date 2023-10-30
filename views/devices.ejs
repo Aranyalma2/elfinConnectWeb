@@ -1,7 +1,15 @@
 <!-- views/devices.ejs -->
 <%- include('frameTop') -%>
 <section>
-	<h2 class="mb-4">Devices</h2>
+	<div class="row">
+		<div class="col">
+			<h2 class="mb-4">Devices</h2>
+		</div>
+		<div class="col text-end">
+			<a href="" class="btn btn-primary">Reload</a>
+		</div>
+	</div>
+
 	<table class="table">
 		<thead>
 			<tr>
@@ -29,5 +37,11 @@
 		</tbody>
 	</table>
 </section>
+
+<script>
+	window.setTimeout(function () {
+		window.location.reload();
+	}, 60000);
+</script>
 
 <%- include('frameBottom') -%>

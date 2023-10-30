@@ -26,7 +26,6 @@ exports.isLoggedInAdmin = function () {
 			return res.redirect("/login");
 		}
 		//Loged in as Admin
-		console.log(`Administrtor login: ${req.session.user.username} | ${new Date()}`);
 		res.locals.user = req.session.user;
 		return next();
 	};
@@ -54,6 +53,7 @@ exports.login = function (objectrepository) {
 					return next();
 				}
 				// Store the user in the session
+				if (user.admin) console.log(`Administrtor login: ${user.username} | ${new Date()}`);
 				req.session.logedIn = true;
 				req.session.user = user;
 				return req.session.save((err) => res.redirect("/home"));

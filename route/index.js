@@ -1,5 +1,5 @@
 const authMW = require("../middleware/auth/authMW");
-const getUserMW = require("../middleware/user/getUserMW");
+const getUserAttributesMW = require("../middleware/user/getUserAttributesMW");
 const getDevicesMW = require("../middleware/device/getDevicesMW");
 const database = require("../db");
 const renderMW = require("../middleware/renderMW");
@@ -14,6 +14,8 @@ module.exports = function (app) {
 	app.use("/home", authMW.isLoggedIn(), renderMW(objRepo, "home"));
 
 	app.use("/devices", authMW.isLoggedIn(), getDevicesMW(objRepo), renderMW(objRepo, "devices"));
+
+	app.use("/user", authMW.isLoggedIn(), getUserAttributesMW(objRepo), renderMW(objRepo, "user"));
 
 	app.use("/logout", authMW.logout());
 

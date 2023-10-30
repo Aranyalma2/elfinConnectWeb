@@ -82,6 +82,11 @@
 				border-radius: 5px;
 				padding: 20px;
 			}
+
+			.userwelcome {
+				padding-right: 10px;
+				font-size: 18px;
+			}
 		</style>
 	</head>
 
@@ -91,10 +96,10 @@
 			<header class="d-flex justify-content-between align-items-center">
 				<div>
 					<h1>Elfin Connect WebUI</h1>
-					<p>Version 1.0</p>
+					<!--<p>Version 1.0</p>-->
 				</div>
 				<div>
-					<span class="mr-2">Welcome: <% if (typeof user.username !=='undefined' ) { %> <b><%- user.username %> </b> <%} %></span>
+					<span class="userwelcome">Welcome: <% if (typeof user.username !=='undefined' ) { %> <b><%- user.username %> </b> <%} %></span>
 					<a href="/logout" class="btn btn-danger">Logout</a>
 				</div>
 			</header>
@@ -114,13 +119,14 @@
 							<li class="nav-item">
 								<a class="nav-link" href="/devices"> Devices </a>
 							</li>
+							<% if (typeof user !=='undefined' && user.admin === true) { %>
 							<li class="nav-item">
 								<a class="nav-link" href="/register"> Register </a>
 							</li>
+							<%} %>
 						</ul>
 					</div>
 				</nav>
 
 				<!-- User/Devices page content -->
 				<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-3">
-
