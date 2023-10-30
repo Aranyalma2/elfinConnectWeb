@@ -8,7 +8,7 @@ const registerUserMW = require("../middleware/user/registerUserMW");
 module.exports = function (app) {
 	const objRepo = {
 		User: database.User,
-		Devices: database.Devices,
+		Device: database.Device,
 	};
 
 	app.use("/home", authMW.isLoggedIn(), renderMW(objRepo, "home"));

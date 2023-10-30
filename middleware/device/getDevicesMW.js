@@ -5,18 +5,17 @@
 const requireOption = require("../requireOption");
 
 module.exports = function (objectrepository) {
-	const dbDevice = requireOption(objectrepository, "Device");
+	const deviceDB = requireOption(objectrepository, "Device");
 
 	return function (req, res, next) {
 		if (typeof res.locals.user === "undefined") {
 			return next();
 		}
-
-		database.Device.find({ _id: { $in: user.deviceCollection } })
+		deviceDB
+			.find({ _id: { $in: res.locals.user.allDevices } })
 			.exec()
 			.then((devices) => {
-				console.log(devices);
-				res.locals.devices = devices;
+				res.locals.devices = calcOnline(devices);
 				return next();
 			})
 			.catch((err) => {
@@ -24,3 +23,10 @@ module.exports = function (objectrepository) {
 			});
 	};
 };
+
+function calcOnline(devices) {
+	for (let i = 0; i < devices.length; i++) {
+		devices[i].online = devices[i].lastSeenDate > new Date(Date.now() - 60000);
+	}
+	return devices;
+}

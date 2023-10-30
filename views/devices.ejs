@@ -2,7 +2,32 @@
 <%- include('frameTop') -%>
 <section>
 	<h2 class="mb-4">Devices</h2>
-	
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Hostname</th>
+				<th>MAC Address</th>
+				<th>Status</th>
+				<th>Last Seen Date</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for (let i = 0; i < devices.length; i++) { %>
+			<tr>
+				<td><%= devices[i].hostName %></td>
+				<td><%= devices[i].macAddress %></td>
+				<td>
+					<% if (devices[i].online) { %>
+					<span class="text-success fw-bold">Online</span>
+					<% } else { %>
+					<span class="text-danger fw-bold">Offline</span>
+					<% } %>
+				</td>
+				<td><%= devices[i].lastSeenDate %></td>
+			</tr>
+			<% } %>
+		</tbody>
+	</table>
 </section>
 
 <%- include('frameBottom') -%>
