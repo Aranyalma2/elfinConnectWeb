@@ -8,6 +8,8 @@
 		<p class="alert alert-danger"><%= error %></p>
 		<% } %> <% if (typeof success !=='undefined' ) { %>
 		<p class="alert alert-success"><%= success %></p>
+		<% } %> <% if (typeof warning !=='undefined' ) { %>
+		<p class="alert alert-warning"><%= warning %></p>
 		<% } %>
 		<form action="/register" method="post">
 			<div class="mb-3 form-group">
@@ -20,7 +22,7 @@
 			</div>
 			<div class="mb-3 form-group form-check form-switch">
 				<input class="form-check-input" type="checkbox" value="" id="admin" name="admin" />
-				<label class="form-check-label" for="admin">Register administrator profile:</label>
+				<label class="form-check-label" for="admin">Register administrator profile </label>
 			</div>
 			<button type="submit" class="btn btn-primary">Register</button>
 		</form>

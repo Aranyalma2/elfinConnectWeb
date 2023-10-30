@@ -17,8 +17,8 @@ module.exports = function (app) {
 
 	app.use("/login", authMW.login(objRepo), renderMW(objRepo, "login"));
 
-	app.get("/register", /*authMW.isLoggedInAdmin(),*/ renderMW(objRepo, "register"));
-	app.post("/register", /*authMW.isLoggedInAdmin(),*/ registerUserMW(objRepo), renderMW(objRepo, "register"));
+	app.get("/register", authMW.isLoggedInAdmin(), renderMW(objRepo, "register"));
+	app.post("/register", authMW.isLoggedInAdmin(), registerUserMW(objRepo), renderMW(objRepo, "register"));
 
 	app.use("/", authMW.isLoggedIn(), renderMW(objRepo, "home"));
 

@@ -17,11 +17,17 @@ exports.isLoggedIn = function () {
 // Middleware to check if a user is logged in as Admin
 exports.isLoggedInAdmin = function () {
 	return function (req, res, next) {
-		console.log(req.session.user);
-		if ((typeof req.session.logedIn === "undefined" || req.session.logedIn !== true, req.session.user.admin === true)) {
+		if (
+			typeof req.session.logedIn === "undefined" ||
+			req.session.logedIn !== true ||
+			typeof req.session.user.admin === "undefined" ||
+			req.session.user.admin === false
+		) {
+			req.session.loginwaring = "Administrator access level is missing.";
 			return res.redirect("/login");
 		}
 		//Loged in as Admin
+		console.log(`Administrtor login: ${req.session.user.username} | ${new Date()}`);
 		res.locals.user = req.session.user;
 		return next();
 	};
@@ -32,6 +38,10 @@ exports.login = function (objectrepository) {
 	return function (req, res, next) {
 		const UserDB = requireOption(objectrepository, "User");
 
+		if (typeof req.session.loginwaring !== "undefined" || req.session.loginwaring !== "") {
+			res.locals.warning = req.session.loginwaring;
+			req.session.loginwaring = undefined;
+		}
 		if (typeof req.body.username === "undefined" && typeof req.body.password === "undefined") {
 			return next();
 		}
