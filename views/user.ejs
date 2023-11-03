@@ -1,7 +1,52 @@
 <!-- views/user.ejs -->
 <%- include('frameTop') -%>
-	<section>
-		<h2 class="mb-4">User Page</h2>
-	</section>
+<section>
+	<h2 class="mb-4">User Page</h2>
+	<div class="container">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Attribute Name</th>
+					<th>Value</th>
+					<th>Copy</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>UUID</td>
+					<td><%= user.uuid %></td>
+					<td>
+						<button class="btn btn-primary" onclick="copyToClipboard('<%= user.uuid %>')"><i class="bi bi-clipboard"></i></button>
+					</td>
+				</tr>
+				<tr>
+					<td>Elfin Heathbeat MSG</td>
+					<td><%= user.elfinHeathbeatMSG %></td>
+					<td>
+						<button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfinHeathbeatMSG %>')"><i class="bi bi-clipboard"></i></button>
+					</td>
+				</tr>
+				<tr>
+					<td>Elfin Data MSG</td>
+					<td><%= user.elfindataMSG %></td>
+					<td>
+						<button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfindataMSG %>')"><i class="bi bi-clipboard"></i></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
 
-	<%- include('frameBottom') -%>
+<script>
+	function copyToClipboard(text) {
+		const textarea = document.createElement("textarea");
+		textarea.value = text;
+		document.body.appendChild(textarea);
+		textarea.select();
+		document.execCommand("copy");
+		document.body.removeChild(textarea);
+	}
+</script>
+
+<%- include('frameBottom') -%>
