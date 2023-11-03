@@ -16,9 +16,10 @@ module.exports = function (objectrepository) {
 			if (!userDB) {
 				return next();
 			}
-			res.locals.user.username = userDB.username;
+			res.locals.user.uuid = userDB.uuid;
 			res.locals.user.elfinHeathbeatMSG = `beat;${userDB.uuid};%MAC;%HOST;0`;
-			res.locals.user.elfindataMSG = `data;${userDB.uuid};%MAC;`; 
+			res.locals.user.elfindataMSG = `data;${userDB.uuid};%MAC;`;
+			return next();
 		});
 	};
 };
