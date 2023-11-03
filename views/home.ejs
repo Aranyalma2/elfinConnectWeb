@@ -2,6 +2,32 @@
 <%- include('frameTop') -%>
 <section>
 	<h2 class="mb-4">Home Page</h2>
+	<div style="max-width: 300px">
+		<canvas id="myPieChart"></canvas>
+	</div>
 </section>
+
+<!-- Include Chart.js library -->
+<script src="/js/chart.umd.js"></script>
+
+<script>
+	// Data for the pie chart
+	var data = {
+		labels: ["Online: <%= online %>", "Offline: <%= offline %>"],
+		datasets: [
+			{
+				data: [<%= online %>, <%= offline %>], // Replace with your data values
+				backgroundColor: ["#00bd32", "#FF5733"], // Colors for each value
+			},
+		],
+	};
+
+	// Create the pie chart
+	var ctx = document.getElementById("myPieChart").getContext("2d");
+	var myPieChart = new Chart(ctx, {
+		type: "pie",
+		data: data,
+	});
+</script>
 
 <%- include('frameBottom') -%>

@@ -1,9 +1,7 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const session = require("express-session");
-const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
-const crypto = require("crypto");
+const path = require("path");
 
 const app = express();
 const PORT = 3000;
@@ -11,6 +9,13 @@ const PORT = 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
+
+app.use("/css", express.static(path.join("node_modules", "bootstrap", "dist", "css")));
+app.use("/css", express.static(path.join("node_modules", "bootstrap-icons", "font")));
+app.use("/js", express.static(path.join("node_modules", "bootstrap", "dist", "js")));
+app.use("/js", express.static(path.join("node_modules", "jquery", "dist")));
+app.use("/js", express.static(path.join("node_modules", "chart.js", "dist")));
+
 app.use(express.static("static"));
 
 // Session setup

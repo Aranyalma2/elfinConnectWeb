@@ -17,6 +17,7 @@
 				<th>MAC Address</th>
 				<th>Status</th>
 				<th>Last Seen Date</th>
+				<th>Delete</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -32,6 +33,9 @@
 					<% } %>
 				</td>
 				<td><%= devices[i].lastSeenDate %></td>
+				<td style="width: 20px; white-space: nowrap">
+					<a href="/devices/delete/<%=devices[i]._id %>" class="btn btn-block btn-danger"><i class="bi bi-trash-fill"></i></a>
+				</td>
 			</tr>
 			<% } %>
 		</tbody>
