@@ -14,7 +14,7 @@ module.exports = function (objectrepository) {
 			return next();
 		}
 		// Check if the username is already taken
-		dbUser.findOne({ name: username }).then((usernameDB) => {
+		dbUser.findOne({ username: username }).then((usernameDB) => {
 			if (usernameDB) {
 				res.locals.error = "Username already exists.";
 				return next();

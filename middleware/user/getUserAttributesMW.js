@@ -12,6 +12,13 @@ module.exports = function (objectrepository) {
 			return next();
 		}
 
-		return next();
+		dbUser.findOne({ username: req.session.user.username }).then((userDB) => {
+			if (!userDB) {
+				return next();
+			}
+			res.locals.user.username = userDB.username;
+			res.locals.user.elfinHeathbeatMSG = `beat;${userDB.uuid};%MAC;%HOST;0`;
+			res.locals.user.elfindataMSG = `data;${userDB.uuid};%MAC;`; 
+		});
 	};
 };
