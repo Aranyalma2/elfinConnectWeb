@@ -1,0 +1,38 @@
+<!-- views/setup.ejs -->
+<%- include('frameTop') -%>
+
+<body>
+  <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="col-md-4">
+      <div class="login-form">
+        <h2>Create admin profile</h2>
+        <% if (typeof error !=='undefined' ) { %>
+        <p class="alert alert-danger"><%= error %></p>
+        <% } %> <% if (typeof success !=='undefined' ) { %>
+        <p class="alert alert-success"><%= success %></p>
+        <% } %> <% if (typeof warning !=='undefined' ) { %>
+        <p class="alert alert-warning"><%= warning %></p>
+        <% } %>
+        <form action="/setup" method="post">
+          <div class="mb-3 form-group">
+            <label for="username">Username:</label>
+            <input type="text" name="username" class="form-control" id="username" required />
+          </div>
+          <div class="mb-3 form-group">
+            <label for="password">Password:</label>
+            <input type="password" name="password" class="form-control" id="password" required />
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-primary">Create user</button>
+            </div>
+            <div class="col-md-4">
+              <a href="/login" class="btn btn-secondary">Go to Login page</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<%- include('frameBottom') -%>

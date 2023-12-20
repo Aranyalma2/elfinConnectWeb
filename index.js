@@ -21,7 +21,7 @@ app.use(express.static("static"));
 // Session setup
 app.use(
 	session({
-		secret: "your_secret_key",
+		secret: "kJbQ48RwPEmXDGKKwQivXhvPCh1PkeAposzJz37GVMxwHkM9l43mw507QpuXMF1zxk2RHwC42xsZpkB2ulr0O5EVWHZotOV3x98AM5QDw6YiPpaG5szjU3LRLtERS7Ye",
 		resave: true,
 		saveUninitialized: true,
 	}),
