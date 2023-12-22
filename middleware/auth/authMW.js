@@ -53,7 +53,12 @@ exports.login = function (objectrepository) {
 					return next();
 				}
 				// Store the user in the session
-				if (user.admin) console.log(`Administrtor login: ${user.username} | ${new Date()}`);
+				if (user.admin){
+					console.log(`Administrtor login: ${user.username} | ${new Date()}`);
+				}
+				else{
+					console.log(`User login: ${user.username} | ${new Date()}`);
+				}
 				req.session.logedIn = true;
 				req.session.user = user;
 				return req.session.save((err) => res.redirect("/home"));
