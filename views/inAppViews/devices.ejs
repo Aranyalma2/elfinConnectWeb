@@ -1,51 +1,63 @@
 <!-- views/devices.ejs -->
 <%- include('frameTop') -%>
 <section>
-	<div class="row">
-		<div class="col">
-			<h2 class="mb-4">Devices</h2>
-		</div>
-		<div class="col text-end">
-			<a href="" class="btn btn-primary">Reload</a>
-		</div>
-	</div>
+  <div class="row">
+    <div class="col">
+      <h2 class="mb-4">Devices</h2>
+    </div>
+    <div class="col text-end">
+      <span id="timer">Update: 60</span>
+      <a href="" class="btn btn-primary">Refresh</a>
+    </div>
+  </div>
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Hostname</th>
-				<th>MAC Address</th>
-				<th>Status</th>
-				<th>Last Seen Date</th>
-				<th>Delete</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% for (let i = 0; i < devices.length; i++) { %>
-			<tr>
-				<td><%= devices[i].hostName %></td>
-				<td><%= devices[i].macAddress %></td>
-				<td>
-					<% if (devices[i].online) { %>
-					<span class="text-success fw-bold">Online</span>
-					<% } else { %>
-					<span class="text-danger fw-bold">Offline</span>
-					<% } %>
-				</td>
-				<td><%= devices[i].lastSeenDate %></td>
-				<td style="width: 20px; white-space: nowrap">
-					<a href="/devices/delete/<%=devices[i]._id %>" class="btn btn-block btn-danger"><i class="bi bi-trash-fill"></i></a>
-				</td>
-			</tr>
-			<% } %>
-		</tbody>
-	</table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Hostname</th>
+        <th>MAC Address</th>
+        <th>Status</th>
+        <th>Last Seen Date</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (let i = 0; i < devices.length; i++) { %>
+      <tr>
+        <td><%= devices[i].hostName %></td>
+        <td><%= devices[i].macAddress %></td>
+        <td>
+          <% if (devices[i].online) { %>
+          <span class="text-success fw-bold">Online</span>
+          <% } else { %>
+          <span class="text-danger fw-bold">Offline</span>
+          <% } %>
+        </td>
+        <td><%= devices[i].lastSeenDate %></td>
+        <td style="width: 20px; white-space: nowrap">
+          <a href="/devices/delete/<%=devices[i]._id %>" class="btn btn-block btn-danger"><i class="bi bi-trash-fill"></i></a>
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
 </section>
 
 <script>
-	window.setTimeout(function () {
-		window.location.reload();
-	}, 60000);
+  // Countdown timer
+  let seconds = 60;
+  const timerElement = document.getElementById('timer');
+
+  function updateTimer() {
+    timerElement.textContent = "Update: " + seconds;
+    seconds--;
+
+    if (seconds < 0) {
+      window.location.reload();
+    }
+  }
+
+  const timerInterval = setInterval(updateTimer, 1000);
 </script>
 
 <%- include('frameBottom') -%>
