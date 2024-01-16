@@ -1,52 +1,86 @@
 <!-- views/user.ejs -->
 <%- include('frameTop') -%>
 <section>
-	<h2 class="mb-4">User Page</h2>
-	<div class="container">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Attribute Name</th>
-					<th>Value</th>
-					<th>Copy</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>UUID</td>
-					<td><%= user.uuid %></td>
-					<td>
-						<button class="btn btn-primary" onclick="copyToClipboard('<%= user.uuid %>')"><i class="bi bi-clipboard"></i></button>
-					</td>
-				</tr>
-				<tr>
-					<td>Elfin Heathbeat MSG</td>
-					<td><%= user.elfinHeathbeatMSG %></td>
-					<td>
-						<button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfinHeathbeatMSG %>')"><i class="bi bi-clipboard"></i></button>
-					</td>
-				</tr>
-				<tr>
-					<td>Elfin Data MSG</td>
-					<td><%= user.elfindataMSG %></td>
-					<td>
-						<button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfindataMSG %>')"><i class="bi bi-clipboard"></i></button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+  <h2 class="mb-4">User Page</h2>
+  <div class="container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Attribute Name</th>
+          <th>Value</th>
+          <th>Copy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>UUID</td>
+          <td><%= user.uuid %></td>
+          <td>
+            <button class="btn btn-primary" onclick="copyToClipboard('<%= user.uuid %>')"><i class="bi bi-clipboard"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td>Elfin Heathbeat MSG</td>
+          <td><%= user.elfinHeathbeatMSG %></td>
+          <td>
+            <button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfinHeathbeatMSG %>')"><i class="bi bi-clipboard"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td>Elfin Data MSG</td>
+          <td><%= user.elfindataMSG %></td>
+          <td>
+            <button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfindataMSG %>')"><i class="bi bi-clipboard"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section>
+  <h2>Change Password</h2>
+  <div class="card-body">
+    <form action="/user/changepassword" method="post">
+      <div class="mb-3 form-group">
+        <label for="currentPassword">Current Password</label>
+        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Enter current password" required>
+      </div>
+      <div class="mb-3 form-group">
+        <label for="newPassword">New Password</label>
+        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter new password" required>
+      </div>
+      <div class="mb-3 form-group">
+        <label for="confirmNewPassword">Confirm New Password</label>
+        <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm new password" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Change Password</button>
+    </form>
+  </div>
+  <% if (typeof passwordChangeError !=='undefined' && passwordChangeError === true) { %>
+  <p class="alert alert-warning">Password did not change!</p>
+  <% } %>
+  <% if (typeof passwordChangeError !=='undefined' && passwordChangeError === false) { %>
+  <p class="alert alert-success">Password changed, we are logging you out!</p>
+  <% } %>
 </section>
 
 <script>
-	function copyToClipboard(text) {
-		const textarea = document.createElement("textarea");
-		textarea.value = text;
-		document.body.appendChild(textarea);
-		textarea.select();
-		document.execCommand("copy");
-		document.body.removeChild(textarea);
-	}
+  function copyToClipboard(text) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+  }
 </script>
+<% if (typeof passwordChangeError !=='undefined' && passwordChangeError === false) { %>
+<script>
+  setTimeout(() => {
+    // Redirect to /login after 3 seconds
+    window.location.href = "/login";
+  }, 3000);
+</script>
+<% } %>
 
 <%- include('frameBottom') -%>

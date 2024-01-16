@@ -9,6 +9,7 @@ const renderMW = require("../middleware/renderMW");
 const delDeviceMW = require("../middleware/device/delDeviceMW");
 const getUsersMW = require("../middleware/user/getUsersMW");
 const setupMW = require("../middleware/setup/setupMW");
+const changePassMW = require("../middleware/user/changePassMW.js");
 
 module.exports = function (app) {
 	const objRepo = {
@@ -19,6 +20,8 @@ module.exports = function (app) {
 	app.use("/devices/delete/:deviceid", authMW.isLoggedIn(), delDeviceMW(objRepo), getDevicesMW(objRepo), renderMW(objRepo, "inAppViews/devices"));
 
 	app.use("/devices", authMW.isLoggedIn(), getDevicesMW(objRepo), renderMW(objRepo, "inAppViews/devices"));
+
+	app.post("/user/changepassword" , authMW.isLoggedIn(), changePassMW(objRepo), renderMW(objRepo, "inAppViews/user"));
 
 	app.use("/user", authMW.isLoggedIn(), getUserAttributesMW(objRepo), renderMW(objRepo, "inAppViews/user"));
 
