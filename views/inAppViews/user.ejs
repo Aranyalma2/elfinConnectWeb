@@ -39,7 +39,7 @@
 </section>
 <section>
   <h2>Change Password</h2>
-  <div class="card-body">
+  <div class="mb-3 card-body">
     <form action="/user/changepassword" method="post">
       <div class="mb-3 form-group">
         <label for="currentPassword">Current Password</label>
@@ -56,11 +56,15 @@
       <button type="submit" class="btn btn-primary">Change Password</button>
     </form>
   </div>
-  <% if (typeof passwordChangeError !=='undefined' && passwordChangeError === true) { %>
-  <p class="alert alert-warning">Password did not change!</p>
-  <% } %>
-  <% if (typeof passwordChangeError !=='undefined' && passwordChangeError === false) { %>
-  <p class="alert alert-success">Password changed, we are logging you out!</p>
+  <% if (typeof passwordChangeError !=='undefined') { %>
+  <div class="mb-3">
+    <% if (passwordChangeError === true) { %>
+    <p class=" alert alert-warning">Password did not change!</p>
+    <% } %>
+    <% if (passwordChangeError === false) { %>
+    <p class="alert alert-success">Password changed, we are logging you out!</p>
+    <% } %>
+  </div>
   <% } %>
 </section>
 
