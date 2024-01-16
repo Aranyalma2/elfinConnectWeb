@@ -24,9 +24,6 @@ module.exports = function (objectrepository) {
         const saltRounds = 10;
         let newHashedPassword = bcrypt.hashSync(newPassword, saltRounds);
 
-        console.log(currentPassword);
-        console.log(res.locals.user.password);
-        console.log(bcrypt.compareSync(currentPassword, res.locals.user.password));
         if(!bcrypt.compareSync(currentPassword, res.locals.user.password)){
             return next();
         };
@@ -36,8 +33,6 @@ module.exports = function (objectrepository) {
                 //Invalid
 				return next();
 			}
-
-            console.log(userDB);
 
             res.locals.passwordChangeError = false;
 			return next();
