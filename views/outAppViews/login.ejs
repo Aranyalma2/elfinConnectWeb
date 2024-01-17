@@ -2,6 +2,9 @@
 <%- include('frameTop') -%>
 
 <body>
+  <p><%= texts.test %></p>
+  <button onclick="setLanguage('hu')">Set Cookie hu</button>
+  <button onclick="setLanguage('en')">Set Cookie en</button>
   <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="col-md-4">
       <div class="login-form">
@@ -27,5 +30,13 @@
     </div>
   </div>
 </body>
+
+<script>
+  function setLanguage(value) {
+    document.cookie = `lang=${encodeURIComponent(value)}; Max-Age=86400; path=/`;
+    location.reload();
+
+  }
+</script>
 
 <%- include('frameBottom') -%>

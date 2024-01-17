@@ -9,7 +9,8 @@ const renderMW = require("../middleware/renderMW");
 const delDeviceMW = require("../middleware/device/delDeviceMW");
 const getUsersMW = require("../middleware/user/getUsersMW");
 const setupMW = require("../middleware/setup/setupMW");
-const changePassMW = require("../middleware/user/changePassMW.js");
+const changePassMW = require("../middleware/user/changePassMW");
+const localesMW = require("../middleware/localesMW");
 
 module.exports = function (app) {
 	const objRepo = {
@@ -27,7 +28,7 @@ module.exports = function (app) {
 
 	app.use("/logout", authMW.logout());
 
-	app.use("/login", authMW.login(objRepo), renderMW(objRepo, "outAppViews/login"));
+	app.use("/login", localesMW(), authMW.login(objRepo), renderMW(objRepo, "outAppViews/login"));
 
 	app.get("/register", authMW.isLoggedInAdmin(), renderMW(objRepo, "inAppViews/register"));
 

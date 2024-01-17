@@ -2,12 +2,15 @@ const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require("path");
+const locales = require("./languages/locales");
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.set("view engine", "ejs");
 
 app.use("/css", express.static(path.join("node_modules", "bootstrap", "dist", "css")));
@@ -17,6 +20,12 @@ app.use("/js", express.static(path.join("node_modules", "jquery", "dist")));
 app.use("/js", express.static(path.join("node_modules", "chart.js", "dist")));
 
 app.use(express.static("static"));
+
+//Multi language framework setup
+locales.config({
+    languages: ['en','hu'],
+    defaultLang: 'en',
+});
 
 // Session setup
 app.use(
@@ -28,6 +37,7 @@ app.use(
 );
 
 require("./route/index")(app);
+
 
 app.use((err, req, res, next) => {
 	res.end("Problem...");
