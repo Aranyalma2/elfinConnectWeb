@@ -2,5 +2,14 @@
     "_cfg":{
         "lang": "en"
     },
-    "test": "test_en"
+    "test": "test_en",
+    "Login": "Login",
+    "Username": "Username",
+    "Password": "Password",
+    "Welcome": "Welcome",
+    "Logout": "Logout",
+    "Home": "Home",
+    "User": "User",
+    "Devices": "Devices",
+    "Register" : "Register"
 }

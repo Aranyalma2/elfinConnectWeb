@@ -2,5 +2,14 @@
     "_cfg":{
         "lang": "hu"
     },
-    "test": "test_hu"
+    "test": "test_hu",
+    "Login": "Bejelentkezés",
+    "Username": "Felhasználó név",
+    "Password": "Jelszó",
+    "Welcome": "Üdvözöljük",
+    "Logout": "Kijelentkezés",
+    "Home": "Kezdőlap",
+    "User": "Felhasználó",
+    "Devices": "Eszközök",
+    "Register" : "Regisztráció" 
 }

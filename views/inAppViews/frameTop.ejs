@@ -85,6 +85,16 @@
       font-size: 18px;
     }
   </style>
+  <script>
+
+    
+
+    function changeLanguage() {
+      let selectedLanguage = document.getElementById("languageSelect").value;
+      document.cookie = `lang=${encodeURIComponent(selectedLanguage)}; Max-Age=86400; path=/`;
+      location.reload();
+    }
+  </script>
 </head>
 
 <body>
@@ -96,8 +106,12 @@
         <!--<p>Version 1.0</p>-->
       </div>
       <div>
-        <span class="userwelcome">Welcome: <% if (typeof user !=='undefined' && user.username !=='undefined' ) { %> <b><%- user.username %> </b> <%} %></span>
-        <a href="/logout" class="btn btn-danger">Logout</a>
+        <span class="userwelcome"><%= texts.Welcome %>: <% if (typeof user !=='undefined' && user.username !=='undefined' ) { %> <b><%- user.username %> </b> <%} %></span>
+        <select id="languageSelect" onchange="changeLanguage()">
+          <option value="en">English</option>
+          <option value="hu">Magyar</option>
+        </select>
+        <a href="/logout" class="btn btn-danger"><%= texts.Logout %></a>
       </div>
     </header>
 
@@ -108,17 +122,17 @@
         <div class="position-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" href="/home"> Home </a>
+              <a class="nav-link active" href="/home"> <%= texts.Home %> </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/user"> User </a>
+              <a class="nav-link" href="/user"> <%= texts.User %> </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/devices"> Devices </a>
+              <a class="nav-link" href="/devices"> <%= texts.Devices %> </a>
             </li>
             <% if (typeof user !=='undefined' && user.admin === true) { %>
             <li class="nav-item">
-              <a class="nav-link" href="/register"> Register </a>
+              <a class="nav-link" href="/register"> <%= texts.Register %> </a>
             </li>
             <%} %>
           </ul>

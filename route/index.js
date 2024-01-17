@@ -18,25 +18,25 @@ module.exports = function (app) {
 		Device: database.Device,
 	};
 
-	app.use("/devices/delete/:deviceid", authMW.isLoggedIn(), delDeviceMW(objRepo), getDevicesMW(objRepo), renderMW(objRepo, "inAppViews/devices"));
+	app.use("/devices/delete/:deviceid", localesMW(), authMW.isLoggedIn(), delDeviceMW(objRepo), getDevicesMW(objRepo), renderMW(objRepo, "inAppViews/devices"));
 
-	app.use("/devices", authMW.isLoggedIn(), getDevicesMW(objRepo), renderMW(objRepo, "inAppViews/devices"));
+	app.use("/devices", localesMW(), authMW.isLoggedIn(), getDevicesMW(objRepo), renderMW(objRepo, "inAppViews/devices"));
 
-	app.post("/user/changepassword" , authMW.isLoggedIn(), changePassMW(objRepo), renderMW(objRepo, "inAppViews/user"));
+	app.post("/user/changepassword", localesMW(), authMW.isLoggedIn(), changePassMW(objRepo), renderMW(objRepo, "inAppViews/user"));
 
-	app.use("/user", authMW.isLoggedIn(), getUserAttributesMW(objRepo), renderMW(objRepo, "inAppViews/user"));
+	app.use("/user", localesMW(), authMW.isLoggedIn(), getUserAttributesMW(objRepo), renderMW(objRepo, "inAppViews/user"));
 
 	app.use("/logout", authMW.logout());
 
 	app.use("/login", localesMW(), authMW.login(objRepo), renderMW(objRepo, "outAppViews/login"));
 
-	app.get("/register", authMW.isLoggedInAdmin(), renderMW(objRepo, "inAppViews/register"));
+	app.get("/register", localesMW(), authMW.isLoggedInAdmin(), renderMW(objRepo, "inAppViews/register"));
 
-	app.post("/register", authMW.isLoggedInAdmin(), registerUserMW(objRepo), renderMW(objRepo, "inAppViews/register"));
+	app.post("/register", localesMW(), authMW.isLoggedInAdmin(), registerUserMW(objRepo), renderMW(objRepo, "inAppViews/register"));
 
-	app.use("/home", authMW.isLoggedIn(), getDevicesMW(objRepo), getDeviceStateStatMW(objRepo), renderMW(objRepo, "inAppViews/home"));
+	app.use("/home", localesMW(), authMW.isLoggedIn(), getDevicesMW(objRepo), getDeviceStateStatMW(objRepo), renderMW(objRepo, "inAppViews/home"));
 
-	app.use("/setup", getUsersMW(objRepo), setupMW(), registerUserMW(objRepo), renderMW(objRepo, "outAppViews/setup"));
+	app.use("/setup", localesMW(), getUsersMW(objRepo), setupMW(), registerUserMW(objRepo), renderMW(objRepo, "outAppViews/setup"));
 
 	app.get("/", (req, res) => {
 		res.redirect(301, "/home");
