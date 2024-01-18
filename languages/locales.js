@@ -19,11 +19,39 @@ function config (val){
         langModels.push({id: model._cfg.lang, model});
     });
 
+    langModels.forEach((langModel) => {
+        langModel.model._cfg.all = mergeModelsConfig(langModel.id);
+    });
+
 };
 
 function getModel(lang){
     const foundModel = langModels.find(item => item.id === lang);
-    return foundModel ? foundModel.model : getModel(conf.defaultLang);
+    const selectedModel = foundModel ? foundModel.model : getModel(conf.defaultLang);
+    return selectedModel;
+}
+
+function mergeModelsConfig(selectedLang){
+    // Collection to store { lang: lang_verbose } pairs
+    const langCollection = [];
+    
+    // Iterate through models and build the collection
+    langModels.forEach(model => {
+        const lang = model.model._cfg?.lang;
+        const langVerbose = model.model._cfg?.lang_verbose;
+
+        if (lang && langVerbose) {
+            langCollection.push({ [lang]: langVerbose });
+        }
+    });
+    const selectedIndex = langCollection.findIndex(entry => Object.keys(entry)[0] === selectedLang);
+
+    // Move the item to the top (if found)
+    if (selectedIndex !== -1) {
+        const selectedEntry = langCollection.splice(selectedIndex, 1)[0];
+        langCollection.unshift(selectedEntry);
+    }
+    return langCollection;
 }
 
 module.exports = {

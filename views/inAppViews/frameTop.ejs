@@ -86,9 +86,6 @@
     }
   </style>
   <script>
-
-    
-
     function changeLanguage() {
       let selectedLanguage = document.getElementById("languageSelect").value;
       document.cookie = `lang=${encodeURIComponent(selectedLanguage)}; Max-Age=86400; path=/`;
@@ -108,8 +105,9 @@
       <div>
         <span class="userwelcome"><%= texts.Welcome %>: <% if (typeof user !=='undefined' && user.username !=='undefined' ) { %> <b><%- user.username %> </b> <%} %></span>
         <select id="languageSelect" onchange="changeLanguage()">
-          <option value="en">English</option>
-          <option value="hu">Magyar</option>
+          <% texts._cfg.all.forEach(entry => { %>
+          <option value="<%= Object.keys(entry)[0] %>"><%= entry[Object.keys(entry)[0]] %></option>
+          <% }); %>
         </select>
         <a href="/logout" class="btn btn-danger"><%= texts.Logout %></a>
       </div>

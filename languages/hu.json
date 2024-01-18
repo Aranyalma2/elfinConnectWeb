@@ -1,6 +1,7 @@
 {
     "_cfg":{
-        "lang": "hu"
+        "lang": "hu",
+        "lang_verbose": "Magyar"
     },
     "test": "test_hu",
     "Login": "Bejelentkezés",

@@ -1,6 +1,7 @@
 {
     "_cfg":{
-        "lang": "en"
+        "lang": "en",
+        "lang_verbose": "English"
     },
     "test": "test_en",
     "Login": "Login",
