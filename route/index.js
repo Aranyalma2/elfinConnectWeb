@@ -41,14 +41,4 @@ module.exports = function (app) {
 	app.get("/", (req, res) => {
 		res.redirect(301, "/home");
 	});
-
-	/*
-	app.get("/register", (req, res) => {
-		res.render("register");
-	});
-
-	app.post("/register", async (req, res) => {
-		
-	});
-    */
 };
