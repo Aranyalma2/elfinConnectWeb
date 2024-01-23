@@ -33,6 +33,13 @@
             <button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfindataMSG %>')"><i class="bi bi-clipboard"></i></button>
           </td>
         </tr>
+        <tr>
+          <td>AES encryption key</td>
+          <td><%= user.aeskey %></td>
+          <td>
+            <button class="btn btn-primary" onclick="copyToClipboard('<%= user.aeskey %>')"><i class="bi bi-clipboard"></i></button>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
