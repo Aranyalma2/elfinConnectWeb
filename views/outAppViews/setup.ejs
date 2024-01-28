@@ -2,7 +2,18 @@
 <%- include('frameTop') -%>
 
 <body>
-  <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+  <div style="height: 3vh; margin: 10px 0px 0px 10px;">
+    <span><%= texts.Select_language%>:</span>
+    <select id="languageSelect" onchange="changeLanguage()">
+      <% texts._cfg.all.forEach(entry => { %>
+      <option value="<%= Object.keys(entry)[0] %>">
+        <%= entry[Object.keys(entry)[0]] %>
+      </option>
+      <% }); %>
+    </select>
+    <image src="gfx/flags/<%= texts._cfg.flag %>.svg" width="40" height="40" />
+  </div>
+  <div class="container d-flex justify-content-center align-items-center" style="height: 95vh;">
     <div class="col-md-4">
       <div class="login-form">
         <h2>Create admin profile</h2>
