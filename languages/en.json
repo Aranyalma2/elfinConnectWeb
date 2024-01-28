@@ -1,9 +1,11 @@
 {
     "_cfg":{
         "lang": "en",
-        "lang_verbose": "English"
+        "lang_verbose": "English",
+        "flag": "us"
     },
     "test": "test_en",
+    "Select_language": "Select language",
     "Login": "Login",
     "Username": "Username",
     "Password": "Password",

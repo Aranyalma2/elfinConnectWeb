@@ -1,9 +1,11 @@
 {
     "_cfg":{
         "lang": "hu",
-        "lang_verbose": "Magyar"
+        "lang_verbose": "Magyar",
+        "flag": "hu"
     },
     "test": "test_hu",
+    "Select_language": "Válassz nyelvet",
     "Login": "Bejelentkezés",
     "Username": "Felhasználó név",
     "Password": "Jelszó",

@@ -104,9 +104,12 @@
       </div>
       <div>
         <span class="userwelcome"><%= texts.Welcome %>: <% if (typeof user !=='undefined' && user.username !=='undefined' ) { %> <b><%- user.username %> </b> <%} %></span>
+        <image src="gfx/flags/<%= texts._cfg.flag %>.svg" width="40" height="40" />
         <select id="languageSelect" onchange="changeLanguage()">
           <% texts._cfg.all.forEach(entry => { %>
-          <option value="<%= Object.keys(entry)[0] %>"><%= entry[Object.keys(entry)[0]] %></option>
+          <option value="<%= Object.keys(entry)[0] %>">
+            <%= entry[Object.keys(entry)[0]] %>
+          </option>
           <% }); %>
         </select>
         <a href="/logout" class="btn btn-danger"><%= texts.Logout %></a>
