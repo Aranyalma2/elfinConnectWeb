@@ -16,7 +16,7 @@ module.exports = function (objectrepository) {
 		// Check if the username is already taken
 		dbUser.findOne({ username: username }).then((usernameDB) => {
 			if (usernameDB) {
-				res.locals.error = "Username already exists.";
+				res.locals.error = res.locals.texts.registerFailed_Exists;
 				return next();
 			}
 
@@ -40,18 +40,13 @@ module.exports = function (objectrepository) {
 						newUser
 							.save()
 							.then((newUser) => {
-								res.locals.success = "User successfully created.";
-								return next();
-							})
-							.catch((err) => {
-								console.log("User creation failed:", err);
-								res.locals.error = "User creation failed.";
+								res.locals.success = res.locals.texts.registerSucces_Created;
 								return next();
 							});
 					})
 					.catch((err) => {
 						console.log("User creation failed:", err);
-						res.locals.error = "User creation failed.";
+						res.locals.error = res.locals.texts.registerFailed_UnknownFail;
 						return next();
 					});
 			});

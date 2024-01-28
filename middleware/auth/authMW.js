@@ -22,7 +22,7 @@ exports.isLoggedInAdmin = function () {
 			typeof req.session.user.admin === "undefined" ||
 			req.session.user.admin === false
 		) {
-			req.session.loginwaring = "Administrator access level is missing.";
+			req.session.loginwaring = res.locals.texts.loginWarning_MissingAdminPermission;
 			return res.redirect("/login");
 		}
 		//Loged in as Admin
@@ -49,7 +49,7 @@ exports.login = function (objectrepository) {
 		UserDB.findOne({ username })
 			.then((user) => {
 				if (!user || !bcrypt.compareSync(password, user.password)) {
-					res.locals.error = "Invalid username or password";
+					res.locals.error = res.locals.texts.loginWarning_InvalidUserOrPass;
 					return next();
 				}
 				// Store the user in the session

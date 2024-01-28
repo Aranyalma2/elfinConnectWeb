@@ -11,7 +11,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-image: url("gfx/background.jpg");
+      background-image: url("/gfx/background.jpg");
       background-size: cover;
       background-repeat: no-repeat;
       background-attachment: fixed;
@@ -104,7 +104,7 @@
       </div>
       <div>
         <span class="userwelcome"><%= texts.Welcome %>: <% if (typeof user !=='undefined' && user.username !=='undefined' ) { %> <b><%- user.username %> </b> <%} %></span>
-        <image src="gfx/flags/<%= texts._cfg.flag %>.svg" width="40" height="40" />
+        <image src="/gfx/flags/<%= texts._cfg.flag %>.svg" width="40" height="40" />
         <select id="languageSelect" onchange="changeLanguage()">
           <% texts._cfg.all.forEach(entry => { %>
           <option value="<%= Object.keys(entry)[0] %>">

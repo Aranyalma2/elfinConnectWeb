@@ -1,14 +1,14 @@
 <!-- views/user.ejs -->
 <%- include('frameTop') -%>
 <section>
-  <h2 class="mb-4">User Page</h2>
+  <h2 class="mb-4"><%= texts.User_Page %></h2>
   <div class="container">
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Attribute Name</th>
-          <th>Value</th>
-          <th>Copy</th>
+          <th><%= texts.Attribute_Name %></th>
+          <th><%= texts.Value %></th>
+          <th><%= texts.Copy %></th>
         </tr>
       </thead>
       <tbody>
@@ -45,31 +45,31 @@
   </div>
 </section>
 <section>
-  <h2>Change Password</h2>
+  <h2><%= texts.Change_Password %></h2>
   <div class="mb-3 card-body">
     <form action="/user/changepassword" method="post">
       <div class="mb-3 form-group">
-        <label for="currentPassword">Current Password</label>
-        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Enter current password" required>
+        <label for="currentPassword"><%= texts.Current_Password %></label>
+        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="<%= texts.Current_Password %>" required>
       </div>
       <div class="mb-3 form-group">
-        <label for="newPassword">New Password</label>
-        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter new password" required>
+        <label for="newPassword"><%= texts.New_Password %></label>
+        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="<%= texts.New_Password %>" required>
       </div>
       <div class="mb-3 form-group">
-        <label for="confirmNewPassword">Confirm New Password</label>
-        <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm new password" required>
+        <label for="confirmNewPassword"><%= texts.Confirm_New_Password %></label>
+        <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" placeholder="<%= texts.Confirm_New_Password %>" required>
       </div>
-      <button type="submit" class="btn btn-primary">Change Password</button>
+      <button type="submit" class="btn btn-primary"><%= texts.Change_Password %></button>
     </form>
   </div>
   <% if (typeof passwordChangeError !=='undefined') { %>
   <div class="mb-3">
     <% if (passwordChangeError === true) { %>
-    <p class=" alert alert-warning">Password did not change!</p>
+    <p class=" alert alert-warning"><%=texts.passwordChangeError_TRUE%></p>
     <% } %>
     <% if (passwordChangeError === false) { %>
-    <p class="alert alert-success">Password changed, we are logging you out!</p>
+    <p class="alert alert-success"><%=texts.passwordChangeError_FALSE%></p>
     <% } %>
   </div>
   <% } %>

@@ -26,19 +26,19 @@
         <% } %>
         <form action="/setup" method="post">
           <div class="mb-3 form-group">
-            <label for="username">Username:</label>
+            <label for="username"><%= texts.Username %>:</label>
             <input type="text" name="username" class="form-control" id="username" required />
           </div>
           <div class="mb-3 form-group">
-            <label for="password">Password:</label>
+            <label for="password"><%= texts.Password %>:</label>
             <input type="password" name="password" class="form-control" id="password" required />
           </div>
           <div class="row justify-content-between">
             <div class="col-md-4">
-              <button type="submit" class="btn btn-primary">Create user</button>
+              <button type="submit" class="btn btn-primary"><%= texts.Create_user %></button>
             </div>
             <div class="col-md-4">
-              <a href="/login" class="btn btn-secondary">Go to Login page</a>
+              <a href="/login" class="btn btn-secondary"><%= texts.Go_to_login_page %></a>
             </div>
           </div>
         </form>

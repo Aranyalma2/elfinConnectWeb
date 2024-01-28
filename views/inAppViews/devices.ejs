@@ -3,22 +3,22 @@
 <section>
   <div class="row">
     <div class="col">
-      <h2 class="mb-4">Devices</h2>
+      <h2 class="mb-4"><%= texts.Devices %></h2>
     </div>
     <div class="col text-end">
-      <span id="timer">Update: 60</span>
-      <a href="" class="btn btn-primary">Refresh</a>
+      <span id="timer"><%= texts.Next_refresh %>: 60</span>
+      <a href="" class="btn btn-primary"><%= texts.Refresh %></a>
     </div>
   </div>
 
   <table class="table" id="deviceTable">
     <thead>
       <tr>
-        <th onclick="sortTable(0)">Hostname</th>
-        <th onclick="sortTable(1)">MAC Address</th>
-        <th onclick="sortTable(2)">Status</th>
-        <th onclick="sortTable(3)">Last Seen Date</th>
-        <th>Delete</th>
+        <th onclick="sortTable(0)"><%= texts.Hostname %></th>
+        <th onclick="sortTable(1)"><%= texts.MAC_Address %></th>
+        <th onclick="sortTable(2)"><%= texts.Status %></th>
+        <th onclick="sortTable(3)"><%= texts.Last_Seen_Date %></th>
+        <th><%= texts.Delete %></th>
       </tr>
     </thead>
     <tbody>
@@ -28,9 +28,9 @@
         <td><%= devices[i].macAddress %></td>
         <td>
           <% if (devices[i].online) { %>
-          <span class="text-success fw-bold">Online</span>
+          <span class="text-success fw-bold"><%= texts.Online %></span>
           <% } else { %>
-          <span class="text-danger fw-bold">Offline</span>
+          <span class="text-danger fw-bold"><%= texts.Offline %></span>
           <% } %>
         </td>
         <td><%= devices[i].lastSeenDate %></td>
@@ -49,7 +49,7 @@
   const timerElement = document.getElementById('timer');
 
   function updateTimer() {
-    timerElement.textContent = "Update: " + seconds;
+    timerElement.textContent = "<%= texts.Next_refresh %>: " + seconds;
     seconds--;
 
     if (seconds < 0) {
