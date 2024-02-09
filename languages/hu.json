@@ -39,9 +39,21 @@
     "passwordChangeError_FALSE" : "A jelszó megváltozott, kijelentkeztetünk!",
     "Register_new_user" : "Új felhasználó regsztrálása",
     "Register_admin_profile" : "Adminisztrátori jogosultságok",
-    "loginWarning_MissingAdminPermission" : "Adminisztrátori jogosultság szükséges!",
+    "loginWarning_MissingAdminPermission" : "Nem rendelkezik megfelelő jogosultságokkal!",
     "loginWarning_InvalidUserOrPass" : "Hibás felhasználónév, vagy jelszó!",
     "registerSucces_Created" : "Felhasználó létrejött.",
     "registerFailed_UnknownFail" : "Váratlan hiba lépett fel a felhasználó készítés közben.",
-    "registerFailed_Exists" : "A felhasználó már létezik."
+    "registerFailed_Exists" : "A felhasználó már létezik.",
+    "Download" : "Letöltés",
+    "Downloads" : "Letöltések",
+    "Upload" : "Feltöltés",
+    "Upload_app" : "Desktop alkalmazás archív fájl.",
+    "Name" : "Név",
+    "Version" : "Verzió",
+    "Upload_time" : "Feltöltési idő",
+    "Close" : "Bezár",
+    "File" : "Fájl",
+    "upload_success" : "Sikeres feltöltés!",
+    "upload_fail" : "Feltöltés sikertelen!",
+    "" : ""
 }

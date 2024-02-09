@@ -39,11 +39,24 @@
     "passwordChangeError_FALSE" : "Password changed, we are logging you out!",
     "Register_new_user" : "Register new user",
     "Register_admin_profile" : "Administrator profile",
-    "loginWarning_MissingAdminPermission" : "Administrator access level is missing.",
+    "loginWarning_MissingAdminPermission" : "Required permissions does not available!",
     "loginWarning_InvalidUserOrPass" : "Invalid username or password",
     "registerSucces_Created" : "User successfully created.",
     "registerFailed_UnknownFail" : "Unexpected error occured, user creation failed.",
-    "registerFailed_Exists" : "Username already exists."
+    "registerFailed_Exists" : "Username already exists.",
+    "Download" : "Download",
+    "Downloads" : "Downloads",
+    "Upload" : "Upload",
+    "Upload_app" : "Upload Desktop App archive file",
+    "Name" : "Name",
+    "Version" : "Version",
+    "Upload_time" : "Upload time",
+    "Close" : "Close",
+    "File" : "File",
+    "upload_success" : "Upload success.",
+    "upload_fail" : "Upload failed.",
+    "" : ""
+    
 
 
 
