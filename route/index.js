@@ -11,11 +11,20 @@ const getUsersMW = require("../middleware/user/getUsersMW");
 const setupMW = require("../middleware/setup/setupMW");
 const changePassMW = require("../middleware/user/changePassMW");
 const localesMW = require("../middleware/localesMW");
+const getAppsMW = require("../middleware/desktopclient/getApps");
+const uploadDesktopMW = require("../middleware/desktopclient/uploadApp");
+
+
+const multer = require("multer");
+const storageConfigs = require("../upload/upload-config");
+const desktopAppStorage = multer({ storage: storageConfigs.desktopClientApps });
+
 
 module.exports = function (app) {
 	const objRepo = {
 		User: database.User,
 		Device: database.Device,
+		DesktopApp: database.DesktopApp
 	};
 
 	app.use("/devices/delete/:deviceid", localesMW(), authMW.isLoggedIn(), delDeviceMW(objRepo), getDevicesMW(objRepo), renderMW(objRepo, "inAppViews/devices"));
@@ -37,6 +46,8 @@ module.exports = function (app) {
 	app.use("/home", localesMW(), authMW.isLoggedIn(), getDevicesMW(objRepo), getDeviceStateStatMW(objRepo), renderMW(objRepo, "inAppViews/home"));
 
 	app.use("/setup", localesMW(), getUsersMW(objRepo), setupMW(), registerUserMW(objRepo), renderMW(objRepo, "outAppViews/setup"));
+
+	app.post("/upload", localesMW(), authMW.isLoggedInAdmin(), desktopAppStorage.single('file'), uploadDesktopMW(objRepo), getAppsMW(objRepo), renderMW(objRepo, "inAppViews/desktopapp"));
 
 	app.get("/", (req, res) => {
 		res.redirect(301, "/home");
