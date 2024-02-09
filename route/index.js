@@ -54,4 +54,9 @@ module.exports = function (app) {
 	app.get("/", (req, res) => {
 		res.redirect(301, "/home");
 	});
+
+	app.get('*', (req, res) => {
+		// Redirect all requests to the root path "/"
+		res.redirect(301,'/');
+	});
 };
