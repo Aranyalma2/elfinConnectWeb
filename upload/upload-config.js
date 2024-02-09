@@ -7,7 +7,7 @@ const desktopClientApps = multer.diskStorage({
     cb(null, 'static/downloads/desktopclient'); // Uploads will be stored in the 'uploads/' directory
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, `${file.originalname}-${Date.now()}` );
   },
 });
 
