@@ -47,6 +47,8 @@ module.exports = function (app) {
 
 	app.use("/setup", localesMW(), getUsersMW(objRepo), setupMW(), registerUserMW(objRepo), renderMW(objRepo, "outAppViews/setup"));
 
+	app.use("/desktopapp", localesMW(), authMW.isLoggedIn(), getAppsMW(objRepo), renderMW(objRepo, "inAppViews/desktopapp"));
+
 	app.post("/upload", localesMW(), authMW.isLoggedInAdmin(), desktopAppStorage.single('file'), uploadDesktopMW(objRepo), getAppsMW(objRepo), renderMW(objRepo, "inAppViews/desktopapp"));
 
 	app.get("/", (req, res) => {
