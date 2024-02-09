@@ -22,8 +22,18 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
+const desktopAppSchema = new mongoose.Schema({
+	name: String,
+	version: String,
+	uploadtime: Date,
+	path: String
+});
+
+const DesktopApp = mongoose.model("DesktopApp", desktopAppSchema);
+
 module.exports = {
 	mongoose,
 	Device,
 	User,
+	DesktopApp
 };
