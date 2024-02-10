@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const locales = require("./languages/locales");
 const cookieParser = require('cookie-parser');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = 3000;
@@ -30,8 +31,8 @@ locales.config({
 // Session setup
 app.use(
 	session({
-		secret: "kJbQ48RwPEmXDGKKwQivXhvPCh1PkeAposzJz37GVMxwHkM9l43mw507QpuXMF1zxk2RHwC42xsZpkB2ulr0O5EVWHZotOV3x98AM5QDw6YiPpaG5szjU3LRLtERS7Ye",
-		resave: true,
+		secret: crypto.randomBytes(128).toString('hex'),
+		resave: false,
 		saveUninitialized: true,
 	}),
 );
