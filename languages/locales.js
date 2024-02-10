@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require('path');
 
 const conf = {};
 let langModels = [];
@@ -11,7 +12,7 @@ function parseLang(file) {
 function config (val){
     conf.languages = typeof val.languages === 'object' ? val.languages : ['en'];
     conf.defaultLang = typeof val.defaultLang === 'string' ? val.defaultLang : 'en';
-    conf.langDir = typeof val.langDir === 'string' ? val.langDir : 'languages';
+    conf.langDir = typeof val.langDir === 'string' ? val.langDir : path.resolve(__dirname);
     conf.cookieName = typeof val.cookieName === 'string' ? val.cookieName : 'lang';
     
     conf.languages.forEach((file) => {
