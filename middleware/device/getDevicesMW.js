@@ -36,23 +36,23 @@ function calcOnlineAndTime(devices) {
 }
 
 function convertESTto24Time(estDateString) {
-  // Create a formatter with the desired format and set the time zone to 'America/New_York'
-  const formatter = new Intl.DateTimeFormat('hu-HU', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-    timeZone: 'Europe/Budapest'
-  });
+	// Create a formatter with the desired format and set the time zone to 'America/New_York'
+	const formatter = new Intl.DateTimeFormat('hu-HU', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: false,
+		timeZone: 'Europe/Budapest'
+	});
 
-  // Parse the EST date string
-  const estDate = new Date(estDateString);
+	// Parse the EST date string
+	const estDate = new Date(estDateString);
 
-  // Format the date in the 24-hour format
-  const formattedESTString = formatter.format(estDate);
+	// Format the date in the 24-hour format
+	const formattedESTString = formatter.format(estDate);
 
-  return formattedESTString;
+	return formattedESTString;
 }
