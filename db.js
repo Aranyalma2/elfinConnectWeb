@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://database:27017/test").then(() => console.log("DB Connected!"));
+mongoose.connect("mongodb://10.101.2.4:27017/test").then(() => console.log("DB Connected!"));
 
 // Define the Device schema and model
 const deviceSchema = new mongoose.Schema({
