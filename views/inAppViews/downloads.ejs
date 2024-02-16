@@ -33,6 +33,9 @@
         <th onclick="sortTable(3)">
           <%= texts.Download %>
         </th>
+        <th>
+          <%= texts.Delete %>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -54,6 +57,9 @@
           <a href="/downloads/<%=apps[i].filename %>" class="btn btn-block btn-primary"><i class="bi bi-download"></i>
             <%= texts.Download %>
           </a>
+        </td>
+        <td style="width: 20px; white-space: nowrap">
+          <a href="/downloads/delete/<%=apps[i].filename %>" class="btn btn-block btn-danger"><i class="bi bi-trash-fill"></i></a>
         </td>
       </tr>
       <% }} %>

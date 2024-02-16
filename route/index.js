@@ -14,6 +14,7 @@ const localesMW = require("../middleware/localesMW");
 const getFileMW = require("../middleware/files/getFileMW");
 const getFilesMW = require("../middleware/files/getFilesMW");
 const uploadFileMW = require("../middleware/files/uploadFileMW");
+const deleteFileMW = require("../middleware/files/deleteFileMW");
 
 /*
 
@@ -52,6 +53,8 @@ module.exports = function (app) {
 		app.use("/home", localesMW(), authMW.isLoggedIn(), getDevicesMW(objRepo), getDeviceStateStatMW(objRepo), renderMW(objRepo, "inAppViews/home"));
 
 		app.use("/setup", localesMW(), getUsersMW(objRepo), setupMW(), registerUserMW(objRepo), renderMW(objRepo, "outAppViews/setup"));
+
+		app.use("/downloads/delete/:filename", localesMW(), authMW.isLoggedIn(), deleteFileMW(objRepo), getFilesMW(objRepo), renderMW(objRepo, "inAppViews/downloads"));
 
 		app.use("/downloads/:filename", localesMW(), authMW.isLoggedIn(), getFileMW(objRepo));
 
