@@ -104,8 +104,9 @@
         </form>
         <div id="uploadStatus" class="mb-3 mx-2 text-center" hidden="true">
           <div id="uploadStatusPercent"></div>
-          <progress id="uploadProgressBar" class="w-100" value="0" max="100"></progress>
-          <div id="uploadStatusMsg"></div>
+          <div class="progress my-2" style="height: 20px;">
+            <div id="uploadProgressBar" class="progress-bar"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -116,12 +117,10 @@
 <script>
   function submitForm() {
     const form = document.getElementById('postUpload');
-    const progressBarPercent = document.getElementById('uploadStatusPercent');
     const progressBar = document.getElementById('uploadProgressBar');
     const statusDiv = document.getElementById('uploadStatus');
     const statusMsg = document.getElementById('uploadStatusMsg');
 
-    statusMsg.innerHTML = "";
     statusDiv.hidden = false;
 
     const xhr = new XMLHttpRequest();
@@ -131,17 +130,26 @@
     xhr.upload.addEventListener('progress', function(e) {
       if (e.lengthComputable) {
         const percentage = (e.loaded / e.total) * 100;
-        progressBar.value = percentage;
-        progressBarPercent.innerHTML = `<%= texts.Progress %>: ${percentage.toFixed(1)}% `;
+        //progressBar.value = percentage;
+        progressBar.style.width = `${percentage}%`;
+        progressBar.innerText = `${percentage.toFixed(1)}%`;
+        if (percentage == 100) {
+          progressBar.classList.add("bg-warning");
+          progressBar.innerText = `<%= texts.Processing %>...`;
+        }
       }
     });
 
     xhr.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 200 && xhr.getResponseHeader("Upload-Status") === "success") {
-          statusMsg.innerHTML = `<p class="mx-2 alert alert-success" ><%= texts.upload_success %></p> `;
+          progressBar.classList.remove("bg-warning");
+          progressBar.classList.add("bg-success");
+          progressBar.innerText = "<%= texts.upload_success %>";
         } else {
-          statusMsg.innerHTML = `<p class="mx-2 alert alert-danger"><%= texts.upload_fail %></p>`;
+          progressBar.classList.remove("bg-warning");
+          progressBar.classList.add("bg-danger");
+          progressBar.innerText = "<%= texts.upload_fail %>";
         }
       }
     };
