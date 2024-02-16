@@ -22,13 +22,26 @@ function getMetadata(dbObject) {
 	for (let i = 0; i < dbObject.length; i++) {
         const entry = {
             name : dbObject[i].metadata.name,
-            version : dbObject[i].metadata.version,     
+            version : dbObject[i].metadata.version,
+			filesize : formatFileSize(dbObject[i].length),
             uploadtime : convertESTto24Time(dbObject[i].uploadDate),
             filename : dbObject[i].filename
         }
         files.push(entry)
 	}
 	return files;
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    const formattedSize = parseFloat((bytes / Math.pow(k, i)).toFixed(2));
+
+    return `${formattedSize} ${sizes[i]}`;
 }
 
 function convertESTto24Time(estDateString) {

@@ -28,6 +28,9 @@
           <%= texts.Upload_time %>
         </th>
         <th onclick="sortTable(3)">
+          <%= texts.File_size %>
+        </th>
+        <th onclick="sortTable(3)">
           <%= texts.Download %>
         </th>
       </tr>
@@ -43,6 +46,9 @@
         </td>
         <td>
           <%= apps[i].uploadtime %>
+        </td>
+        <td>
+          <%= apps[i].filesize %>
         </td>
         <td style="width: 20px; white-space: nowrap">
           <a href="/downloads/<%=apps[i].filename %>" class="btn btn-block btn-primary"><i class="bi bi-download"></i>
