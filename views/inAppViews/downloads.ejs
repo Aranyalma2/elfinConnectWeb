@@ -1,0 +1,204 @@
+<%- include('frameTop') -%>
+
+<section>
+  <div class="row">
+    <div class="col">
+      <h2 class="mb-4">
+        <%= texts.Downloads %>
+      </h2>
+    </div>
+    <div class="col text-end">
+      <% if (typeof user !=='undefined' && user.admin===true) { %>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadmodal">
+        <%= texts.Upload %>
+      </button>
+      <%} %>
+    </div>
+  </div>
+  <table class="table" id="deviceTable">
+    <thead>
+      <tr>
+        <th onclick="sortTable(0)">
+          <%= texts.Name %>
+        </th>
+        <th onclick="sortTable(1)">
+          <%= texts.Version %>
+        </th>
+        <th onclick="sortTable(2)">
+          <%= texts.Upload_time %>
+        </th>
+        <th onclick="sortTable(3)">
+          <%= texts.Download %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (typeof apps !=='undefined' ) { for (let i=0; i < apps.length; i++) { %>
+      <tr>
+        <td>
+          <%= apps[i].name %>
+        </td>
+        <td>
+          <%= apps[i].version %>
+        </td>
+        <td>
+          <%= apps[i].uploadtime %>
+        </td>
+        <td style="width: 20px; white-space: nowrap">
+          <a href="/downloads/<%=apps[i].filename %>" class="btn btn-block btn-primary"><i class="bi bi-download"></i>
+            <%= texts.Download %>
+          </a>
+        </td>
+      </tr>
+      <% }} %>
+    </tbody>
+  </table>
+
+
+  <% if (typeof user !=='undefined' && user.admin===true) { %>
+  <div class="modal" id="uploadmodal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <%= texts.Upload_app %>
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
+        </div>
+        <form id="postUpload" enctype="multipart/form-data">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="name" class="form-label">
+                <%= texts.Name %>:
+              </label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="version" class="form-label">
+                <%= texts.Version %>:
+              </label>
+              <input type="text" class="form-control" id="version" name="version" required>
+            </div>
+            <div class="mb-3">
+              <label for="file" class="form-label">
+                <%= texts.File %>:
+              </label>
+              <input type="file" class="form-control" id="file" name="file" required>
+            </div>
+          </div>
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="location.reload()" data-bs-dismiss="modal">
+              <%= texts.Close %>
+            </button>
+            <button type="button" onclick="submitForm()" class="btn btn-primary">
+              <%= texts.Upload %>
+            </button>
+          </div>
+        </form>
+        <div id="uploadStatus" class="mb-3 mx-2 text-center" hidden="true">
+          <div id="uploadStatusPercent"></div>
+          <progress id="uploadProgressBar" class="w-100" value="0" max="100"></progress>
+          <div id="uploadStatusMsg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%} %>
+</section>
+
+<script>
+  function submitForm() {
+    const form = document.getElementById('postUpload');
+    const progressBarPercent = document.getElementById('uploadStatusPercent');
+    const progressBar = document.getElementById('uploadProgressBar');
+    const statusDiv = document.getElementById('uploadStatus');
+    const statusMsg = document.getElementById('uploadStatusMsg');
+
+    statusMsg.innerHTML = "";
+    statusDiv.hidden = false;
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('POST', '/upload', true);
+
+    xhr.upload.addEventListener('progress', function(e) {
+      if (e.lengthComputable) {
+        const percentage = (e.loaded / e.total) * 100;
+        progressBar.value = percentage;
+        progressBarPercent.innerHTML = `<%= texts.Progress %>: ${percentage.toFixed(1)}% `;
+      }
+    });
+
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200 && xhr.getResponseHeader("Upload-Status") === "success") {
+          statusMsg.innerHTML = `<p class="mx-2 alert alert-success" ><%= texts.upload_success %></p> `;
+        } else {
+          statusMsg.innerHTML = `<p class="mx-2 alert alert-danger"><%= texts.upload_fail %></p>`;
+        }
+      }
+    };
+    const formData = new FormData(form);
+    xhr.send(formData);
+  }
+
+  function sortTable(n) {
+    let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("deviceTable");
+    switching = true;
+    // Set the sorting direction to ascending:
+    dir = "asc";
+    /* Make a loop that will continue until
+    no switching has been done: */
+    while (switching) {
+      // Start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      /* Loop through all table rows (except the
+      first, which contains table headers): */
+      for (i = 1; i < (rows.length - 1); i++) {
+        // Start by saying there should be no switching:
+        shouldSwitch = false;
+        /* Get the two elements you want to compare,
+        one from current row and one from the next: */
+        x = rows[i].getElementsByTagName("TD")[n];
+        y = rows[i + 1].getElementsByTagName("TD")[n];
+        /* Check if the two rows should switch place,
+        based on the direction, asc or desc: */
+        if (dir == "asc") {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir == "desc") {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        /* If a switch has been marked, make the switch
+        and mark that a switch has been done: */
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        // Each time a switch is done, increase this count by 1:
+        switchcount++;
+      } else {
+        /* If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again. */
+        if (switchcount == 0 && dir == "asc") {
+          dir = "desc";
+          switching = true;
+        }
+      }
+    }
+  }
+</script>
+
+
+
+<%- include('frameBottom') -%>
