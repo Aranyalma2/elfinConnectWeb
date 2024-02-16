@@ -29,7 +29,7 @@ module.exports = function (objectrepository) {
 function calcOnlineAndTime(devices) {
 	for (let i = 0; i < devices.length; i++) {
 		devices[i].online = devices[i].lastSeenDate > new Date(Date.now() - 60000);
-		devices[i].lastSeenDate = convertESTto24Time(devices[i].lastSeenDate);
+		devices[i].lastSeenDate_converted = convertESTto24Time(devices[i].lastSeenDate);
 
 	}
 	return devices;
@@ -52,7 +52,7 @@ function convertESTto24Time(estDateString) {
 	const estDate = new Date(estDateString);
 
 	// Format the date in the 24-hour format
-	const formattedESTString = formatter.format(estDate);
+	const formattedESTString = `${formatter.format(estDate)} (Europe/Budapest)`;
 
 	return formattedESTString;
 }
