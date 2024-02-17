@@ -36,7 +36,7 @@ function calcOnlineAndTime(devices) {
 }
 
 function convertESTto24Time(estDateString) {
-	// Create a formatter with the desired format and set the time zone to 'America/New_York'
+	// Create a formatter with the desired format and set the time zone to 'Europe/Budapest'
 	const formatter = new Intl.DateTimeFormat('hu-HU', {
 		year: 'numeric',
 		month: '2-digit',
