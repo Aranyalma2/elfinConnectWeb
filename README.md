@@ -37,7 +37,7 @@ Administrators able to register new users
 #### Extra functionalities
 * change language (en/hu)
 
-## 🌟 Upcoming Features
+## :page_with_curl: Upcoming Features
 * :gear: proper mobile view
 * :pushpin:after beta testing phase: public registration
 * :bulb: news page
