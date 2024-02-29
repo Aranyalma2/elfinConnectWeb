@@ -38,7 +38,7 @@ Administrators able to register new users
 * change language (en/hu)
 
 ## 🌟 Upcoming Features
-* :bulb: proper mobile view
+* :gear: proper mobile view
 * :pushpin:after beta testing phase: public registration
 * :bulb: news page
 * :gear:has to accept the new devices 
