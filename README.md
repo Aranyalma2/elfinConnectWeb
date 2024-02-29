@@ -16,7 +16,7 @@ https://your-domain.com/setup
 ## Basic functionalities
 
 ### Home page
-Statistics availability of devices.
+Availability statistics of devices.
 
 ### User Page
 User's attributums, uuid, elfin strings.
