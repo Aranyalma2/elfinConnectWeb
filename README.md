@@ -1,5 +1,7 @@
 # Elfin Connect WebUI
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c3979895a7cb4800badebefc286cde5f)](https://app.codacy.com/gh/Aranyalma2/elfinConnectWeb?utm_source=github.com&utm_medium=referral&utm_content=Aranyalma2/elfinConnectWeb&utm_campaign=Badge_Grade)
+
 * Elfin Connect service Web UI, not a standalone application, for basic functionalities, must have a MongoDB connection. It will use multiple documents for general data and files (with GridFS).
 * For full functionality, you have to run Elfin Connect Server. This service will create most of the data that is accessible and manageable from the WebUI.
 
