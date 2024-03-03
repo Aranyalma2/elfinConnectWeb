@@ -3,16 +3,28 @@
         "title": "Introduction",
         "filename": "introduction-1.md",
         "subcategories": [
-            {"title": "Web UI", "filename": "webui-1-1.md"},
-            {"title": "Desktop App", "filename": "desktopapp-1-2.md"}
+            {
+                "title": "Web UI",
+                "filename": "webui-1-1.md"
+            },
+            {
+                "title": "Desktop App",
+                "filename": "desktopapp-1-2.md"
+            }
         ]
     },
     {
-        "title": "Desktop App",
-        "filename": "desktopapp.md",
+        "title": "Tutorials",
+        "filename": "tutorials-2.md",
         "subcategories": [
-            {"title": "Subcategory 2.1", "filename": "subcategory-2-1.md"},
-            {"title": "Subcategory 2.2", "filename": "subcategory-2-2.md"}
+            {
+                "title": "Connect device",
+                "filename": "connectdevice-2-1.md"
+            },
+            {
+                "title": "Use desktop app",
+                "filename": "usedesktop-2-2.md"
+            }
         ]
     }
 ]

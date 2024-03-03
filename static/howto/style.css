@@ -12,16 +12,19 @@ body {
 
 .menu {
     width: 13%;
-    min-width: 200px;
+    min-width: 210px;
     padding: 20px;
-    background-color: #2c3e50; /* Dark Blue */
-    color: #ecf0f1; /* Light Gray */
+    background-color: #2c3e50;
+    /* Dark Blue */
+    color: #ecf0f1;
+    /* Light Gray */
     position: relative;
 }
 
 .menu h2 {
     margin-bottom: 10px;
-    color: #ecf0f1; /* Light Gray */
+    color: #ecf0f1;
+    /* Light Gray */
 }
 
 .menu ul {
@@ -38,11 +41,13 @@ body {
 }
 
 .menu li:hover:not(.active) {
-    background-color: #3498db; /* Light Blue */
+    background-color: #3498db;
+    /* Light Blue */
 }
 
 .menu li.active {
-    background-color: #5b6469; /* Light Blue */
+    background-color: #5b6469;
+    /* Light Blue */
 }
 
 /* Subcategory styling */
@@ -60,17 +65,20 @@ body {
 }
 
 .subcategory li:hover:not(.active) {
-    background-color: #2980b9; /* Darker Blue */
+    background-color: #2980b9;
+    /* Darker Blue */
 }
 
 .subcategory li.active {
-    background-color: #3498db; /* Light Blue */
+    background-color: #3498db;
+    /* Light Blue */
 }
 
 .content {
     flex-grow: 1;
     padding: 20px;
-    min-height: 100vh; /* Minimum height of the content section to fill the whole viewport */
+    min-height: 100vh;
+    /* Minimum height of the content section to fill the whole viewport */
 }
 
 /* Line to separate menu and content */
@@ -82,7 +90,8 @@ body {
     right: 0;
     width: 2px;
     height: 100%;
-    background-color: #3498db; /* Light Blue */
+    background-color: #3498db;
+    /* Light Blue */
 }
 
 /* Initially hide subcategories */
@@ -91,11 +100,10 @@ body {
 }
 
 /* Display subcategories when their parent is active or when subcategory item is active */
-.menu li.active .subcategory{
+.menu li.active .subcategory {
     display: block;
 }
 
-.subcategory:has(> li.active){
+.subcategory:has(> li.active) {
     display: block;
 }
-

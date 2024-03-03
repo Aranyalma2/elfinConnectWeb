@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(content => {
             const languageSelect = document.getElementById('language-select');
-                
+
             // Clear existing options
             languageSelect.innerHTML = '';
 
@@ -19,16 +19,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const activeLanguage = localStorage.getItem('activeLanguage') || languageSelect[0];
 
-            if(activeLanguage !== languageSelect[0]){
+            if (activeLanguage !== languageSelect[0]) {
                 languageSelect.value = activeLanguage;
             }
-            
 
-            languageSelect.addEventListener('change', function() {
+
+            languageSelect.addEventListener('change', function () {
                 const selectedLanguage = languageSelect.value;
                 localStorage.setItem('activeLanguage', selectedLanguage);
                 window.location.reload();
-                
+
             });
         });
     // Fetch the list of Markdown files and populate the menu
@@ -96,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Use a library like marked.js to render Markdown as HTML
                 // For simplicity, we assume a function renderMarkdown exists
                 markdownContentDiv.innerHTML = renderMarkdown(markdownContent);
+                markdownEmbedding();
             });
     }
     // Function to set the active menu item
@@ -115,5 +116,12 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderMarkdown(markdownContent) {
         // Replace this with a library like marked.js or remark
         return marked.parse(markdownContent);
+    }
+
+    function markdownEmbedding() {
+        const hostname = document.getElementById('location');
+        if (hostname !== null) {
+            hostname.innerHTML = new URL(window.location.href).hostname;
+        }
     }
 });
