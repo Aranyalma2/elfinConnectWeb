@@ -22,8 +22,12 @@
                 "filename": "connectdevice-2-1.md"
             },
             {
+                "title": "Install desktop app",
+                "filename": "installdesktop-2-2.md"
+            },
+            {
                 "title": "Use desktop app",
-                "filename": "usedesktop-2-2.md"
+                "filename": "usedesktop-2-3.md"
             }
         ]
     }

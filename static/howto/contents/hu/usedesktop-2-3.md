@@ -10,7 +10,7 @@ Felhasználó és szerver beállítása
   + cím: <span id="location"></span> (alapesetben)
   + port: 8443
   
-![Elfin Connect Desktop](contents/_gfx/gfx-2-2-1.png)
+![Elfin Connect Desktop](contents/_gfx/gfx-2-3-1.png)
 
 ### Csatlakozás a szerverhez
 
@@ -18,4 +18,4 @@ Az "Apply and Connect" gomb megkísérli a csatlakozást, amennyiben sikeres, ak
 
 * Amennyiben az adatok formailag helyesek, akkor az alkalmazás elmenti, és követekző indításkor ezen adatokkal próbál meg autómatikusan csatlakozni.
 
-![Elfin Connect Desktop](contents/_gfx/gfx-2-2-3.png)
+![Elfin Connect Desktop](contents/_gfx/gfx-2-3-2.png)
