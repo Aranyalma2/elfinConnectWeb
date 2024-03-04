@@ -1,42 +1,42 @@
-<h1 align="center">Kapcsolat kiépítése az alkalmazáson keresztül</h1>
+<h1 align="center">Establishing a connection through the app</h1>
 
 ---------
 
-### Asztali alkalmazás beállításai
+### Desktop App settings
 
-Felhasználó és szerver beállítása
-* UUID: Felhasználó egyedi azonosítója, a webes felületen található
-* Server: A szerver cím és port együttese (formátum: cím:port)
-  + cím: <span id="location"></span> (alapesetben)
+User and server setup
+* UUID: User unique identifier, located on the web interface
+* Server: server address and port (format: address:port)
+  + address: <span id="location"></span> (by default)
   + port: 8443
   
 ![Elfin Connect Desktop](contents/_gfx/gfx-2-3-1.png)
 
-### Csatlakozás a szerverhez
+### Connect to the server
 
-Az "Apply and Connect" gomb megkísérli a csatlakozást, amennyiben sikeres, akkor a táblázatban megjelennek a felhasználóhoz regisztrált eszközök.
+The "Apply and Connect" button will attempt to connect, if successful the table will show the devices registered to the user.
 
-* Amennyiben az adatok formailag helyesek, akkor az alkalmazás elmenti, és követekző indításkor ezen adatokkal próbál meg autómatikusan csatlakozni.
+* If the data is formally correct, the application saves it and will try to connect automatically with this data on subsequent startups.
 
 ![Elfin Connect Desktop](contents/_gfx/gfx-2-3-2.png)
 
-### Csatlakozás egy távoli eszközhöz
+### Connecting to a remote device
 
-Az "Online" státusszal, és nem létező lokális porttal rendelkező eszközöknél kezdeményezhető. 
-* Az eszköz kijelölése a sorra való kattintással.
-* Az "Open connection" gombbal felépül a szerveren keresztüli kapcsolat. A port mezőben megjelenő érték egy nyílt TCP port, amire lokálisan lehetséges kapcsolódni.
+Can be initiated for devices with "Online" status and no local port. 
+* Select the device by clicking on the line.
+* The "Open connection" button establishes the connection to the server. The value displayed in the port field is an open TCP port to which it is possible to connect locally.
 
 ![Elfin Connect Desktop](contents/_gfx/gfx-2-3-3.png)
 
-A példában látható esetben az eszköz innentől kezdve elérhető
+In the case shown in the example, the tool is now available
 
-* **localhost:55680** vagy **127.0.0.1:55680**
+* **localhost:55680** or **127.0.0.1:55680**
 
-címeken.
+from the local machine.
 
-A kapcsolat lebontható a "Close connection" gombbal.
+The connection can be closed by clicking on the "Close connection" button.
 
-### Hiba esetén
+### In case of error
 
-A kapcsolat fel nem épülése, vagy megszakadása esetén ezt az alkalmazás hibaüzenettel jelzi. Megaszakadás esetén az éppen aktív kapcsolatokat bontja is, újra létrejötte esetén ezeket manuálisan kell újra nyitni.
-A hiba létrejöhet általánosan a szerverrel, vagy csak az adott eszközzel is.
+If the connection fails or is interrupted, the application will display an error message. In the case of a failure, the currently active connections will be closed, if they are re-established, they will have to be re-opened manually.
+The error can occur with the server in general or with the device in particular.

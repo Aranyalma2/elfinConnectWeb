@@ -32,7 +32,7 @@ A példában látható esetben az eszköz innentől kezdve elérhető
 
 * **localhost:55680** vagy **127.0.0.1:55680**
 
-címeken.
+címeken a helyi számítógépről.
 
 A kapcsolat lebontható a "Close connection" gombbal.
 
