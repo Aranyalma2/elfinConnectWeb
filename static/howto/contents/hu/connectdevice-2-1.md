@@ -23,7 +23,7 @@ Az eszköz konfigurációs ablakát megnyitva állítsunk be:
 
 ![IoTService/Config](contents/_gfx/gfx-2-1-1.png)
 
-### Eszközök csatlakoztatása
+### Eszköz csatlakoztatása
 
 Egy új socket készítése (New SOCKET)
 * SOCKET Name: tetszőleges név (pl.:elfinconnect)
@@ -43,6 +43,8 @@ A következő két attributum értéke az webes felületen a Felhasználói fül
 
 ![/user](contents/_gfx/gfx-2-1-3.png)
 
+#### Modbus használata
+Amennyiben a ModbusTCP protokolt szeretnénk használni a kommunikációban.
 A "Detail" menüben a történő beállítások esetén az "UART Protocol" kötelező, de a "System" is ajánlott.
 
 * UART Protocol: Modbus
