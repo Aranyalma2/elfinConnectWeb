@@ -59,6 +59,8 @@ Administrators able to register new users
 * :gear:has to accept the new devices 
 * :bulb: create and manage groups for devices
 * :bulb: able to share a device with other profiles (grant and remove access)
+* :bulb: categorize the download center
+* :bulb: able to add third-party links to e download center (github release)
 
 ## :memo: License
 
