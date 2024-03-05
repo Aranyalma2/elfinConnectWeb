@@ -24,8 +24,8 @@ app.use(express.static("static"));
 
 //Multi language framework setup
 locales.config({
-    languages: ['en','hu'],
-    defaultLang: 'en',
+	languages: ['en', 'hu'],
+	defaultLang: 'en',
 });
 
 // Session setup

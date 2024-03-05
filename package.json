@@ -11,10 +11,13 @@
     "url": "git+https://github.com/Aranyalma2/elfinConnectWeb.git"
   },
   "keywords": [
-    "WebUI"
+    "WebUI",
+    "elfinConnectWeb",
+    "express",
+    "mongodb"
   ],
   "author": "Aranyalma2",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/Aranyalma2/elfinConnectWeb/issues"
   },

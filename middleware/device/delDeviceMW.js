@@ -1,6 +1,6 @@
 /*
-  Remove device by id, from database :deviceid
-  Redirects to index
+	Remove device by id, from database :deviceid
+	Redirects to index
 */
 
 const requireOption = require("../requireOption");
@@ -11,8 +11,6 @@ module.exports = function (objectrepository) {
 
 	return function (req, res, next) {
 		UserDB.findOneAndUpdate({ _id: req.session.user._id }, { $pull: { allDevices: req.params.deviceid } })
-			.then((dev) => {
-			})
 			.catch((err) => {
 				return next(err);
 			});
