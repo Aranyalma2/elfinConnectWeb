@@ -19,7 +19,6 @@ module.exports = function (objectrepository) {
 			res.locals.user.uuid = userDB.uuid;
 			res.locals.user.elfinHeathbeatMSG = `beat;${userDB.uuid};%MAC;%HOST;0`;
 			res.locals.user.elfindataMSG = `data;${userDB.uuid};%MAC;%HOST;0;`;
-			res.locals.user.aeskey = `0123456789abcdef`;
 			return next();
 		});
 	};

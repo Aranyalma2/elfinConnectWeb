@@ -27,11 +27,11 @@ module.exports = function (objectrepository) {
 };
 
 function calcOnlineAndTime(devices) {
-	for (let i = 0; i < devices.length; i++) {
-		devices[i].online = devices[i].lastSeenDate > new Date(Date.now() - 60000);
-		devices[i].lastSeenDate_converted = convertESTto24Time(devices[i].lastSeenDate);
+	devices.forEach(device => {
+		device.online = device.lastSeenDate > new Date(Date.now() - 60000);
+		device.lastSeenDate_converted = convertESTto24Time(device.lastSeenDate);
+	});
 
-	}
 	return devices;
 }
 
