@@ -103,16 +103,23 @@
         <!--<p>Version 1.0</p>-->
       </div>
       <div>
-        <span class="userwelcome"><%= texts.Welcome %>: <% if (typeof user !=='undefined' && user.username !=='undefined' ) { %> <b><%- user.username %> </b> <%} %></span>
+        <span class="userwelcome">
+          <%= texts.Welcome %>: <% if (typeof user !=='undefined' && user.username !=='undefined' ) { %> <b><%-
+                  user.username %> </b>
+              <%} %>
+        </span>
         <image src="/gfx/flags/<%= texts._cfg.flag %>.svg" width="40" height="40" />
         <select id="languageSelect" onchange="changeLanguage()">
-          <% texts._cfg.all.forEach(entry => { %>
-          <option value="<%= Object.keys(entry)[0] %>">
-            <%= entry[Object.keys(entry)[0]] %>
-          </option>
-          <% }); %>
+          <% texts._cfg.all.forEach(entry=> { %>
+            <option value="<%= Object.keys(entry)[0] %>">
+              <%= entry[Object.keys(entry)[0]] %>
+            </option>
+            <% }); %>
         </select>
-        <a href="/logout" class="btn btn-danger"><%= texts.Logout %></a>
+        <a href="/howto" class="btn btn-block btn-info" target="_blank"><i class="bi bi-question-circle"></i></a>
+        <a href="/logout" class="btn btn-danger">
+          <%= texts.Logout %>
+        </a>
       </div>
     </header>
 
@@ -123,22 +130,32 @@
         <div class="position-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" href="/home"> <%= texts.Home %> </a>
+              <a class="nav-link active" href="/home">
+                <%= texts.Home %>
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/user"> <%= texts.User %> </a>
+              <a class="nav-link" href="/user">
+                <%= texts.User %>
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/devices"> <%= texts.Devices %> </a>
+              <a class="nav-link" href="/devices">
+                <%= texts.Devices %>
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/downloads"> <%= texts.Downloads %> </a>
+              <a class="nav-link" href="/downloads">
+                <%= texts.Downloads %>
+              </a>
             </li>
-            <% if (typeof user !=='undefined' && user.admin === true) { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/register"> <%= texts.Register %> </a>
-            </li>
-            <%} %>
+            <% if (typeof user !=='undefined' && user.admin===true) { %>
+              <li class="nav-item">
+                <a class="nav-link" href="/register">
+                  <%= texts.Register %>
+                </a>
+              </li>
+              <%} %>
           </ul>
         </div>
       </nav>
