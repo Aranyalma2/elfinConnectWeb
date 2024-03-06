@@ -2,16 +2,16 @@ const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require("path");
-const locales = require("./languages/locales");
+const localization = require("./languages/locales");
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const mongoSanitize = require('express-mongo-sanitize');
-const localesMW = require("./middleware/localesMW");
+//const localesMW = require("./middleware/localesMW");
 
 const app = express();
 const PORT = 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.set("view engine", "ejs");
@@ -25,7 +25,7 @@ app.use("/js", express.static(path.join("node_modules", "chart.js", "dist")));
 app.use(express.static("static"));
 
 //Multi language framework setup
-locales.config({
+localization.config({
 	languages: ['en', 'hu'],
 	defaultLang: 'en',
 });
@@ -33,20 +33,20 @@ locales.config({
 // Session setup
 app.use(
 	session({
-		name: crypto.randomBytes(128).toString('hex'),
+		name: crypto.randomBytes(16).toString('hex'),
 		secret: crypto.randomBytes(128).toString('hex'),
 		httpOnly: true,
 		resave: false,
 		saveUninitialized: true,
 		path: "/",
 		sameSite: 'strict',
-		expires: null
+		expires: 86400
 	}),
 );
 
 app.use(mongoSanitize());
 
-app.use(localesMW());
+app.use(localization.placeTexts());
 
 require("./route/index")(app);
 

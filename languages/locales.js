@@ -54,7 +54,14 @@ function mergeModelsConfig(selectedLang) {
     return langCollection;
 }
 
+function placeTexts() {
+    return function (req, res, next) {
+        res.locals.texts = getModel(req.cookies['lang']);
+        return next();
+    }
+}
+
 module.exports = {
     config,
-    getModel
+    placeTexts
 }

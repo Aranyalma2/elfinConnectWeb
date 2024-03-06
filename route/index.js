@@ -10,7 +10,6 @@ const delDeviceMW = require("../middleware/device/delDeviceMW");
 const getUsersMW = require("../middleware/user/getUsersMW");
 const setupMW = require("../middleware/setup/setupMW");
 const changePassMW = require("../middleware/user/changePassMW");
-const localesMW = require("../middleware/localesMW");
 const getFileMW = require("../middleware/files/getFileMW");
 const getFilesMW = require("../middleware/files/getFilesMW");
 const uploadFileMW = require("../middleware/files/uploadFileMW");

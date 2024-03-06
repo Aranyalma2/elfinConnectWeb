@@ -85,13 +85,6 @@
       font-size: 18px;
     }
   </style>
-  <script>
-    function changeLanguage() {
-      let selectedLanguage = document.getElementById("languageSelect").value;
-      document.cookie = `lang=${encodeURIComponent(selectedLanguage)}; Max-Age=86400; path=/`;
-      location.reload();
-    }
-  </script>
 </head>
 
 <body>
@@ -109,7 +102,7 @@
               <%} %>
         </span>
         <image src="/gfx/flags/<%= texts._cfg.flag %>.svg" width="40" height="40" />
-        <select id="languageSelect" onchange="changeLanguage()">
+        <select id="languageSelect" onchange="setLanguageCookie(this.value)">
           <% texts._cfg.all.forEach(entry=> { %>
             <option value="<%= Object.keys(entry)[0] %>">
               <%= entry[Object.keys(entry)[0]] %>

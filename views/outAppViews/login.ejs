@@ -1,13 +1,5 @@
 <!-- views/login.ejs -->
 <%- include('frameTop') -%>
-  <script>
-    function changeLanguage() {
-      let selectedLanguage = document.getElementById("languageSelect").value;
-      document.cookie = `lang=${encodeURIComponent(selectedLanguage)}; Max-Age=86400; path=/`;
-      location.reload();
-    }
-  </script>
-
   <body>
     <div class="d-flex justify-content-between">
       <div class="p-3">
@@ -15,7 +7,7 @@
           <span>
             <%= texts.Select_language%>:
           </span>
-          <select id="languageSelect" onchange="changeLanguage()">
+          <select id="languageSelect" onchange="setLanguageCookie(this.value)">
             <% texts._cfg.all.forEach(entry=> { %>
               <option value="<%= Object.keys(entry)[0] %>">
                 <%= entry[Object.keys(entry)[0]] %>
@@ -70,13 +62,5 @@
       </div>
     </div>
   </body>
-
-  <script>
-    function setLanguage(value) {
-      document.cookie = `lang=${encodeURIComponent(value)}; Max-Age=86400; path=/`;
-      location.reload();
-
-    }
-  </script>
 
   <%- include('frameBottom') -%>
