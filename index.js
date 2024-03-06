@@ -5,6 +5,8 @@ const path = require("path");
 const locales = require("./languages/locales");
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
+const mongoSanitize = require('express-mongo-sanitize');
+const localesMW = require("./middleware/localesMW");
 
 const app = express();
 const PORT = 3000;
@@ -41,6 +43,10 @@ app.use(
 		expires: null
 	}),
 );
+
+app.use(mongoSanitize());
+
+app.use(localesMW());
 
 require("./route/index")(app);
 
