@@ -53,15 +53,20 @@ exports.login = function (objectrepository) {
 					return next();
 				}
 				// Store the user in the session
-				if (user.admin){
+				if (user.admin) {
 					console.log(`Administrtor login: ${user.username} | ${new Date()}`);
 				}
-				else{
+				else {
 					console.log(`User login: ${user.username} | ${new Date()}`);
 				}
 				req.session.logedIn = true;
 				req.session.user = user;
-				return req.session.save((err) => res.redirect("/home"));
+				return req.session.save((err) => {
+					if (typeof err !== "undefined") {
+						console.log(err)
+					}
+					res.redirect("/home");
+				});
 			})
 			.catch((err) => {
 				console.error(err);
@@ -74,6 +79,9 @@ exports.login = function (objectrepository) {
 exports.logout = function () {
 	return function (req, res, next) {
 		req.session.destroy((err) => {
+			if (typeof err !== "undefined") {
+				console.log(err);
+			}
 			res.redirect("/");
 		});
 	};

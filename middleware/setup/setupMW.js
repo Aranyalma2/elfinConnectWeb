@@ -3,11 +3,9 @@
  * Here creator can register an admin account
  */
 
-const requireOption = require("../requireOption");
-
-module.exports = function (objectrepository) {
+module.exports = function () {
 	return function (req, res, next) {
-		if (res.locals.users == 0) {
+		if (res.locals.users.length === 0) {
 			req.body.admin = true;
 			return next();
 		} else {

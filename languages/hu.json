@@ -7,7 +7,7 @@
     "test": "test_hu",
     "Select_language": "Válassz nyelvet",
     "Login": "Bejelentkezés",
-    "Username": "Felhasználó név",
+    "Username": "Felhasználónév",
     "Password": "Jelszó",
     "Welcome": "Üdvözöljük",
     "Logout": "Kijelentkezés",
@@ -41,9 +41,9 @@
     "Register_admin_profile": "Adminisztrátori jogosultságok",
     "loginWarning_MissingAdminPermission": "Nem rendelkezik megfelelő jogosultságokkal!",
     "loginWarning_InvalidUserOrPass": "Hibás felhasználónév, vagy jelszó!",
-    "registerSucces_Created": "Felhasználó létrejött.",
+    "registerSucces_Created": "Felhasználó létrejött:",
     "registerFailed_UnknownFail": "Váratlan hiba lépett fel a felhasználó készítés közben.",
-    "registerFailed_Exists": "A felhasználó már létezik.",
+    "registerFailed_Exists": "A felhasználó már létezik:",
     "Download": "Letöltés",
     "Downloads": "Letöltések",
     "Upload": "Feltöltés",
@@ -57,5 +57,6 @@
     "upload_fail": "Feltöltés sikertelen!",
     "Processing": "Feldolgozás",
     "File_size": "Fájl méret",
+    "Help": "Segítség",
     "": ""
 }

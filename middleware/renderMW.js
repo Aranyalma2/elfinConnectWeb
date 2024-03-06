@@ -4,9 +4,8 @@
 
 const version = require('../route/version');
 
-const requireOption = require("./requireOption");
 
-module.exports = function (objectrepository, viewName) {
+module.exports = function (viewName) {
 	return function (req, res) {
 		res.locals.version = version;
 		res.render(viewName);

@@ -4,7 +4,7 @@
 <body>
   <div style="height: 3vh; margin: 10px 0px 0px 10px;">
     <span><%= texts.Select_language%>:</span>
-    <select id="languageSelect" onchange="changeLanguage()">
+    <select id="languageSelect" onchange="setLanguageCookie(this.value)">
       <% texts._cfg.all.forEach(entry => { %>
       <option value="<%= Object.keys(entry)[0] %>">
         <%= entry[Object.keys(entry)[0]] %>

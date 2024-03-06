@@ -41,9 +41,9 @@
     "Register_admin_profile": "Administrator profile",
     "loginWarning_MissingAdminPermission": "Required permissions does not available!",
     "loginWarning_InvalidUserOrPass": "Invalid username or password",
-    "registerSucces_Created": "User successfully created.",
+    "registerSucces_Created": "User successfully created:",
     "registerFailed_UnknownFail": "Unexpected error occured, user creation failed.",
-    "registerFailed_Exists": "Username already exists.",
+    "registerFailed_Exists": "Username already exists:",
     "Download": "Download",
     "Downloads": "Downloads",
     "Upload": "Upload",
@@ -57,5 +57,6 @@
     "upload_fail": "Upload failed.",
     "Processing": "Processing",
     "File_size": "File size",
+    "Help": "Help",
     "": ""
 }

@@ -1,59 +1,66 @@
 <!-- views/login.ejs -->
 <%- include('frameTop') -%>
-<script>
-  function changeLanguage() {
-    let selectedLanguage = document.getElementById("languageSelect").value;
-    document.cookie = `lang=${encodeURIComponent(selectedLanguage)}; Max-Age=86400; path=/`;
-    location.reload();
-  }
-</script>
-
-<body>
-
-  <div style="height: 3vh; margin: 10px 0px 0px 10px;">
-    <span><%= texts.Select_language%>:</span>
-    <select id="languageSelect" onchange="changeLanguage()">
-      <% texts._cfg.all.forEach(entry => { %>
-      <option value="<%= Object.keys(entry)[0] %>">
-        <%= entry[Object.keys(entry)[0]] %>
-      </option>
-      <% }); %>
-    </select>
-    <image src="gfx/flags/<%= texts._cfg.flag %>.svg" width="40" height="40" />
-  </div>
-
-  <div class="container d-flex justify-content-center align-items-center" style="height: 95vh;">
-    <div class="col-md-4">
-      <div class="login-form">
-        <h2><%= texts.Login %></h2>
-        <% if (typeof error !=='undefined' ) { %>
-        <p class="alert alert-danger"><%= error %></p>
-        <% } %><% if (typeof warning !=='undefined' ) { %>
-        <p class="alert alert-warning"><%= warning %></p>
-        <% } %>
-        <form action="/login" method="post">
-          <div class="form-group mt-4">
-            <label for="username"><%= texts.Username %></label>
-            <input type="text" name="username" class="form-control" id="username" required />
-          </div>
-          <div class="form-group  mt-4">
-            <label for="password"><%= texts.Password %></label>
-            <input type="password" name="password" class="form-control" id="password" required />
-          </div>
-          <div class="form-group  mt-4"></div>
-          <button type="submit" class="btn btn-primary"><%= texts.Login %></button>
+  <body>
+    <div class="d-flex justify-content-between">
+      <div class="p-3">
+        <div style="height: 3vh; margin: 10px 0px 0px 10px;">
+          <span>
+            <%= texts.Select_language%>:
+          </span>
+          <select id="languageSelect" onchange="setLanguageCookie(this.value)">
+            <% texts._cfg.all.forEach(entry=> { %>
+              <option value="<%= Object.keys(entry)[0] %>">
+                <%= entry[Object.keys(entry)[0]] %>
+              </option>
+              <% }); %>
+          </select>
+          <image src="gfx/flags/<%= texts._cfg.flag %>.svg" width="40" height="40" />
+        </div>
       </div>
-      </form>
+      <div class="p-3">
+        <a href="/howto" class="btn btn-block btn-info" target="_blank">
+          <%= texts.Help %> <i class="bi bi-question-circle"></i>
+        </a>
+      </div>
     </div>
-  </div>
-</body>
 
-<script>
-  function setLanguage(value) {
-    document.cookie = `lang=${encodeURIComponent(value)}; Max-Age=86400; path=/`;
-    location.reload();
+    <div class="container d-flex justify-content-center align-items-center" style="height: 95vh;">
+      <div class="col-md-4">
+        <div class="login-form">
+          <h2>
+            <%= texts.Login %>
+          </h2>
+          <% if (typeof error !=='undefined' ) { %>
+            <p class="alert alert-danger">
+              <%= error %>
+            </p>
+            <% } %>
+              <% if (typeof warning !=='undefined' ) { %>
+                <p class="alert alert-warning">
+                  <%= warning %>
+                </p>
+                <% } %>
+                  <form action="/login" method="post">
+                    <div class="form-group mt-4">
+                      <label for="username">
+                        <%= texts.Username %>
+                      </label>
+                      <input type="text" name="username" class="form-control" id="username" required />
+                    </div>
+                    <div class="form-group  mt-4">
+                      <label for="password">
+                        <%= texts.Password %>
+                      </label>
+                      <input type="password" name="password" class="form-control" id="password" required />
+                    </div>
+                    <div class="form-group  mt-4"></div>
+                    <button type="submit" class="btn btn-primary">
+                      <%= texts.Login %>
+                    </button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </body>
 
-  }
-</script>
-
-<%- include('frameBottom') -%>
+  <%- include('frameBottom') -%>

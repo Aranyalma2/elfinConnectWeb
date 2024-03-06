@@ -19,10 +19,10 @@ function toDBUploader(objectrepository) {
 
         const { name, version } = req.body;
         if (!file || typeof name === "undefined" || typeof version === "undefined") {
-			res.locals.error = res.locals.texts.upload_fail;
+            res.locals.error = res.locals.texts.upload_fail;
             res.set('Upload-Status', 'error:fields');
             return next();
-		}
+        }
         try {
             const filename = `${name.replaceAll(" ", "-")}-${version}-${crypto.randomBytes(16).toString('hex')}${path.extname(file.originalname)}`;
             const writeStream = bucket.openUploadStream(filename, {
@@ -30,7 +30,7 @@ function toDBUploader(objectrepository) {
                 metadata: {
                     contentType: file.mimetype,
                     name: name,
-                    version: version            
+                    version: version
                 }
             });
             writeStream.end(file.buffer);
@@ -38,14 +38,14 @@ function toDBUploader(objectrepository) {
             res.set('Upload-Status', 'success');
 
             return next();
-        }catch(err){
+        } catch (err) {
             res.locals.error = res.locals.texts.upload_fail;
             console.log(err);
             res.set('Upload-Status', 'error:db');
             return next();
         }
-	};
+    };
 }
 
 
-module.exports = {fileUploader, toDBUploader};
+module.exports = { fileUploader, toDBUploader };

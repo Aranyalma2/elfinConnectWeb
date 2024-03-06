@@ -14,9 +14,9 @@ module.exports = function (objectrepository) {
 			return next();
 		}
 		// Check if the username is already taken
-		dbUser.findOne({ username: username }).then((usernameDB) => {
+		dbUser.findOne({ username: {$eq: username }}).then((usernameDB) => {
 			if (usernameDB) {
-				res.locals.error = res.locals.texts.registerFailed_Exists;
+				res.locals.error = `${res.locals.texts.registerFailed_Exists} ${usernameDB.username}`;
 				return next();
 			}
 
@@ -40,7 +40,7 @@ module.exports = function (objectrepository) {
 						newUser
 							.save()
 							.then((newUser) => {
-								res.locals.success = res.locals.texts.registerSucces_Created;
+								res.locals.success = `${res.locals.texts.registerSucces_Created} ${newUser.username}`;
 								return next();
 							});
 					})
