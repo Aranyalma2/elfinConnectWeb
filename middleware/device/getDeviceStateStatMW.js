@@ -2,9 +2,8 @@
  * Calculate online/offline device number
  * The result is saved to res.locals
  */
-const requireOption = require("../requireOption");
 
-module.exports = function (objectrepository) {
+module.exports = function () {
 
 	return function (req, res, next) {
 		if (typeof res.locals.user === "undefined" || typeof res.locals.devices === "undefined") {

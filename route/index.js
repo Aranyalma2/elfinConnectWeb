@@ -50,7 +50,7 @@ module.exports = function (app) {
 
 		app.post("/register", localesMW(), authMW.isLoggedInAdmin(), registerUserMW(objRepo), renderMW("inAppViews/register"));
 
-		app.use("/home", localesMW(), authMW.isLoggedIn(), getDevicesMW(objRepo), getDeviceStateStatMW(objRepo), renderMW("inAppViews/home"));
+		app.use("/home", localesMW(), authMW.isLoggedIn(), getDevicesMW(objRepo), getDeviceStateStatMW(), renderMW("inAppViews/home"));
 
 		app.use("/setup", localesMW(), getUsersMW(objRepo), setupMW(), registerUserMW(objRepo), renderMW("outAppViews/setup"));
 
