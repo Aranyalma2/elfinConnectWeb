@@ -11,9 +11,10 @@ module.exports = function () {
 		}
 		res.locals.online = 0;
 		res.locals.offline = 0;
-		for (let i = 0; i < res.locals.devices.length; i++) {
-			res.locals.devices[i].online ? res.locals.online++ : res.locals.offline++;
-		}
+		res.locals.devices.forEach(device => {
+			device.online ? res.locals.online++ : res.locals.offline++;
+		});
+		
 		return next();
 	};
 };
