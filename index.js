@@ -32,8 +32,11 @@ locales.config({
 app.use(
 	session({
 		secret: crypto.randomBytes(128).toString('hex'),
+		httpOnly: true,
 		resave: false,
 		saveUninitialized: true,
+		path: "/",
+		sameSite: 'strict',
 	}),
 );
 
