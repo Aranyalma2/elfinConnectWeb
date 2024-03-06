@@ -12,7 +12,7 @@ module.exports = function (objectrepository) {
 			return next();
 		}
 
-		userDB.findOne({ _id: req.session.user._id }).then((deviceList) => {
+		userDB.findOne({ _id: { $eq: req.session.user._id }}).then((deviceList) => {
 			deviceDB
 				.find({ _id: deviceList.allDevices })
 				.then((devices) => {

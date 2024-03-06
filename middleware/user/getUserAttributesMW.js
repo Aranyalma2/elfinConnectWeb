@@ -12,7 +12,7 @@ module.exports = function (objectrepository) {
 			return next();
 		}
 
-		dbUser.findOne({ username: req.session.user.username }).then((userDB) => {
+		dbUser.findOne({ username: { $eq: req.session.user.username} }).then((userDB) => {
 			if (!userDB) {
 				return next();
 			}

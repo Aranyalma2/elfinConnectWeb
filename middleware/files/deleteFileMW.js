@@ -13,7 +13,7 @@ module.exports = function (objectrepository) {
 
         try {
             // Find the file by filename in the uploads.files collection
-            const file = await filesCollection.findOne({ filename: req.params.filename });
+            const file = await filesCollection.findOne({ filename: { $eq: req.params.filename }});
 
             if (!file) {
                 return next();
