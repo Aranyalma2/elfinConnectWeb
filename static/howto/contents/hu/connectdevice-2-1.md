@@ -55,5 +55,3 @@ A "Detail" menüben a történő beállítások esetén az "UART Protocol" köte
 * UART Protocol: Modbus
 
 ![IoTService/Config/Detail](contents/_gfx/gfx-2-1-4.png)
-
-

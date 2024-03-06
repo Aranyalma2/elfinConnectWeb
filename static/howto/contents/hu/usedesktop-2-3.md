@@ -22,7 +22,8 @@ Az "Apply and Connect" gomb megkísérli a csatlakozást, amennyiben sikeres, ak
 
 ### Csatlakozás egy távoli eszközhöz
 
-Az "Online" státusszal, és nem létező lokális porttal rendelkező eszközöknél kezdeményezhető. 
+Az "Online" státusszal, és nem létező lokális porttal rendelkező eszközöknél kezdeményezhető.
+ 
 * Az eszköz kijelölése a sorra való kattintással.
 * Az "Open connection" gombbal felépül a szerveren keresztüli kapcsolat. A port mezőben megjelenő érték egy nyílt TCP port, amire lokálisan lehetséges kapcsolódni.
 

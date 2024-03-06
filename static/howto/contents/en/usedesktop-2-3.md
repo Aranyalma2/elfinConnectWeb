@@ -23,6 +23,7 @@ The "Apply and Connect" button will attempt to connect, if successful the table 
 ### Connecting to a remote device
 
 Can be initiated for devices with "Online" status and no local port. 
+
 * Select the device by clicking on the line.
 * The "Open connection" button establishes the connection to the server. The value displayed in the port field is an open TCP port to which it is possible to connect locally.
 

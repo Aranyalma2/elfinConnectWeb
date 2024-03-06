@@ -23,6 +23,3 @@ Ez a megoldás teljesen független a gyártói rendszerek és alkalmazásoktól 
 A felhasználó közvetlenül kapcsolatba léphet a webes felülettel és az asztali alkalmazással, a használatukkal kapcsolatos alapvető segítségért lásd a következő dokumentumokat.
 
 <a href="#top">Back to top</a>
-
-
-
