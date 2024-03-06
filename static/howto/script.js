@@ -1,3 +1,5 @@
+import { marked } from "./marked.esm.js";
+
 document.addEventListener('DOMContentLoaded', function () {
     // Fetch language file and set the selected one to url
     fetch('contents/content-lang.json')
