@@ -6,6 +6,7 @@
 
 Az eszközök első konfigurálására a gyártói szoftverre is szükség van: [IoTService](http://www.hi-flying.com/download-item-iotservice)
 A szoftver telepítését követően fizikai eszközt egy hálózatra, vagy soros porton keresztül szükséges összekapcsolni a programot futtató számítógéppel.
+
 * Általános szoftver segédlet a IoTService programhoz: [Hivatalos dokumentum](http://www.hi-flying.com/index.php?route=tool/upload/download&code=5825d795832fd1998cd46aeafab9074c0c2114d3)
 * Elfin EE1X: [Hardver segédlet](http://www.hi-flying.com/index.php?route=tool/upload/download&code=59167cf780d0b98d2175c857ad1240df7acdf9c4)
 * Elfin EW1X [Hardver segédlet](http://www.hi-flying.com/index.php?route=tool/upload/download&code=c4d342467edef5f6080a569aa50223fc797e6899)
@@ -16,6 +17,7 @@ A szoftver telepítését követően fizikai eszközt egy hálózatra, vagy soro
 ### Általános konfiguráció
 
 Az eszköz konfigurációs ablakát megnyitva állítsunk be:
+
 * User/Password: Az eszköz távoli, és webes felületére való fiók (Beállítása egyedire erősen ajánlott).
 * HostName: Az eszköz neve, ami az Elfin Connect rendszerben is megjelenik.
 * DNS: Egy általános DNS kiszolgáló. pl.: 8.8.8.8
@@ -26,6 +28,7 @@ Az eszköz konfigurációs ablakát megnyitva állítsunk be:
 ### Eszköz csatlakoztatása
 
 Egy új socket készítése (New SOCKET)
+
 * SOCKET Name: tetszőleges név (pl.:elfinconnect)
 * Protocol: TCP-CLIENT
 * Server Addr: távoli elfin connect szerver címe (alapesetben: <span id="location"></span>)
@@ -38,12 +41,14 @@ Egy új socket készítése (New SOCKET)
 ![IoTService/Config/NewSocket](contents/_gfx/gfx-2-1-2.png) 
 
 A következő két attributum értéke az webes felületen a Felhasználói fül alatt érhető el.
+
 * HeartBeat Serial
 * Regist Code
 
 ![/user](contents/_gfx/gfx-2-1-3.png)
 
 #### Modbus használata
+
 Amennyiben a ModbusTCP protokolt szeretnénk használni a kommunikációban.
 A "Detail" menüben a történő beállítások esetén az "UART Protocol" kötelező, de a "System" is ajánlott.
 

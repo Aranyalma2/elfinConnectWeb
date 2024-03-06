@@ -9,6 +9,7 @@ A Hyfling IoT és PLC gyártó cég rendelkezik távoli elérés szolgáltatáss
 Ez a projekt a gyártóihoz hasonló elvet használva valósítja meg a távoli elérhetőséget a gyári firmware-t használva. Az IoT eszközük TCP socket-en keresztül képesek kapcsolódni a saját üzemeltetésű biztonságosabb szerverekre. Ezáltal a lokális PC-től atjárót valósíva meg a vég eszközig.
 
 ## Mire alkalmas ez a szolgáltatás?
+
 Ez a megoldás teljesen független a gyártói rendszerek és alkalmazásoktól használat során, de jelenleg az eszközök első konfigurálásához szükség van a gyártó által szabadon hozzáférhető IoTService alkalmazásra.
 
 
@@ -20,7 +21,6 @@ Ez a megoldás teljesen független a gyártói rendszerek és alkalmazásoktól 
 * Asztali alkalmazás
 
 A felhasználó közvetlenül kapcsolatba léphet a webes felülettel és az asztali alkalmazással, a használatukkal kapcsolatos alapvető segítségért lásd a következő dokumentumokat.
-
 
 <a href="#top">Back to top</a>
 

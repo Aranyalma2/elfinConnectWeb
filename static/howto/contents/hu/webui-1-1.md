@@ -13,7 +13,7 @@ Biztosítja azon egyedi beállítási paramétereket, amiket az Asztali alkalmaz
 
 * Az szolgáltatás alapvető használatához rendelkezni kell egy felhasználói fiókkal. (A rendszer alfa tesztelési állopota miatt, ennek regisztrálása még nem lehetségés publikusan)
 * Bejelentkezést követően az alábbi funkciókhoz lehetséges a hozzáférés:
-    + **Kezdőlap** Általános információk és statisztikák
-    + **Felhasználói adatok** Olyan kulcs-érték párok, amik a többiszolgáltatás beállításához szükségesek. A jelszó csere is itt lehetséges.
-    + **Eszköz lista** A felhasználóhoz kapcsolt eszközök adatai, lehetséges a lista rendezése és az elemek törlése.
-    + **Letöltések** Az összes szolgáltatáshoz elérhető program és dokumentum.
+  * **Kezdőlap** Általános információk és statisztikák
+  * **Felhasználói adatok** Olyan kulcs-érték párok, amik a többiszolgáltatás beállításához szükségesek. A jelszó csere is itt lehetséges.
+  * **Eszköz lista** A felhasználóhoz kapcsolt eszközök adatai, lehetséges a lista rendezése és az elemek törlése.
+  * **Letöltések** Az összes szolgáltatáshoz elérhető program és dokumentum.

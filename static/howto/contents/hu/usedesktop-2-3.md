@@ -7,8 +7,8 @@
 Felhasználó és szerver beállítása
 * UUID: Felhasználó egyedi azonosítója, a webes felületen található
 * Server: A szerver cím és port együttese (formátum: cím:port)
-  + cím: <span id="location"></span> (alapesetben)
-  + port: 8443
+  * cím: <span id="location"></span> (alapesetben)
+  * port: 8443
   
 ![Elfin Connect Desktop](contents/_gfx/gfx-2-3-1.png)
 
@@ -33,7 +33,6 @@ A példában látható esetben az eszköz innentől kezdve elérhető
 * **localhost:55680** vagy **127.0.0.1:55680**
 
 címeken a helyi számítógépről.
-
 A kapcsolat lebontható a "Close connection" gombbal.
 
 ### Hiba esetén
