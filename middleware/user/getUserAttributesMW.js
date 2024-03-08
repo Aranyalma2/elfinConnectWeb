@@ -13,7 +13,7 @@ module.exports = function (objectrepository) {
 		}
 
 		dbUser.findOne({ username: { $eq: req.session.user.username} }).then((userDB) => {
-			if (!userDB) {
+			if (!userDB || !userDB.uuid) {
 				return next();
 			}
 			res.locals.user.uuid = userDB.uuid;
