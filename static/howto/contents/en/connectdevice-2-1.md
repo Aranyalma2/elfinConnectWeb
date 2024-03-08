@@ -39,14 +39,14 @@ Protocol: TCP Client
 * Heartbeat Time: 30
 * Registry Mode: Data
 
-![IoTService/Config/NewSocket](contents/_gfx/gFX-2-1-2.png) 
+![IoTService/Config/NewSocket](contents/_gfx/gfx-2-1-2.png) 
 
 The values of the following two attributes are available under the User tab in the Web interface.
 
 * Heartbeat Serial
 * The Registry Code
 
-![/user](contents/_gfx/gFX-2-1-3.png)
+![/user](contents/_gfx/gfx-2-1-3.png)
 
 ### Use of Modbus
 
@@ -55,4 +55,4 @@ In the "Detail" menu, "UART Protocol" is required for settings, but "System" is 
 
 * UART Protocol: Modbus
 
-![IoTService/Config/Detail](contents/_gfx/gFX-2-1-4.png)
+![IoTService/Config/Detail](contents/_gfx/gfx-2-1-4.png)
