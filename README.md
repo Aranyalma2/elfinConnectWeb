@@ -76,6 +76,22 @@ Administrators able to register new users
 -   :bulb: categorize the download center
 -   :bulb: able to add third-party links to e download center (github release)
 
+## :syringe: For commiters
+
+#### :factory: Run tests and code coverage with
+
+```sh
+npm test
+```
+
+#### :triangular_flag_on_post: Run Prettier before commit
+
+Run prettier before all of your commits, please. CI pipeline does not in action yet.
+
+```sh
+npm prettier . --write
+```
+
 ## :memo: License
 
 This project is under license from Apache 2.0. For more details, see the [LICENSE](LICENSE.md) file.
