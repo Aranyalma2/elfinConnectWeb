@@ -1,37 +1,40 @@
 const requireOption = require("../requireOption");
 
 module.exports = function (objectrepository) {
+	return async function (req, res, next) {
+		const bucket = requireOption(objectrepository, "GridFSBucket");
+		const filesCollection = requireOption(objectrepository, "Files");
 
-    return async function (req, res, next) {
+		if (typeof req.params.filename === "undefined") {
+			return next();
+		}
 
-        const bucket = requireOption(objectrepository, "GridFSBucket");
-        const filesCollection = requireOption(objectrepository, "Files");
+		try {
+			// Find the file by filename in the uploads.files collection
+			const file = await filesCollection.findOne({
+				filename: { $eq: req.params.filename },
+			});
 
-        if (typeof req.params.filename === "undefined") {
-            return next();
-        }
+			if (!file) {
+				return next();
+			}
 
-        try {
-            // Find the file by filename in the uploads.files collection
-            const file = await filesCollection.findOne({ filename: { $eq: req.params.filename }});
+			// Create a read stream from the GridFS bucket
+			const readStream = bucket.openDownloadStream(file._id);
 
-            if (!file) {
-                return next();
-            }
+			// Set response headers
+			res.set(
+				"Content-Disposition",
+				`attachment; filename="${file.filename}"`,
+			);
+			res.set("Content-Type", file.metadata.contentType);
 
-            // Create a read stream from the GridFS bucket
-            const readStream = bucket.openDownloadStream(file._id);
+			// Pipe the read stream to the response stream
+			readStream.pipe(res);
 
-            // Set response headers
-            res.set('Content-Disposition', `attachment; filename="${file.filename}"`);
-            res.set('Content-Type', file.metadata.contentType);
-
-            // Pipe the read stream to the response stream
-            readStream.pipe(res);
-
-            return;
-        } catch (err) {
-            return next(err);
-        }
-    };
+			return;
+		} catch (err) {
+			return next(err);
+		}
+	};
 };

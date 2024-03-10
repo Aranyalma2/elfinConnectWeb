@@ -1,50 +1,51 @@
 {
-  "name": "elfinconnectweb",
-  "version": "0.1.63",
-  "description": "Elfin Connect service Web UI",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "nyc --reporter=html --reporter=text mocha --config=test/.mocharc.json --node-env=test --exit"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Aranyalma2/elfinConnectWeb.git"
-  },
-  "keywords": [
-    "WebUI",
-    "elfinConnectWeb",
-    "express",
-    "mongodb"
-  ],
-  "author": "Aranyalma2",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/Aranyalma2/elfinConnectWeb/issues"
-  },
-  "homepage": "https://github.com/Aranyalma2/elfinConnectWeb#readme",
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.2",
-    "bootstrap": "^5.3.2",
-    "bootstrap-icons": "^1.11.1",
-    "chart.js": "^4.4.0",
-    "cookie-parser": "^1.4.6",
-    "ejs": "^3.1.9",
-    "express": "^4.18.2",
-    "express-mongo-sanitize": "^2.2.0",
-    "express-session": "^1.17.3",
-    "express-validator": "^7.0.1",
-    "jquery": "^3.7.1",
-    "mongoose": "^7.6.3",
-    "multer": "^1.4.5-lts.1",
-    "path": "^0.12.7"
-  },
-  "devDependencies": {
-    "chai": "^4.3.10",
-    "chai-http": "^4.4.0",
-    "mocha": "^10.3.0",
-    "nyc": "^15.1.0"
-  }
+	"name": "elfinconnectweb",
+	"version": "0.1.63",
+	"description": "Elfin Connect service Web UI",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"test": "nyc --reporter=html --reporter=text mocha --config=test/.mocharc.json --node-env=test --exit"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Aranyalma2/elfinConnectWeb.git"
+	},
+	"keywords": [
+		"WebUI",
+		"elfinConnectWeb",
+		"express",
+		"mongodb"
+	],
+	"author": "Aranyalma2",
+	"license": "Apache-2.0",
+	"bugs": {
+		"url": "https://github.com/Aranyalma2/elfinConnectWeb/issues"
+	},
+	"homepage": "https://github.com/Aranyalma2/elfinConnectWeb#readme",
+	"dependencies": {
+		"bcrypt": "^5.1.1",
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.20.2",
+		"bootstrap": "^5.3.2",
+		"bootstrap-icons": "^1.11.1",
+		"chart.js": "^4.4.0",
+		"cookie-parser": "^1.4.6",
+		"ejs": "^3.1.9",
+		"express": "^4.18.2",
+		"express-mongo-sanitize": "^2.2.0",
+		"express-session": "^1.17.3",
+		"express-validator": "^7.0.1",
+		"jquery": "^3.7.1",
+		"mongoose": "^7.6.3",
+		"multer": "^1.4.5-lts.1",
+		"path": "^0.12.7"
+	},
+	"devDependencies": {
+		"chai": "^4.3.10",
+		"chai-http": "^4.4.0",
+		"mocha": "^10.3.0",
+		"nyc": "^15.1.0",
+		"prettier": "3.2.5"
+	}
 }

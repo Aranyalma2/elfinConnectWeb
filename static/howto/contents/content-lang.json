@@ -1,6 +1,6 @@
 {
-    "languages" : [
-        {"code" : "en", "name" : "english"},
-        {"code" : "hu", "name" : "magyar"}
-    ]
+	"languages": [
+		{ "code": "en", "name": "english" },
+		{ "code": "hu", "name": "magyar" }
+	]
 }

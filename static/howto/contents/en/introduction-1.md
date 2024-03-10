@@ -1,6 +1,6 @@
 <h1 align="center">Elfin Connect Service</h1>
 
------------
+---
 
 ## About
 
@@ -12,17 +12,13 @@ This project creates a very similar solution, but it can be used with the factor
 
 This solution is completely independent of the vendor's systems and applications when in use, but currently requires the IoTService application, freely available from the vendor, to configure the devices for the first time.
 
-
 ## Infrastructure
 
-* Database
-* WebUI
-* Bridge server
-* Desktop Client
+-   Database
+-   WebUI
+-   Bridge server
+-   Desktop Client
 
 The user can interact directly with the Web Interface and the Desktop application, for basic help on how to use them, see the following document.
 
 <a href="#top">Back to top</a>
-
-
-
