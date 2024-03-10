@@ -85,5 +85,16 @@ module.exports = function (app) {
 			// Redirect all requests to the root path "/"
 			res.redirect(301, "/");
 		});
+	})
+	.catch((err) =>{
+		console.log("DB Connection ERROR");
+		app.get("/", (req, res) => {
+			res.end(`Unable to connect to the database: ${err.message}`);
+		});
+
+		app.get("*", (req, res) => {
+			// Redirect all requests to the root path "/"
+			res.redirect(301, "/");
+		});
 	});
 };
