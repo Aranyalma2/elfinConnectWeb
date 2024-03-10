@@ -16,7 +16,7 @@ module.exports = function (objectrepository) {
 				return next();
 			})
 			.catch((err) => {
-				console.error("Error loading users:", err);
+				console.error("Error loading users:", err.message);
 				return next(err);
 			});
 	};
