@@ -6,7 +6,7 @@ const crypto = require("crypto");
 const requireOption = require("../requireOption");
 
 module.exports = function (objectrepository) {
-	return function (req, res, next) {
+	return async function (req, res, next) {
 		const dbUser = requireOption(objectrepository, "User");
 		const { username, password, admin } = req.body;
 
@@ -14,43 +14,39 @@ module.exports = function (objectrepository) {
 			return next();
 		}
 		// Check if the username is already taken
-		dbUser.findOne({ username: {$eq: username }}).then((usernameDB) => {
-			if (usernameDB) {
-				res.locals.error = `${res.locals.texts.registerFailed_Exists} ${usernameDB.username}`;
-				return next();
+		let usernameDB = await dbUser.findOne({ username: { $eq: username } });
+		if (usernameDB) {
+			res.locals.error = `${res.locals.texts.registerFailed_Exists} ${usernameDB.username}`;
+			return next();
+		}
+
+		// Hash the password
+		const saltRounds = 10;
+		const hashedPassword = bcrypt.hashSync(password, saltRounds);
+
+		try {
+			const id = await generateUniqueID(dbUser);
+
+			let elevatedPermission = false;
+			if (typeof admin !== "undefined") {
+				elevatedPermission = true;
 			}
 
-			// Hash the password
-			const saltRounds = 10;
-			bcrypt.hash(password, saltRounds).then((hashedPassword) => {
-				generateUniqueID(dbUser)
-					.then((id) => {
-						// Create a new user and save it to the database
-						let elevatedPermission = false;
-						if (typeof admin !== "undefined") {
-							elevatedPermission = true;
-						}
-
-						const newUser = new dbUser({
-							uuid: id,
-							username: username,
-							password: hashedPassword,
-							admin: elevatedPermission,
-						});
-						newUser
-							.save()
-							.then((newUser) => {
-								res.locals.success = `${res.locals.texts.registerSucces_Created} ${newUser.username}`;
-								return next();
-							});
-					})
-					.catch((err) => {
-						console.log("User creation failed:", err);
-						res.locals.error = res.locals.texts.registerFailed_UnknownFail;
-						return next();
-					});
+			const newUser = new dbUser({
+				uuid: id,
+				username: username,
+				password: hashedPassword,
+				admin: elevatedPermission,
 			});
-		});
+
+			const savedUser = await newUser.save();
+			res.locals.success = `${res.locals.texts.registerSucces_Created} ${savedUser.username}`;
+			return next();
+		} catch (err) {
+			console.log("User creation failed:", err.message);
+			res.locals.error = res.locals.texts.registerFailed_UnknownFail;
+			return next();
+		}
 	};
 };
 
