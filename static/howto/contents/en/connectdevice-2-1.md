@@ -4,7 +4,7 @@
 
 ## Elfin devices
 
-To configure the devices for the first time, you also need the vendor software [IoTService](http://www.hi-flying.com/download-item-iotservice)
+To configure the devices for the first time, you also need the vendor software [IoTService](http://ftp.hi-flying.com:9000/IOTService/IOTService3.1.3_20240115.rar)
 Once the software is installed, it is necessary to connect a physical device to a network or serial port to the computer running the software.
 
 * General software help for IoTService: [Official document](http://www.hi-flying.com/index.php?route=tool/upload/download&code=5825d795832fd1998cd46aeafab9074c0c2114d3)

@@ -4,7 +4,7 @@
 
 ## Elfin eszközök
 
-Az eszközök első konfigurálására a gyártói szoftverre is szükség van: [IoTService](http://www.hi-flying.com/download-item-iotservice)
+Az eszközök első konfigurálására a gyártói szoftverre is szükség van: [IoTService](http://ftp.hi-flying.com:9000/IOTService/IOTService3.1.3_20240115.rar)
 A szoftver telepítését követően fizikai eszközt egy hálózatra, vagy soros porton keresztül szükséges összekapcsolni a programot futtató számítógéppel.
 
 * Általános szoftver segédlet a IoTService programhoz: [Hivatalos dokumentum](http://www.hi-flying.com/index.php?route=tool/upload/download&code=5825d795832fd1998cd46aeafab9074c0c2114d3)
