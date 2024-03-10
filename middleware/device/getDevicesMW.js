@@ -12,19 +12,17 @@ module.exports = function (objectrepository) {
 			return next();
 		}
 
-		userDB
-			.findOne({ _id: { $eq: req.session.user._id } })
-			.then((deviceList) => {
-				deviceDB
-					.find({ _id: deviceList.allDevices })
-					.then((devices) => {
-						res.locals.devices = calcOnlineAndTime(devices);
-						return next();
-					})
-					.catch((err) => {
-						return next(err);
-					});
-			});
+		userDB.findOne({ _id: { $eq: req.session.user._id } }).then((deviceList) => {
+			deviceDB
+				.find({ _id: deviceList.allDevices })
+				.then((devices) => {
+					res.locals.devices = calcOnlineAndTime(devices);
+					return next();
+				})
+				.catch((err) => {
+					return next(err);
+				});
+		});
 	};
 };
 

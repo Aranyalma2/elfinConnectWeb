@@ -34,10 +34,7 @@ module.exports = function (objectrepository) {
 		}
 
 		dbUser
-			.updateOne(
-				{ username: { $eq: res.locals.user.username } },
-				{ $set: { password: newHashedPassword } },
-			)
+			.updateOne({ username: { $eq: res.locals.user.username } }, { $set: { password: newHashedPassword } })
 			.then((userDB) => {
 				if (!userDB || userDB.matchedCount !== 1) {
 					//Invalid

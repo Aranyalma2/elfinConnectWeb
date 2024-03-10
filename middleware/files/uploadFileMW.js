@@ -14,11 +14,7 @@ function toDBUploader(objectrepository) {
 		const file = req.file;
 
 		const { name, version } = req.body;
-		if (
-			!file ||
-			typeof name === "undefined" ||
-			typeof version === "undefined"
-		) {
+		if (!file || typeof name === "undefined" || typeof version === "undefined") {
 			res.locals.error = res.locals.texts.upload_fail;
 			res.set("Upload-Status", "error:fields");
 			return next();

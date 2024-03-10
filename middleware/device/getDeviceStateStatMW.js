@@ -5,10 +5,7 @@
 
 module.exports = function () {
 	return function (req, res, next) {
-		if (
-			typeof res.locals.user === "undefined" ||
-			typeof res.locals.devices === "undefined"
-		) {
+		if (typeof res.locals.user === "undefined" || typeof res.locals.devices === "undefined") {
 			return next();
 		}
 		res.locals.online = 0;

@@ -5,10 +5,7 @@ module.exports = function (objectrepository) {
 		const filesCollection = requireOption(objectrepository, "Files");
 
 		try {
-			const files = await filesCollection
-				.find()
-				.sort({ uploadDate: -1 })
-				.toArray();
+			const files = await filesCollection.find().sort({ uploadDate: -1 }).toArray();
 			res.locals.apps = getMetadata(files);
 			return next();
 		} catch (err) {

@@ -23,10 +23,7 @@ module.exports = function (objectrepository) {
 			const readStream = bucket.openDownloadStream(file._id);
 
 			// Set response headers
-			res.set(
-				"Content-Disposition",
-				`attachment; filename="${file.filename}"`,
-			);
+			res.set("Content-Disposition", `attachment; filename="${file.filename}"`);
 			res.set("Content-Type", file.metadata.contentType);
 
 			// Pipe the read stream to the response stream

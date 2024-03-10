@@ -32,43 +32,19 @@ module.exports = function (app) {
 			renderMW("inAppViews/devices"),
 		);
 
-		app.use(
-			"/devices",
-			authMW.isLoggedIn(),
-			getDevicesMW(objRepo),
-			renderMW("inAppViews/devices"),
-		);
+		app.use("/devices", authMW.isLoggedIn(), getDevicesMW(objRepo), renderMW("inAppViews/devices"));
 
-		app.post(
-			"/user/changepassword",
-			authMW.isLoggedIn(),
-			changePassMW(objRepo),
-			renderMW("inAppViews/user"),
-		);
+		app.post("/user/changepassword", authMW.isLoggedIn(), changePassMW(objRepo), renderMW("inAppViews/user"));
 
-		app.use(
-			"/user",
-			authMW.isLoggedIn(),
-			getUserAttributesMW(objRepo),
-			renderMW("inAppViews/user"),
-		);
+		app.use("/user", authMW.isLoggedIn(), getUserAttributesMW(objRepo), renderMW("inAppViews/user"));
 
 		app.use("/logout", authMW.logout());
 
 		app.use("/login", authMW.login(objRepo), renderMW("outAppViews/login"));
 
-		app.get(
-			"/register",
-			authMW.isLoggedInAdmin(),
-			renderMW("inAppViews/register"),
-		);
+		app.get("/register", authMW.isLoggedInAdmin(), renderMW("inAppViews/register"));
 
-		app.post(
-			"/register",
-			authMW.isLoggedInAdmin(),
-			registerUserMW(objRepo),
-			renderMW("inAppViews/register"),
-		);
+		app.post("/register", authMW.isLoggedInAdmin(), registerUserMW(objRepo), renderMW("inAppViews/register"));
 
 		app.use(
 			"/home",
@@ -78,13 +54,7 @@ module.exports = function (app) {
 			renderMW("inAppViews/home"),
 		);
 
-		app.use(
-			"/setup",
-			getUsersMW(objRepo),
-			setupMW(),
-			registerUserMW(objRepo),
-			renderMW("outAppViews/setup"),
-		);
+		app.use("/setup", getUsersMW(objRepo), setupMW(), registerUserMW(objRepo), renderMW("outAppViews/setup"));
 
 		app.use(
 			"/downloads/delete/:filename",
@@ -94,18 +64,9 @@ module.exports = function (app) {
 			renderMW("inAppViews/downloads"),
 		);
 
-		app.use(
-			"/downloads/:filename",
-			authMW.isLoggedIn(),
-			getFileMW(objRepo),
-		);
+		app.use("/downloads/:filename", authMW.isLoggedIn(), getFileMW(objRepo));
 
-		app.use(
-			"/downloads",
-			authMW.isLoggedIn(),
-			getFilesMW(objRepo),
-			renderMW("inAppViews/downloads"),
-		);
+		app.use("/downloads", authMW.isLoggedIn(), getFilesMW(objRepo), renderMW("inAppViews/downloads"));
 
 		app.post(
 			"/upload",

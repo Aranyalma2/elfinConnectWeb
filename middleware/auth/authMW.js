@@ -4,10 +4,7 @@ const requireOption = require("../requireOption");
 // Middleware to check if a user is logged in
 exports.isLoggedIn = function () {
 	return function (req, res, next) {
-		if (
-			typeof req.session.logedIn === "undefined" ||
-			req.session.logedIn !== true
-		) {
+		if (typeof req.session.logedIn === "undefined" || req.session.logedIn !== true) {
 			return res.redirect("/login");
 		}
 		//Loged in
@@ -25,8 +22,7 @@ exports.isLoggedInAdmin = function () {
 			typeof req.session.user.admin === "undefined" ||
 			req.session.user.admin === false
 		) {
-			req.session.loginwaring =
-				res.locals.texts.loginWarning_MissingAdminPermission;
+			req.session.loginwaring = res.locals.texts.loginWarning_MissingAdminPermission;
 			return res.redirect("/login");
 		}
 		//Loged in as Admin
@@ -40,17 +36,11 @@ exports.login = function (objectrepository) {
 	return function (req, res, next) {
 		const UserDB = requireOption(objectrepository, "User");
 
-		if (
-			typeof req.session.loginwaring !== "undefined" ||
-			req.session.loginwaring !== ""
-		) {
+		if (typeof req.session.loginwaring !== "undefined" || req.session.loginwaring !== "") {
 			res.locals.warning = req.session.loginwaring;
 			req.session.loginwaring = undefined;
 		}
-		if (
-			typeof req.body.username === "undefined" &&
-			typeof req.body.password === "undefined"
-		) {
+		if (typeof req.body.username === "undefined" && typeof req.body.password === "undefined") {
 			return next();
 		}
 
@@ -59,15 +49,12 @@ exports.login = function (objectrepository) {
 		UserDB.findOne({ username })
 			.then((user) => {
 				if (!user || !bcrypt.compareSync(password, user.password)) {
-					res.locals.error =
-						res.locals.texts.loginWarning_InvalidUserOrPass;
+					res.locals.error = res.locals.texts.loginWarning_InvalidUserOrPass;
 					return next();
 				}
 				// Store the user in the session
 				if (user.admin) {
-					console.log(
-						`Administrtor login: ${user.username} | ${new Date()}`,
-					);
+					console.log(`Administrtor login: ${user.username} | ${new Date()}`);
 				} else {
 					console.log(`User login: ${user.username} | ${new Date()}`);
 				}

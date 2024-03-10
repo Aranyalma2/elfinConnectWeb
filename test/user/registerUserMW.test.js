@@ -107,9 +107,7 @@ describe("Register User Middleware Tests", () => {
 		});
 
 		middleware(req, res, (err) => {
-			expect(res.locals.success).to.equal(
-				"User created successfully: newUser",
-			);
+			expect(res.locals.success).to.equal("User created successfully: newUser");
 			expect(err).to.be.undefined;
 			done();
 		});
@@ -135,9 +133,7 @@ describe("Register User Middleware Tests", () => {
 		});
 
 		middleware(req, res, (err) => {
-			expect(res.locals.success).to.equal(
-				"User created successfully: newUser",
-			);
+			expect(res.locals.success).to.equal("User created successfully: newUser");
 			expect(err).to.be.undefined;
 			done();
 		});
@@ -162,9 +158,7 @@ describe("Register User Middleware Tests", () => {
 		});
 
 		middleware(req, res, (err) => {
-			expect(res.locals.success).to.equal(
-				"User created successfully: newUser",
-			);
+			expect(res.locals.success).to.equal("User created successfully: newUser");
 			expect(err).to.be.undefined;
 			done();
 		});
@@ -213,9 +207,7 @@ describe("Register User Middleware Tests", () => {
 		});
 
 		middleware(req, res, (err) => {
-			expect(res.locals.error).to.equal(
-				"Username already exists: mockedUser",
-			);
+			expect(res.locals.error).to.equal("Username already exists: mockedUser");
 			expect(err).to.be.undefined;
 			done();
 		});

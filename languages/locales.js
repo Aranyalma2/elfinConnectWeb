@@ -10,12 +10,9 @@ function parseLang(file) {
 
 function config(val) {
 	conf.languages = typeof val.languages === "object" ? val.languages : ["en"];
-	conf.defaultLang =
-		typeof val.defaultLang === "string" ? val.defaultLang : "en";
-	conf.langDir =
-		typeof val.langDir === "string" ? val.langDir : path.resolve(__dirname);
-	conf.cookieName =
-		typeof val.cookieName === "string" ? val.cookieName : "lang";
+	conf.defaultLang = typeof val.defaultLang === "string" ? val.defaultLang : "en";
+	conf.langDir = typeof val.langDir === "string" ? val.langDir : path.resolve(__dirname);
+	conf.cookieName = typeof val.cookieName === "string" ? val.cookieName : "lang";
 
 	conf.languages.forEach((file) => {
 		let model = parseLang(file);
@@ -29,9 +26,7 @@ function config(val) {
 
 function getModel(lang) {
 	const foundModel = langModels.find((item) => item.id === lang);
-	const selectedModel = foundModel
-		? foundModel.model
-		: getModel(conf.defaultLang);
+	const selectedModel = foundModel ? foundModel.model : getModel(conf.defaultLang);
 	return selectedModel;
 }
 
@@ -48,9 +43,7 @@ function mergeModelsConfig(selectedLang) {
 			langCollection.push({ [lang]: langVerbose });
 		}
 	});
-	const selectedIndex = langCollection.findIndex(
-		(entry) => Object.keys(entry)[0] === selectedLang,
-	);
+	const selectedIndex = langCollection.findIndex((entry) => Object.keys(entry)[0] === selectedLang);
 
 	// Move the item to the top (if found)
 	if (selectedIndex !== -1) {

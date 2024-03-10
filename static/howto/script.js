@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				languageSelect.appendChild(option);
 			});
 
-			const activeLanguage =
-				localStorage.getItem("activeLanguage") || languageSelect[0];
+			const activeLanguage = localStorage.getItem("activeLanguage") || languageSelect[0];
 
 			if (activeLanguage !== languageSelect[0]) {
 				languageSelect.value = activeLanguage;
@@ -39,8 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			const menuList = document.getElementById("menu-list");
 
 			// Load the current selected item from localStorage if available
-			const activeMenuItem =
-				localStorage.getItem("activeMenuItem") || filesList[0].filename;
+			const activeMenuItem = localStorage.getItem("activeMenuItem") || filesList[0].filename;
 
 			filesList.forEach((file) => {
 				const listItem = document.createElement("li");
@@ -90,13 +88,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	// Function to load and render Markdown content
 	function loadMarkdownFile(filename) {
-		const languageSelectValue =
-			document.getElementById("language-select").value;
+		const languageSelectValue = document.getElementById("language-select").value;
 		fetch(`contents/${languageSelectValue}/${filename}`)
 			.then((response) => response.text())
 			.then((markdownContent) => {
-				const markdownContentDiv =
-					document.getElementById("markdown-content");
+				const markdownContentDiv = document.getElementById("markdown-content");
 				// Use a library like marked.js to render Markdown as HTML
 				// For simplicity, we assume a function renderMarkdown exists
 				markdownContentDiv.innerHTML = renderMarkdown(markdownContent);

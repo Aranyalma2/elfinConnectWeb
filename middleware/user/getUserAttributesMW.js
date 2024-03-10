@@ -12,16 +12,14 @@ module.exports = function (objectrepository) {
 			return next();
 		}
 
-		dbUser
-			.findOne({ username: { $eq: req.session.user.username } })
-			.then((userDB) => {
-				if (!userDB || !userDB.uuid) {
-					return next();
-				}
-				res.locals.user.uuid = userDB.uuid;
-				res.locals.user.elfinHeathbeatMSG = `beat;${userDB.uuid};%MAC;%HOST;0`;
-				res.locals.user.elfindataMSG = `data;${userDB.uuid};%MAC;%HOST;0;`;
+		dbUser.findOne({ username: { $eq: req.session.user.username } }).then((userDB) => {
+			if (!userDB || !userDB.uuid) {
 				return next();
-			});
+			}
+			res.locals.user.uuid = userDB.uuid;
+			res.locals.user.elfinHeathbeatMSG = `beat;${userDB.uuid};%MAC;%HOST;0`;
+			res.locals.user.elfindataMSG = `data;${userDB.uuid};%MAC;%HOST;0;`;
+			return next();
+		});
 	};
 };

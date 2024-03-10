@@ -42,12 +42,8 @@ describe("Get User Attributes Middleware Tests", () => {
 		middleware(req, res, (err) => {
 			// Assert that user properties are set in res.locals.user
 			expect(res.locals.user.uuid).to.equal("mockedUUID");
-			expect(res.locals.user.elfinHeathbeatMSG).to.equal(
-				"beat;mockedUUID;%MAC;%HOST;0",
-			);
-			expect(res.locals.user.elfindataMSG).to.equal(
-				"data;mockedUUID;%MAC;%HOST;0;",
-			);
+			expect(res.locals.user.elfinHeathbeatMSG).to.equal("beat;mockedUUID;%MAC;%HOST;0");
+			expect(res.locals.user.elfindataMSG).to.equal("data;mockedUUID;%MAC;%HOST;0;");
 
 			// Assert that next() is called
 			expect(err).to.be.undefined;

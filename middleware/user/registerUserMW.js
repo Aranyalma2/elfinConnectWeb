@@ -10,10 +10,7 @@ module.exports = function (objectrepository) {
 		const dbUser = requireOption(objectrepository, "User");
 		const { username, password, admin } = req.body;
 
-		if (
-			typeof username === "undefined" ||
-			typeof password === "undefined"
-		) {
+		if (typeof username === "undefined" || typeof password === "undefined") {
 			return next();
 		}
 		// Check if the username is already taken
