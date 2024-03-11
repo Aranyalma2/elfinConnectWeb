@@ -12,7 +12,7 @@ module.exports = function (objectrepository) {
 			return next();
 		}
 
-		userDB.findOne({ _id: { $eq: req.session.user._id }}).then((deviceList) => {
+		userDB.findOne({ _id: { $eq: req.session.user._id } }).then((deviceList) => {
 			deviceDB
 				.find({ _id: deviceList.allDevices })
 				.then((devices) => {
@@ -27,7 +27,7 @@ module.exports = function (objectrepository) {
 };
 
 function calcOnlineAndTime(devices) {
-	devices.forEach(device => {
+	devices.forEach((device) => {
 		device.online = device.lastSeenDate > new Date(Date.now() - 60000);
 		device.lastSeenDate_converted = convertESTto24Time(device.lastSeenDate);
 	});
@@ -37,15 +37,15 @@ function calcOnlineAndTime(devices) {
 
 function convertESTto24Time(estDateString) {
 	// Create a formatter with the desired format and set the time zone to 'Europe/Budapest'
-	const formatter = new Intl.DateTimeFormat('hu-HU', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-		hour: '2-digit',
-		minute: '2-digit',
-		second: '2-digit',
+	const formatter = new Intl.DateTimeFormat("hu-HU", {
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
 		hour12: false,
-		timeZone: 'Europe/Budapest'
+		timeZone: "Europe/Budapest",
 	});
 
 	// Parse the EST date string

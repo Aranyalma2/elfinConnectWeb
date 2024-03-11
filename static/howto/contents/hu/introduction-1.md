@@ -1,6 +1,6 @@
 <h1 align="center">Elfin Connect Service</h1>
 
------------
+---
 
 ## Projektről
 
@@ -12,13 +12,12 @@ Ez a projekt a gyártóihoz hasonló elvet használva valósítja meg a távoli 
 
 Ez a megoldás teljesen független a gyártói rendszerek és alkalmazásoktól használat során, de jelenleg az eszközök első konfigurálásához szükség van a gyártó által szabadon hozzáférhető IoTService alkalmazásra.
 
-
 ## Infrastruktúra
 
-* Adatbázis
-* Web interfész
-* Bridge szerver
-* Asztali alkalmazás
+-   Adatbázis
+-   Web interfész
+-   Bridge szerver
+-   Asztali alkalmazás
 
 A felhasználó közvetlenül kapcsolatba léphet a webes felülettel és az asztali alkalmazással, a használatukkal kapcsolatos alapvető segítségért lásd a következő dokumentumokat.
 

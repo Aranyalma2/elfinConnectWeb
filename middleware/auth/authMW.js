@@ -33,7 +33,7 @@ exports.isLoggedInAdmin = function () {
 
 // Middleware to handle login
 exports.login = function (objectrepository) {
-	return function (req, res, next) {
+	return async function (req, res, next) {
 		const UserDB = requireOption(objectrepository, "User");
 
 		if (typeof req.session.loginwaring !== "undefined" || req.session.loginwaring !== "") {
@@ -46,32 +46,34 @@ exports.login = function (objectrepository) {
 
 		const { username, password } = req.body;
 
-		UserDB.findOne({ username })
-			.then((user) => {
-				if (!user || !bcrypt.compareSync(password, user.password)) {
-					res.locals.error = res.locals.texts.loginWarning_InvalidUserOrPass;
-					return next();
+		try {
+			const user = await UserDB.findOne({ username });
+
+			if (!user || !bcrypt.compareSync(password, user.password)) {
+				res.locals.error = res.locals.texts.loginWarning_InvalidUserOrPass;
+				return next();
+			}
+
+			// Store the user in the session
+			if (user.admin) {
+				console.log(`Administrator login: ${user.username} | ${new Date()}`);
+			} else {
+				console.log(`User login: ${user.username} | ${new Date()}`);
+			}
+
+			req.session.logedIn = true;
+			req.session.user = user;
+
+			req.session.save((err) => {
+				if (err) {
+					console.log(err);
 				}
-				// Store the user in the session
-				if (user.admin) {
-					console.log(`Administrtor login: ${user.username} | ${new Date()}`);
-				}
-				else {
-					console.log(`User login: ${user.username} | ${new Date()}`);
-				}
-				req.session.logedIn = true;
-				req.session.user = user;
-				return req.session.save((err) => {
-					if (typeof err !== "undefined") {
-						console.log(err)
-					}
-					res.redirect("/home");
-				});
-			})
-			.catch((err) => {
-				console.error(err);
-				return next(err);
+				res.redirect("/home");
 			});
+		} catch (err) {
+			console.error(err);
+			return next(err);
+		}
 	};
 };
 
