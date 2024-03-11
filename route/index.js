@@ -60,7 +60,7 @@ module.exports = function (app) {
 
 			app.use(
 				"/downloads/delete/:filename",
-				authMW.isLoggedIn(),
+				authMW.isLoggedInAdmin(),
 				deleteFileMW(objRepo),
 				getFilesMW(objRepo),
 				renderMW("inAppViews/downloads"),
