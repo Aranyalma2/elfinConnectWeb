@@ -50,9 +50,10 @@
 
   function updateTimer() {
     timerElement.textContent = "<%= texts.Next_refresh %>: " + seconds;
-    seconds--;
+    seconds -= 1;
 
     if (seconds < 0) {
+      seconds = 60;
       window.location.reload();
     }
   }
