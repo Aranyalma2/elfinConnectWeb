@@ -1,11 +1,12 @@
 <!-- views/user.ejs -->
 <%- include('frameTop') -%>
-  <section>
-    <h2 class="mb-4">
-      <%= texts.User_Page %>
-    </h2>
-    <div class="container">
-      <table class="table table-striped">
+<section class="mb-2">
+  <h2 class="mb-4">
+    <%= texts.User_Page %>
+  </h2>
+  <div class="container">
+    <div class="table-responsive hideOnMobile">
+      <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th>
@@ -26,8 +27,7 @@
               <%= user.uuid %>
             </td>
             <td>
-              <button class="btn btn-primary" onclick="copyToClipboard('<%= user.uuid %>')"><i
-                  class="bi bi-clipboard"></i></button>
+              <button class="btn btn-primary" onclick="copyToClipboard('<%= user.uuid %>')"><i class="bi bi-clipboard"></i></button>
             </td>
           </tr>
           <tr>
@@ -36,8 +36,7 @@
               <%= user.elfinHeathbeatMSG %>
             </td>
             <td>
-              <button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfinHeathbeatMSG %>')"><i
-                  class="bi bi-clipboard"></i></button>
+              <button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfinHeathbeatMSG %>')"><i class="bi bi-clipboard"></i></button>
             </td>
           </tr>
           <tr>
@@ -46,79 +45,113 @@
               <%= user.elfindataMSG %>
             </td>
             <td>
-              <button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfindataMSG %>')"><i
-                  class="bi bi-clipboard"></i></button>
+              <button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfindataMSG %>')"><i class="bi bi-clipboard"></i></button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-  </section>
-  <section>
-    <h2>
-      <%= texts.Change_Password %>
-    </h2>
-    <div class="mb-3 card-body">
-      <form action="/user/changepassword" method="post">
-        <div class="mb-3 form-group">
-          <label for="currentPassword">
-            <%= texts.Current_Password %>
-          </label>
-          <input type="password" class="form-control" id="currentPassword" name="currentPassword"
-            placeholder="<%= texts.Current_Password %>" required>
+
+    <div class="row hideOnDesktop">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">UUID</h5>
+            <p class="card-text"><%= user.uuid %></p>
+            <button class="btn btn-primary" onclick="copyToClipboard('<%= user.uuid %>')">
+              <i class="bi bi-clipboard"></i> <%= texts.Copy %>
+            </button>
+          </div>
         </div>
-        <div class="mb-3 form-group">
-          <label for="newPassword">
-            <%= texts.New_Password %>
-          </label>
-          <input type="password" class="form-control" id="newPassword" name="newPassword"
-            placeholder="<%= texts.New_Password %>" required>
-        </div>
-        <div class="mb-3 form-group">
-          <label for="confirmNewPassword">
-            <%= texts.Confirm_New_Password %>
-          </label>
-          <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword"
-            placeholder="<%= texts.Confirm_New_Password %>" required>
-        </div>
-        <button type="submit" class="btn btn-primary">
-          <%= texts.Change_Password %>
-        </button>
-      </form>
-    </div>
-    <% if (typeof passwordChangeError !=='undefined' ) { %>
-      <div class="mb-3">
-        <% if (passwordChangeError===true) { %>
-          <p class=" alert alert-warning">
-            <%=texts.passwordChangeError_TRUE%>
-          </p>
-          <% } %>
-            <% if (passwordChangeError===false) { %>
-              <p class="alert alert-success">
-                <%=texts.passwordChangeError_FALSE%>
-              </p>
-              <% } %>
       </div>
-      <% } %>
-  </section>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Elfin Heathbeat MSG</h5>
+            <p class="card-text"><%= user.elfinHeathbeatMSG %></p>
+            <button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfinHeathbeatMSG %>')">
+              <i class="bi bi-clipboard"></i> <%= texts.Copy %>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Elfin Data MSG</h5>
+            <p class="card-text"><%= user.elfindataMSG %></p>
+            <button class="btn btn-primary" onclick="copyToClipboard('<%= user.elfindataMSG %>')">
+              <i class="bi bi-clipboard"></i> <%= texts.Copy %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <script>
-    function copyToClipboard(text) {
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
-    }
-  </script>
-  <% if (typeof passwordChangeError !=='undefined' && passwordChangeError===false) { %>
-    <script>
-      setTimeout(() => {
-        // Redirect to /login after 3 seconds
-        window.location.href = "/login";
-      }, 3000);
-    </script>
+  </div>
+</section>
+<section>
+  <h2>
+    <%= texts.Change_Password %>
+  </h2>
+  <div class="mb-3 card-body">
+    <form action="/user/changepassword" method="post">
+      <div class="mb-3 form-group">
+        <label for="currentPassword">
+          <%= texts.Current_Password %>
+        </label>
+        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="<%= texts.Current_Password %>" required>
+      </div>
+      <div class="mb-3 form-group">
+        <label for="newPassword">
+          <%= texts.New_Password %>
+        </label>
+        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="<%= texts.New_Password %>" required>
+      </div>
+      <div class="mb-3 form-group">
+        <label for="confirmNewPassword">
+          <%= texts.Confirm_New_Password %>
+        </label>
+        <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" placeholder="<%= texts.Confirm_New_Password %>" required>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <%= texts.Change_Password %>
+      </button>
+    </form>
+  </div>
+  <% if (typeof passwordChangeError !=='undefined' ) { %>
+  <div class="mb-3">
+    <% if (passwordChangeError===true) { %>
+    <p class=" alert alert-warning">
+      <%=texts.passwordChangeError_TRUE%>
+    </p>
     <% } %>
+    <% if (passwordChangeError===false) { %>
+    <p class="alert alert-success">
+      <%=texts.passwordChangeError_FALSE%>
+    </p>
+    <% } %>
+  </div>
+  <% } %>
+</section>
 
-      <%- include('frameBottom') -%>
+<script>
+  function copyToClipboard(text) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+  }
+</script>
+<% if (typeof passwordChangeError !=='undefined' && passwordChangeError===false) { %>
+<script>
+  setTimeout(() => {
+    // Redirect to /login after 3 seconds
+    window.location.href = "/login";
+  }, 3000);
+</script>
+<% } %>
+
+<%- include('frameBottom') -%>
