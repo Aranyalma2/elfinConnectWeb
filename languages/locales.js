@@ -42,7 +42,7 @@ function mergeModelsConfig(selectedLang) {
 		const flag = model.model._cfg?.flag;
 
 		if (lang && langVerbose && flag) {
-			langCollection.push({ [lang]: langVerbose, ["flag"]: flag});
+			langCollection.push({ [lang]: langVerbose, ["flag"]: flag });
 		}
 	});
 	const selectedIndex = langCollection.findIndex((entry) => Object.keys(entry)[0] === selectedLang);
