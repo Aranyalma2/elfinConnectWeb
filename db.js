@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const mongodb = require("mongodb");
 
-const dbAddress = "10.101.2.4:27017";
+const dbAddress = "database:27017";
 const dbCollectionName = "elfinconnect";
 
 let filesCollection;
