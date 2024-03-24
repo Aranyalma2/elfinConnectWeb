@@ -1,18 +1,20 @@
 <!-- views/login.ejs -->
 <%- include('frameTop') -%>
-  <body>
-    <div class="d-flex justify-content-between">
+
+<body>
+  <header>
+    <div class="d-flex justify-content-between ">
       <div class="p-3">
-        <div style="height: 3vh; margin: 10px 0px 0px 10px;">
+        <div class="my-2">
           <span>
             <%= texts.Select_language%>:
           </span>
           <select id="languageSelect" onchange="setLanguageCookie(this.value)">
             <% texts._cfg.all.forEach(entry=> { %>
-              <option value="<%= Object.keys(entry)[0] %>">
-                <%= entry[Object.keys(entry)[0]] %>
-              </option>
-              <% }); %>
+            <option value="<%= Object.keys(entry)[0] %>">
+              <%= entry[Object.keys(entry)[0]] %>
+            </option>
+            <% }); %>
           </select>
           <image src="gfx/flags/<%= texts._cfg.flag %>.svg" width="40" height="40" />
         </div>
@@ -23,44 +25,45 @@
         </a>
       </div>
     </div>
+  </header>
 
-    <div class="container d-flex justify-content-center align-items-center" style="height: 95vh;">
-      <div class="col-md-4">
-        <div class="login-form">
-          <h2>
-            <%= texts.Login %>
-          </h2>
-          <% if (typeof error !=='undefined' ) { %>
-            <p class="alert alert-danger">
-              <%= error %>
-            </p>
-            <% } %>
-              <% if (typeof warning !=='undefined' ) { %>
-                <p class="alert alert-warning">
-                  <%= warning %>
-                </p>
-                <% } %>
-                  <form action="/login" method="post">
-                    <div class="form-group mt-4">
-                      <label for="username">
-                        <%= texts.Username %>
-                      </label>
-                      <input type="text" name="username" class="form-control" id="username" required />
-                    </div>
-                    <div class="form-group  mt-4">
-                      <label for="password">
-                        <%= texts.Password %>
-                      </label>
-                      <input type="password" name="password" class="form-control" id="password" required />
-                    </div>
-                    <div class="form-group  mt-4"></div>
-                    <button type="submit" class="btn btn-primary">
-                      <%= texts.Login %>
-                    </button>
-        </div>
+  <main class="container d-flex justify-content-center align-items-center" style="height: 50vh;">
+    <div class="col-md-4">
+      <div class="form-signin w-100 m-auto">
+        <h2>
+          <%= texts.Login %>
+        </h2>
+        <% if (typeof error !=='undefined' ) { %>
+        <p class="alert alert-danger">
+          <%= error %>
+        </p>
+        <% } %>
+        <% if (typeof warning !=='undefined' ) { %>
+        <p class="alert alert-warning">
+          <%= warning %>
+        </p>
+        <% } %>
+        <form action="/login" method="post">
+          <div class="form-group mt-4">
+            <label for="username">
+              <%= texts.Username %>
+            </label>
+            <input type="text" name="username" class="form-control" id="username" required />
+          </div>
+          <div class="form-group  mt-4">
+            <label for="password">
+              <%= texts.Password %>
+            </label>
+            <input type="password" name="password" class="form-control" id="password" required />
+          </div>
+          <div class="form-group  mt-4">
+            <button type="submit" class="btn btn-primary px-3">
+              <%= texts.Login %>
+            </button>
+          </div>
         </form>
       </div>
-    </div>
-  </body>
+  </main>
+</body>
 
-  <%- include('frameBottom') -%>
+<%- include('frameBottom') -%>

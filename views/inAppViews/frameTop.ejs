@@ -29,10 +29,9 @@
     /* Header styles */
     header {
       background-color: #007bff;
-      opacity: 0.8;
+
       color: white;
-      padding: 20px;
-      border-radius: 0 0 10px 0;
+
     }
 
     /* Main content area styles */
@@ -58,21 +57,47 @@
       /* Increased padding for separation */
     }
 
-    .nav-link:hover {
+    .nav-link.active {
+      background-color: #3d4349;
+    }
+
+    .nav-link.active:hover {
+      background-color: #3d4349;
+      /* Keep the same background color when active and hovered */
+    }
+
+    .nav-link:hover:not(.active) {
       background-color: #495057;
+      /* Apply hover style only when not active */
     }
 
     .nav-item {
-      border-bottom: 1px solid #495057;
+      border-top: 1px solid #495057;
       /* Separator line between items */
     }
 
-    .nav-item:last-child {
-      border-bottom: none;
+    .nav-item:first-child {
+      border-top: none;
       /* Remove separator line for the last item */
     }
 
-    /* Section styles */
+    .navbar-brand {
+      padding-top: .75rem;
+      padding-bottom: .75rem;
+      font-size: 28px;
+      color: rgba(255, 255, 255, 1);
+    }
+
+    .navbar-brand:hover {
+      color: rgba(255, 255, 255, 1);
+
+    }
+
+    .navbar .navbar-toggler {
+      top: .25rem;
+      right: 1rem;
+    }
+
     section {
       background-color: #ffffff;
       border: 1px solid #ccc;
@@ -84,74 +109,185 @@
       padding-right: 10px;
       font-size: 18px;
     }
+
+    .dropdown-item:active {
+      background-color: #ffffff;
+    }
+
+    .preferencesDropdown {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .languageDropdown {
+      color: var(--bs-body-color);
+      text-decoration: none;
+    }
+
+    /* MOBILE CSS*/
+    @media (max-width: 992px) {
+      .contentContainer {
+        padding: 0;
+      }
+
+      .hideOnMobile {
+        display: none;
+      }
+
+      footer {
+        margin-top: 0.5rem;
+      }
+    }
+
+    /* DESKTOP CSS*/
+    @media (min-width: 992px) {
+      header {
+        border-radius: 0 0 10px 0;
+      }
+
+      .hideOnDesktop {
+        display: none;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <div class="container-fluid">
-    <!-- Header -->
-    <header class="d-flex justify-content-between align-items-center">
-      <div>
-        <h1>Elfin Connect WebUI</h1>
-        <!--<p>Version 1.0</p>-->
+
+  <div class="container-fluid overflow-hidden contentContainer">
+
+    <header class="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow py-2">
+      <a class="navbar-brand col-lg-2 me-auto px-3" href="/">Elfin Connect WebUI</a>
+      <button class="navbar-toggler position-absolute d-lg-none collapsed my-3" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="clearfix"></div>
+      <div class="hideOnMobile">
+        <div class="dropdown">
+          <a class="dropdown-toggle preferencesDropdown" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            <% if (typeof user !=='undefined' && user.username !=='undefined' ) { %> <strong><%-
+                  user.username %> </strong>
+            <%} %>
+            <span class="bi bi-sliders"></span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <div class="dropdown-item">
+                <div class="dropstart d-flex flex-row">
+                  <a class="dropdown-toggle languageDropdown flex-grow-1" type="button" id="profile-collapse" data-bs-toggle="dropdown" aria-expanded="false">
+                    <%= texts.Change_language %>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="profile-collapse">
+                    <% texts._cfg.all.forEach(entry=> { %>
+                    <li><a class="dropdown-item" href="#" onclick="setLanguageCookie('<%= Object.keys(entry)[0] %>')">
+                        <image src="/gfx/flags/<%= entry[Object.keys(entry)[1]] %>.svg" width="30" height="30" />
+                        <%= entry[Object.keys(entry)[0]] %>
+                      </a></li>
+                    <% }); %>
+                  </ul>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <span class="userwelcome">
-          <%= texts.Welcome %>: <% if (typeof user !=='undefined' && user.username !=='undefined' ) { %> <b><%-
-                  user.username %> </b>
-              <%} %>
-        </span>
-        <image src="/gfx/flags/<%= texts._cfg.flag %>.svg" width="40" height="40" />
-        <select id="languageSelect" onchange="setLanguageCookie(this.value)">
-          <% texts._cfg.all.forEach(entry=> { %>
-            <option value="<%= Object.keys(entry)[0] %>">
-              <%= entry[Object.keys(entry)[0]] %>
-            </option>
-            <% }); %>
-        </select>
-        <a href="/howto" class="btn btn-block btn-info" target="_blank"><i class="bi bi-question-circle"></i></a>
-        <a href="/logout" class="btn btn-danger">
-          <%= texts.Logout %>
-        </a>
+      <div class="navbar-nav hideOnMobile">
+        <div class="nav-item text-nowrap">
+          <a class="btn btn-block btn-info bi bi-question-circle mx-2" href="/howto" target="_blank"></a>
+        </div>
+      </div>
+      <div class="navbar-nav hideOnMobile">
+        <div class="nav-item text-nowrap">
+          <a class="btn btn-danger bi bi-box-arrow-right px-3 me-3" href="/logout">
+            <%= texts.Logout %>
+          </a>
+        </div>
       </div>
     </header>
 
     <!-- Main content area -->
     <div class="row">
       <!-- Vertical menu (responsive sidebar) -->
-      <nav class="col-md-3 col-lg-2 d-md-block sidebar">
-        <div class="position-sticky">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" href="/home">
-                <%= texts.Home %>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/user">
-                <%= texts.User %>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/devices">
-                <%= texts.Devices %>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/downloads">
-                <%= texts.Downloads %>
-              </a>
-            </li>
-            <% if (typeof user !=='undefined' && user.admin===true) { %>
-              <li class="nav-item">
-                <a class="nav-link" href="/register">
-                  <%= texts.Register %>
-                </a>
-              </li>
-              <%} %>
-          </ul>
-        </div>
+      <nav id="sidebarMenu" class="col-lg-2 d-lg-block sidebar collapse">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/home">
+              <i class="bi bi-house"></i>
+              <%= texts.Home %>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user">
+              <i class="bi bi-person"></i>
+              <%= texts.User %>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/devices">
+              <i class="bi bi-motherboard"></i>
+              <%= texts.Devices %>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/downloads">
+              <i class="bi bi-cloud-arrow-down"></i>
+              <%= texts.Downloads %>
+            </a>
+          </li>
+          <% if (typeof user !=='undefined' && user.admin===true) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/register">
+              <i class="bi bi-person-add"></i>
+              <%= texts.Register %>
+            </a>
+          </li>
+          <%} %>
+          <li class="nav-item hideOnDesktop">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#preferences-collapse" aria-expanded="true">
+              <i class="bi bi-sliders"></i>
+              <%= texts.Preferences %>
+            </a>
+            <div class="collapse" id="preferences-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li>
+                  <a href="#" class="nav-link ms-2 collapsed" data-bs-toggle="collapse" data-bs-target="#lang-collapse" aria-expanded="true"><%= texts.Change_language %></a>
+                  <div class="collapse" id="lang-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                      <% texts._cfg.all.forEach(entry=> { %>
+                      <li>
+                        <a class="nav-link ms-4" href="#" onclick="setLanguageCookie('<%= Object.keys(entry)[0] %>')">
+                          <image src="/gfx/flags/<%= entry[Object.keys(entry)[1]] %>.svg" width="30" height="30" />
+                          <%= entry[Object.keys(entry)[0]] %>
+                        </a>
+                      </li>
+                      <% }); %>
+                    </ul>
+                  </div>
+                </li>
+
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item hideOnDesktop">
+            <a class="nav-link" href="/logout">
+              <i class="bi bi-box-arrow-right"></i>
+              <%= texts.Logout %>
+            </a>
+          </li>
+        </ul>
       </nav>
+      <!-- Select active navbar link by url and nav-link href -->
+      <script>
+        const navLinks = document.querySelectorAll('.nav-link');
+        const currentPath = window.location.pathname;
+
+        navLinks.forEach(link => {
+          const anchor = link.getAttribute('href');
+          if (anchor === currentPath) {
+            link.classList.add('active');
+          }
+        });
+      </script>
 
       <!-- User/Devices page content -->
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-3">
+      <main class="col-lg-10 px-md-4 pt-3">
