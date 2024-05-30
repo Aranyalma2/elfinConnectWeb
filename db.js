@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const mongodb = require("mongodb");
 
-const dbAddress = "database:27017";
-const dbCollectionName = "elfinconnect";
+const dbAddress = process.env.DATABASE || "localhost";
+const dbCollectionName = process.env.DATABASE_COLLECTION || "elfinconnect";
 
 let filesCollection;
 let gridfsBucket;

@@ -2,4 +2,4 @@
 Version holder file
 */
 
-module.exports = "Version 0.1.69 (exp build)";
+module.exports = `Version ${process.env.npm_package_version}`;
