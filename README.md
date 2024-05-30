@@ -89,7 +89,7 @@ npm test
 Run prettier before all of your commits, please. CI pipeline does not in action yet.
 
 ```sh
-npm prettier . --write
+npx prettier . --write
 ```
 
 ## :memo: License
