@@ -11,10 +11,8 @@ module.exports = function (objectrepository) {
 		if (typeof res.locals.user === "undefined") {
 			return next();
 		}
-
-		userDB.findOne({ _id: { $eq: req.session.user._id } }).then((deviceList) => {
 			deviceDB
-				.find({ _id: deviceList.allDevices })
+				.find({ _id: res.locals.user.allDevices })
 				.then((devices) => {
 					res.locals.devices = calcOnlineAndTime(devices);
 					return next();
@@ -22,7 +20,6 @@ module.exports = function (objectrepository) {
 				.catch((err) => {
 					return next(err);
 				});
-		});
 	};
 };
 
