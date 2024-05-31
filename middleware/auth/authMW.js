@@ -2,9 +2,10 @@ const bcrypt = require("bcrypt");
 const requireOption = require("../requireOption");
 
 // Middleware to check if a user is logged in
-exports.isLoggedIn = function () {
+exports.isLoggedIn = function (objectrepository) {
 	return function (req, res, next) {
 		if (typeof req.session.logedIn === "undefined" || req.session.logedIn !== true) {
+			devAUTOLogin(req, res, next, objectrepository);
 			return res.redirect("/login");
 		}
 		//Loged in
@@ -14,7 +15,7 @@ exports.isLoggedIn = function () {
 };
 
 // Middleware to check if a user is logged in as Admin
-exports.isLoggedInAdmin = function () {
+exports.isLoggedInAdmin = function (objectrepository) {
 	return function (req, res, next) {
 		if (
 			typeof req.session.logedIn === "undefined" ||
@@ -22,6 +23,7 @@ exports.isLoggedInAdmin = function () {
 			typeof req.session.user.admin === "undefined" ||
 			req.session.user.admin === false
 		) {
+			devAUTOLogin(req, res, next, objectrepository);
 			req.session.loginwaring = res.locals.texts.loginWarning_MissingAdminPermission;
 			return res.redirect("/login");
 		}
@@ -34,7 +36,6 @@ exports.isLoggedInAdmin = function () {
 // Middleware to handle login
 exports.login = function (objectrepository) {
 	return async function (req, res, next) {
-		const UserDB = requireOption(objectrepository, "User");
 
 		if (typeof req.session.loginwaring !== "undefined" || req.session.loginwaring !== "") {
 			res.locals.warning = req.session.loginwaring;
@@ -44,32 +45,9 @@ exports.login = function (objectrepository) {
 			return next();
 		}
 
-		const { username, password } = req.body;
-
 		try {
-			const user = await UserDB.findOne({ username });
-
-			if (!user || !bcrypt.compareSync(password, user.password)) {
-				res.locals.error = res.locals.texts.loginWarning_InvalidUserOrPass;
-				return next();
-			}
-
-			// Store the user in the session
-			if (user.admin) {
-				console.log(`Administrator login: ${user.username} | ${new Date()}`);
-			} else {
-				console.log(`User login: ${user.username} | ${new Date()}`);
-			}
-
-			req.session.logedIn = true;
-			req.session.user = user;
-
-			req.session.save((err) => {
-				if (err) {
-					console.log(err);
-				}
-				res.redirect("/home");
-			});
+			await loginDB(req, res, next, objectrepository);
+			return;
 		} catch (err) {
 			console.error(err);
 			return next(err);
@@ -88,3 +66,45 @@ exports.logout = function () {
 		});
 	};
 };
+
+
+async function loginDB(req, res, next, objectrepository){
+	const UserDB = requireOption(objectrepository, "User");
+
+	const { username, password } = req.body;
+
+	const user = await UserDB.findOne({ username });
+
+			if (!user || !bcrypt.compareSync(password, user.password)) {
+				res.locals.error = res.locals.texts.loginWarning_InvalidUserOrPass;
+				return next();
+			}
+
+			// Store the user in the session
+			if (user.admin) {
+				console.log(`Administrator login: ${user.username} | ${new Date()}`);
+			} else {
+				console.log(`User login: ${user.username} | ${new Date()}`);
+			}
+
+			req.session.logedIn = true;
+			req.session.user = user;
+
+			await req.session.save();
+			res.redirect("/home");
+		}
+
+async function devAUTOLogin(req, res, next, objectrepository){
+	if(process.env.NODE_ENV === "development"){
+
+		req.body.username = process.env.AUTOLOGIN_NAME;
+		req.body.password = process.env.AUTOLOGIN_PASS;
+
+		try {
+			await loginDB(req, res, next, objectrepository);
+		} catch (err) {
+			console.error(err);
+			return next(err);
+		}
+	}
+}
