@@ -11,15 +11,15 @@ module.exports = function (objectrepository) {
 		if (typeof res.locals.user === "undefined") {
 			return next();
 		}
-			deviceDB
-				.find({ _id: res.locals.user.allDevices })
-				.then((devices) => {
-					res.locals.devices = calcOnlineAndTime(devices);
-					return next();
-				})
-				.catch((err) => {
-					return next(err);
-				});
+		deviceDB
+			.find({ _id: res.locals.user.allDevices })
+			.then((devices) => {
+				res.locals.devices = calcOnlineAndTime(devices);
+				return next();
+			})
+			.catch((err) => {
+				return next(err);
+			});
 	};
 };
 

@@ -4,17 +4,19 @@ module.exports = function (objectrepository) {
 	const viewCompsDB = requireOption(objectrepository, "ViewComponent");
 
 	return function (req, res, next) {
-        if(typeof res.locals.view === "undefined"){
-            return next();
-        }
-			viewCompsDB
-				.find().where('_id').in(res.locals.view.components)
-				.then((viewComponentsArray) => {
-					res.locals.viewComponents = viewComponentsArray;
-					return next();
-				})
-				.catch((err) => {
-					return next(err);
-				});
+		if (typeof res.locals.view === "undefined") {
+			return next();
+		}
+		viewCompsDB
+			.find()
+			.where("_id")
+			.in(res.locals.view.components)
+			.then((viewComponentsArray) => {
+				res.locals.viewComponents = viewComponentsArray;
+				return next();
+			})
+			.catch((err) => {
+				return next(err);
+			});
 	};
 };

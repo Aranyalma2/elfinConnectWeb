@@ -34,8 +34,11 @@ exports.isLoggedInAdmin = function (objectrepository) {
 // Middleware to handle login
 exports.login = function (objectrepository) {
 	return async function (req, res, next) {
-
-		if(process.env.NODE_ENV === "development" && process.env.AUTOLOGIN_NAME !== "undefined" && process.env.AUTOLOGIN_PASS !== "undefined"){
+		if (
+			process.env.NODE_ENV === "development" &&
+			process.env.AUTOLOGIN_NAME !== "undefined" &&
+			process.env.AUTOLOGIN_PASS !== "undefined"
+		) {
 			req.body.username = process.env.AUTOLOGIN_NAME;
 			req.body.password = process.env.AUTOLOGIN_PASS;
 			console.log("Autologin");
@@ -66,7 +69,7 @@ exports.logout = function () {
 			if (typeof err !== "undefined") {
 				console.log(err);
 			}
-			if(process.env.NODE_ENV === "development"){
+			if (process.env.NODE_ENV === "development") {
 				process.env.AUTOLOGIN_NAME = "undefined";
 				process.env.AUTOLOGIN_PASS = "undefined";
 			}
@@ -75,29 +78,28 @@ exports.logout = function () {
 	};
 };
 
-
-async function loginDB(req, res, next, objectrepository){
+async function loginDB(req, res, next, objectrepository) {
 	const UserDB = requireOption(objectrepository, "User");
 
 	const { username, password } = req.body;
 
 	const user = await UserDB.findOne({ username });
 
-			if (!user || !bcrypt.compareSync(password, user.password)) {
-				res.locals.error = res.locals.texts.loginWarning_InvalidUserOrPass;
-				return next();
-			}
+	if (!user || !bcrypt.compareSync(password, user.password)) {
+		res.locals.error = res.locals.texts.loginWarning_InvalidUserOrPass;
+		return next();
+	}
 
-			// Store the user in the session
-			if (user.admin) {
-				console.log(`Administrator login: ${user.username} | ${new Date()}`);
-			} else {
-				console.log(`User login: ${user.username} | ${new Date()}`);
-			}
+	// Store the user in the session
+	if (user.admin) {
+		console.log(`Administrator login: ${user.username} | ${new Date()}`);
+	} else {
+		console.log(`User login: ${user.username} | ${new Date()}`);
+	}
 
-			req.session.logedIn = true;
-			req.session.user = user;
+	req.session.logedIn = true;
+	req.session.user = user;
 
-			await req.session.save();
-			res.redirect("/home");
-		}
+	await req.session.save();
+	res.redirect("/home");
+}
