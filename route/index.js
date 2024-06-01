@@ -74,7 +74,7 @@ module.exports = function (app) {
 				app.use("/setup", getUsersMW(objRepo), setupMW(), registerUserMW(objRepo), renderMW("outAppViews/setup"));
 
 				app.use(
-					"/downloads/delete/:filename",
+					"/downloads/:filename/delete",
 					authMW.isLoggedInAdmin(objRepo),
 					deleteFileMW(objRepo),
 					getFilesMW(objRepo),

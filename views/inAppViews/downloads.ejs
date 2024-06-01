@@ -63,7 +63,7 @@
           </td>
           <% if (typeof user !=='undefined' && user.admin===true) { %>
           <td style="width: 20px; white-space: nowrap">
-            <a href="/downloads/delete/<%=apps[i].filename %>" class="btn btn-block btn-danger"><i class="bi bi-trash-fill"></i></a>
+            <a href="/downloads/<%=apps[i].filename %>/delete" class="btn btn-block btn-danger"><i class="bi bi-trash-fill"></i></a>
           </td>
           <%} %>
         </tr>
@@ -96,7 +96,7 @@
           <p class="card-text"><%= texts.Upload_time %>: <%= apps[i].uploadtime %></p>
           <p class="card-text"><%= texts.File_size %>: <%= apps[i].filesize %></p>
           <% if (typeof user !=='undefined' && user.admin===true) { %>
-          <a href="/downloads/delete/<%=apps[i].filename %>" class="btn btn-block btn-danger"><i class="bi bi-trash-fill"></i><%= texts.Delete %></a>
+          <a href="/downloads/<%=apps[i].filename %>/delete" class="btn btn-block btn-danger"><i class="bi bi-trash-fill"></i><%= texts.Delete %></a>
           <%} %>
         </div>
       </div>
