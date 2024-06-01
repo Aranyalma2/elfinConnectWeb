@@ -45,7 +45,7 @@ function renderButton(viewComponent) {
 
 	viewComponent.html = `<div class="viewControll-button">
                             <button id="${viewComponent._id}" class="btn btn-primary">${viewComponent.data.label}</button>
-                            <a hidden>${JSON.stringify(viewComponent.data)}</a>
+                            <a hidden>${JSON.stringify(viewComponent)}</a>
                         </div>`;
 }
 
@@ -66,7 +66,7 @@ function renderSwitch(viewComponent) {
                                 <input class="form-check-input" type="checkbox" role="switch" id="${viewComponent._id}">
                                 <label class="form-check-label" for="${viewComponent._id}">${viewComponent.data.label}</label>
                             </div>
-                            <a hidden>${JSON.stringify(viewComponent.data)}</a>
+                            <a hidden>${JSON.stringify(viewComponent)}</a>
                         </div>`;
 }
 

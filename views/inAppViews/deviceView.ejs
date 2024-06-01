@@ -41,17 +41,16 @@
 
     for (let i = 0; i < viewControll_ButtonElements.length; i++) {
       const button = viewControll_ButtonElements[i].querySelector('button');
-      const buttonId = button.id;
       const data = JSON.parse(viewControll_ButtonElements[i].querySelector('a').innerText);
       data['desatinationMAC'] = deviceMAC;
 
       button.addEventListener('click', function() {
-        sendRequest(buttonId, JSON.stringify(data));
+        sendRequest(JSON.stringify(data));
       });
     }
   }
 
-  function sendRequest(buttonId, data) {
+  function sendRequest(data) {
   // Send request to the server with the buttonId
   // You can use fetch or XMLHttpRequest to send the request
   // Example using fetch:
