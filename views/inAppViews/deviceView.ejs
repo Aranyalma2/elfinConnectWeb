@@ -1,0 +1,79 @@
+<%- include('frameTop') -%>
+
+<section>
+  <div class="row">
+    <div class="col">
+      <h2 class="mb-4"><%= device.hostName %></h2>
+    </div>
+    <div class="col text-end mb-4">
+      <a href="" class="btn btn-success"><i class="bi bi-pencil-square"></i> <%= texts.test %></a>
+      <a href="" class="btn btn-primary"><%= texts.test %></a>
+    </div>
+  </div>
+
+<div class="d-flex flex-row justify-content-start flex-wrap">
+  <% if (typeof viewComponents !=='undefined' ) { for (let i = 0; i < viewComponents.length; i++) { %>
+  <div class="card m-1" style="width: 200px; height: 200px;">
+    <div class="card-body d-flex justify-content-between">
+      <div>
+        <h5 class="card-title fw-bold"><%= viewComponents[i].name %></h5>
+        <p class="card-text"><%- viewComponents[i].html %></p>
+      </div>
+    </div>
+  </div>
+  <% }} %>
+  </div>
+
+
+</sections>
+
+
+<script>
+
+  //deviceMAC is a variable that contains the MAC address of the device
+  //It`s for optimization purposes, so database query is not needed for API requests functionalities
+  const deviceMAC = '<%= device.macAddress %>';
+
+  function addRequestListeners() {
+
+    const viewControll_ButtonElements = document.getElementsByClassName('viewControll-button');
+    const viewControll_SwitchElements = document.getElementsByClassName('viewControll-switch');
+
+    for (let i = 0; i < viewControll_ButtonElements.length; i++) {
+      const button = viewControll_ButtonElements[i].querySelector('button');
+      const buttonId = button.id;
+      const data = JSON.parse(viewControll_ButtonElements[i].querySelector('a').innerText);
+      data['desatinationMAC'] = deviceMAC;
+
+      button.addEventListener('click', function() {
+        sendRequest(buttonId, JSON.stringify(data));
+      });
+    }
+  }
+
+  function sendRequest(buttonId, data) {
+  // Send request to the server with the buttonId
+  // You can use fetch or XMLHttpRequest to send the request
+  // Example using fetch:
+  const postUTL = window.location.href + '/api';
+    fetch(postUTL, {
+        method: 'POST',
+        body: JSON.stringify({ data }),
+        headers: {
+        'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+    // Handle the response from the server
+    })
+    .catch(error => {
+    // Handle any errors that occur during the request
+    });
+  }
+
+  addRequestListeners();
+
+
+</script>
+
+<%- include('frameBottom') -%>

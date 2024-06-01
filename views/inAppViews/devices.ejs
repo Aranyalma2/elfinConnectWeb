@@ -19,6 +19,7 @@
           <th onclick="sortTable(1)"><%= texts.MAC_Address %></th>
           <th onclick="sortTable(2)"><%= texts.Status %></th>
           <th onclick="sortTable(3)"><%= texts.Last_Seen_Date %></th>
+          <th><%= texts.View %></th>
           <th><%= texts.Delete %></th>
         </tr>
       </thead>
@@ -36,7 +37,10 @@
           </td>
           <td><%= devices[i].lastSeenDate_converted %></td>
           <td style="width: 20px; white-space: nowrap">
-            <a href="/devices/delete/<%=devices[i]._id %>" class="btn btn-block btn-danger"><i class="bi bi-trash-fill"></i></a>
+            <a href="/devices/<%=devices[i]._id%>/view" class="btn btn-success"><i class="bi bi-window"></i></a>
+          </td>
+          <td style="width: 20px; white-space: nowrap">
+            <a href="/devices/<%=devices[i]._id %>/delete" class="btn btn-block btn-danger"><i class="bi bi-trash-fill"></i></a>
           </td>
         </tr>
         <% }} %>
@@ -64,8 +68,10 @@
       <div id="collapseInfo<%= i %>" class="collapse">
         <div class="card-body">
           <p class="card-text"><%= texts.MAC_Address %>: <%= devices[i].macAddress %></p>
-          <p class="card-text"><%= texts.Last_Seen_Date %>: <%= devices[i].lastSeenDate_converted %></p>
-          <a href="/devices/delete/<%=devices[i]._id %>" class="btn btn-danger"><i class="bi bi-trash-fill"></i> <%= texts.Delete %></a>
+          <div class="d-flex justify-content-between">
+            <a href="/devices/<%=devices[i]._id%>/view" class="btn btn-success"><i class="bi bi-window"></i> <%= texts.View %> </a>
+            <a href="/devices/<%=devices[i]._id%>/delete" class="btn btn-danger"><i class="bi bi-trash-fill"></i> <%= texts.Delete %> </a>
+          </div>
         </div>
       </div>
     </div>
