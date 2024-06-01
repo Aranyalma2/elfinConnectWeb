@@ -5,7 +5,6 @@ const requireOption = require("../requireOption");
 exports.isLoggedIn = function (objectrepository) {
 	return function (req, res, next) {
 		if (typeof req.session.logedIn === "undefined" || req.session.logedIn !== true) {
-			devAUTOLogin(req, res, next, objectrepository);
 			return res.redirect("/login");
 		}
 		//Loged in
@@ -23,7 +22,6 @@ exports.isLoggedInAdmin = function (objectrepository) {
 			typeof req.session.user.admin === "undefined" ||
 			req.session.user.admin === false
 		) {
-			devAUTOLogin(req, res, next, objectrepository);
 			req.session.loginwaring = res.locals.texts.loginWarning_MissingAdminPermission;
 			return res.redirect("/login");
 		}
@@ -36,6 +34,12 @@ exports.isLoggedInAdmin = function (objectrepository) {
 // Middleware to handle login
 exports.login = function (objectrepository) {
 	return async function (req, res, next) {
+
+		if(process.env.NODE_ENV === "development" && process.env.AUTOLOGIN_NAME !== "undefined" && process.env.AUTOLOGIN_PASS !== "undefined"){
+			req.body.username = process.env.AUTOLOGIN_NAME;
+			req.body.password = process.env.AUTOLOGIN_PASS;
+			console.log("Autologin");
+		}
 
 		if (typeof req.session.loginwaring !== "undefined" || req.session.loginwaring !== "") {
 			res.locals.warning = req.session.loginwaring;
@@ -61,6 +65,10 @@ exports.logout = function () {
 		req.session.destroy((err) => {
 			if (typeof err !== "undefined") {
 				console.log(err);
+			}
+			if(process.env.NODE_ENV === "development"){
+				process.env.AUTOLOGIN_NAME = "undefined";
+				process.env.AUTOLOGIN_PASS = "undefined";
 			}
 			res.redirect("/");
 		});
@@ -93,18 +101,3 @@ async function loginDB(req, res, next, objectrepository){
 			await req.session.save();
 			res.redirect("/home");
 		}
-
-async function devAUTOLogin(req, res, next, objectrepository){
-	if(process.env.NODE_ENV === "development"){
-
-		req.body.username = process.env.AUTOLOGIN_NAME;
-		req.body.password = process.env.AUTOLOGIN_PASS;
-
-		try {
-			await loginDB(req, res, next, objectrepository);
-		} catch (err) {
-			console.error(err);
-			return next(err);
-		}
-	}
-}
