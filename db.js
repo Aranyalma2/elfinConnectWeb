@@ -22,6 +22,7 @@ const deviceSchema = new mongoose.Schema({
 	hostName: String,
 	macAddress: String,
 	lastSeenDate: Date,
+	view: { type: mongoose.Schema.Types.ObjectId, ref: "View" },
 });
 
 const Device = mongoose.model("Device", deviceSchema);
@@ -37,10 +38,28 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
+const viewComponentSchema = new mongoose.Schema({
+	name: String,
+	type: String,
+	order: Number,
+	data: mongoose.Schema.Types.Mixed,
+});
+
+const ViewComponent = mongoose.model("ViewComponent", viewComponentSchema);
+
+const viewSchema = new mongoose.Schema({
+	components: [{ type: mongoose.Schema.Types.ObjectId, ref: "ViewComponent" }],
+});
+
+const View = mongoose.model("View", viewSchema);
+
+// Export the database connection and models
 module.exports = {
 	connectDB,
 	filesCollection: () => filesCollection,
 	gridfsBucket: () => gridfsBucket,
 	Device,
 	User,
+	View,
+	ViewComponent,
 };
