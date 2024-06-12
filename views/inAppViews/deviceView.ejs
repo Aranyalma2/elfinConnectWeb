@@ -42,7 +42,7 @@
     for (let i = 0; i < viewControll_ButtonElements.length; i++) {
       const button = viewControll_ButtonElements[i].querySelector('button');
       const data = JSON.parse(viewControll_ButtonElements[i].querySelector('a').innerText);
-      data['desatinationMAC'] = deviceMAC;
+      data['destinationMAC'] = deviceMAC;
 
       button.addEventListener('click', function() {
         sendRequest(JSON.stringify(data));
