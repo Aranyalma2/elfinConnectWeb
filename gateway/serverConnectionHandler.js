@@ -10,8 +10,10 @@ const activeTCPConnections = new Map();
 async function createConnection(userID, devicemac) {
 	const existingConnectionSet = activeTCPConnections.get(getDeviceKey(userID, devicemac)) || null;
 	if (existingConnectionSet) {
+		console.log("Reusing existing connection");
 		return existingConnectionSet.modbusClient;
 	} else {
+		console.log("Creating new connection");
 		return new Promise((resolve, reject) => {
 			const clientSocket = new Socket();
 
@@ -25,7 +27,7 @@ async function createConnection(userID, devicemac) {
 				clientSocket.write(`connme;${userID};${devicemac};1`, () => {
 					clientSocket.once("data", (data) => {
 						if (JSON.parse(data.toString()).status !== "success") {
-							reject("Connection failed: " + JSON.parse(data.toString()).status);
+							reject("Connection failed: " + JSON.parse(data.toString()).reason);
 						}
 
 						//data;userID;PLACEHOLDER;PLACEHOLDER;PRIORITY;
@@ -40,7 +42,13 @@ async function createConnection(userID, devicemac) {
 			});
 			clientSocket.on("error", (err) => {
 				console.log("Socket error", err);
+				removeConnection(userID, devicemac)
 				reject(err);
+			});
+
+			clientSocket.on("close", () => {
+				console.log("Socket closed");
+				removeConnection(userID, devicemac);
 			});
 		});
 	}
@@ -64,6 +72,11 @@ function getModbusClient(userID, deviceID) {
 	return (connection = createConnection(userID, deviceID));
 }
 
+function closeConnection(userID, deviceID) {
+	removeConnection(userID, deviceID);
+}
+
 module.exports = {
 	getModbusClient,
+	closeConnection,
 };

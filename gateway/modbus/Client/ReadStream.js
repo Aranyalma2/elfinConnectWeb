@@ -18,7 +18,7 @@ ReadStream.prototype._transform = function (chunk, encoding, next) {
 		return;
 	}
 	if (typeof chunk == "string") {
-		chunk = new Buffer.alloc(chunk, "binary");
+		chunk = Buffer.from(chunk, "binary");
 	} else if (!Buffer.isBuffer(chunk)) {
 		this.emit("error", new Error("Unsupported data mode"));
 	}
@@ -84,7 +84,7 @@ ReadStream.prototype._transform = function (chunk, encoding, next) {
 					pkg.items = [];
 
 					for (let i = 0; i < cnt; i++) {
-						pkg.items.push(new Buffer.alloc([data[i * 2 + 1], data[i * 2 + 2]]));
+						pkg.items.push(Buffer.from([data[i * 2 + 1], data[i * 2 + 2]]));
 					}
 					break;
 				}
@@ -94,7 +94,7 @@ ReadStream.prototype._transform = function (chunk, encoding, next) {
 					pkg.items = [];
 
 					for (let i = 0; i < cnt; i++) {
-						pkg.items.push(new Buffer.alloc([data[i * 2 + 1], data[i * 2 + 2]]));
+						pkg.items.push(Buffer.from([data[i * 2 + 1], data[i * 2 + 2]]));
 					}
 					break;
 				}
@@ -104,7 +104,7 @@ ReadStream.prototype._transform = function (chunk, encoding, next) {
 					break;
 				case "WRITE_SINGLE_REGISTER":
 					pkg.address = data.readUInt16BE(0);
-					pkg.value = new Buffer.alloc([data[2], data[3]]);
+					pkg.value = Buffer.from([data[2], data[3]]);
 					break;
 				case "WRITE_MULTIPLE_COILS":
 					pkg.from = data.readUInt16BE(0);

@@ -1,12 +1,13 @@
 {
 	"name": "elfinconnectweb",
-	"version": "0.1.69 (beta)",
+	"version": "0.2.7.dev",
 	"description": "Elfin Connect service Web UI",
 	"main": "index.js",
 	"scripts": {
 		"start": "node --env-file=prod.env index.js",
 		"start:dev": "node --env-file=dev.env index.js",
-		"test": "nyc --reporter=html --reporter=text mocha --config=test/.mocharc.json --node-env=test --exit"
+		"test": "nyc --reporter=html --reporter=text mocha --config=test/.mocharc.json --node-env=test --exit",
+		"format": "prettier --write route middleware"
 	},
 	"repository": {
 		"type": "git",
