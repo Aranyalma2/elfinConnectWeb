@@ -34,11 +34,7 @@ exports.isLoggedInAdmin = function (objectrepository) {
 // Middleware to handle login
 exports.login = function (objectrepository) {
 	return async function (req, res, next) {
-		if (
-			process.env.NODE_ENV === "development" &&
-			process.env.AUTOLOGIN_NAME !== "undefined" &&
-			process.env.AUTOLOGIN_PASS !== "undefined"
-		) {
+		if (process.env.NODE_ENV === "development" && process.env.AUTOLOGIN_NAME !== "undefined" && process.env.AUTOLOGIN_PASS !== "undefined") {
 			req.body.username = process.env.AUTOLOGIN_NAME;
 			req.body.password = process.env.AUTOLOGIN_PASS;
 			console.log("Autologin");

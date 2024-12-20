@@ -10,10 +10,7 @@ module.exports = function (objectrepository) {
 	const DeviceDB = requireOption(objectrepository, "Device");
 
 	return function (req, res, next) {
-		UserDB.findOneAndUpdate(
-			{ _id: { $eq: req.session.user._id } },
-			{ $pull: { allDevices: req.params.deviceid } },
-		).catch((err) => {
+		UserDB.findOneAndUpdate({ _id: { $eq: req.session.user._id } }, { $pull: { allDevices: req.params.deviceid } }).catch((err) => {
 			return next(err);
 		});
 
