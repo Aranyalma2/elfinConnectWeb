@@ -31,18 +31,6 @@ module.exports = function () {
 };
 
 function renderButton(viewComponent) {
-	/* data structure of viewComponent.data
-    {
-        "label": "Button label",
-        "holdTime": 1000, // hold time in milliseconds, for example "1000
-        "modbus": {
-            "slaveId": 1, // the slave id of the modbus device, for example "1
-            "address": 1, // address of the coil
-            "functionCode": 5 // 5 is for writing single coil
-        }
-    }
-    */
-
 	viewComponent.html = `<div class="viewControll-button">
                             <button id="${viewComponent._id}" class="btn btn-primary">${viewComponent.data.label}</button>
                             <a hidden>${JSON.stringify(viewComponent)}</a>
@@ -50,17 +38,6 @@ function renderButton(viewComponent) {
 }
 
 function renderSwitch(viewComponent) {
-	/* data structure of viewComponent.data
-    {
-        "label": "Switch label",
-        "modbus": {
-            "slaveId": 1, // the slave id of the modbus device, for example "1
-            "address": 1, // address of the coil
-            "functionCode": 5 // 5 is for writing single coil
-        }
-    }
-    */
-
 	viewComponent.html = `<div class="viewControll-switch">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" role="switch" id="${viewComponent._id}">
@@ -71,13 +48,30 @@ function renderSwitch(viewComponent) {
 }
 
 function renderLamp(viewComponent) {
-	viewComponent.html = `<div id="${viewComponent._id}" class="lamp"></div>`;
+	viewComponent.html = `<div class="viewControll-lamp">
+							<div id="${viewComponent._id}"></div>
+							<a hidden>${JSON.stringify(viewComponent)}</a>
+						  </div>`;
 }
 
 function renderNumInput(viewComponent) {
-	viewComponent.html = `<input id="${viewComponent._id}" type="number" class="form-control" placeholder="${viewComponent.name}">`;
+	viewComponent.html = `<div class="viewControll-numberinput">
+							<input id="${viewComponent._id}" type="number" class="form-control" placeholder="${viewComponent.name}">
+							<a hidden>${JSON.stringify(viewComponent)}</a>
+						  </div>`;
 }
 
 function renderNumDisplay(viewComponent) {
-	viewComponent.html = `<h1 id="${viewComponent._id}" class="display-1">0</h1>`;
+	viewComponent.html = `<div class="viewControll-numberdisplay ">
+							<div class="d-flex flex-row">
+								<div>
+									<h1 id="${viewComponent._id}">0</h1>
+								</div>
+								<div>
+									${viewComponent.suffix ? `<h1>${viewComponent.suffix}</h1>` : ""}
+								</div>
+							</div>
+							<a hidden>${JSON.stringify(viewComponent)}</a>
+							<div class="error text-danger"></div>
+						  </div>`;
 }

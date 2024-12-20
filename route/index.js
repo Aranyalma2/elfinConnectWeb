@@ -34,28 +34,18 @@ module.exports = function (app) {
 			};
 
 			try {
-				app.use(
-					"/devices/:deviceid/delete",
-					authMW.isLoggedIn(),
-					delDeviceMW(objRepo),
-					getDevicesMW(objRepo),
-					renderMW("inAppViews/devices"),
-				);
+				app.use("/devices/:deviceid/delete", authMW.isLoggedIn(), delDeviceMW(objRepo), getDevicesMW(objRepo), renderMW("inAppViews/devices"));
 
-				app.post(
-					"/devices/:deviceid/view/api",
-					authMW.isLoggedIn(objRepo),
-					getDeviceMW(objRepo),
-					viewTaskRunnerMW(),
-				);
-
+				app.post("/devices/:deviceid/view/api", authMW.isLoggedIn(objRepo), getDeviceMW(objRepo), viewTaskRunnerMW(), viewQueryJsonBuilderMW());
+				/*
 				app.get(
 					"/devices/:deviceid/view/api",
 					authMW.isLoggedIn(objRepo),
 					getDeviceMW(objRepo),
+					viewTaskRunnerMW(),
 					viewQueryJsonBuilderMW(),
 				);
-
+*/
 				app.use(
 					"/devices/:deviceid/view",
 					authMW.isLoggedIn(objRepo),
@@ -68,12 +58,7 @@ module.exports = function (app) {
 
 				app.use("/devices", authMW.isLoggedIn(objRepo), getDevicesMW(objRepo), renderMW("inAppViews/devices"));
 
-				app.post(
-					"/user/changepassword",
-					authMW.isLoggedIn(objRepo),
-					changePassMW(objRepo),
-					renderMW("inAppViews/user"),
-				);
+				app.post("/user/changepassword", authMW.isLoggedIn(objRepo), changePassMW(objRepo), renderMW("inAppViews/user"));
 
 				app.use("/user", authMW.isLoggedIn(objRepo), getUserAttributesMW(objRepo), renderMW("inAppViews/user"));
 
@@ -83,28 +68,11 @@ module.exports = function (app) {
 
 				app.get("/register", authMW.isLoggedInAdmin(objRepo), renderMW("inAppViews/register"));
 
-				app.post(
-					"/register",
-					authMW.isLoggedInAdmin(objRepo),
-					registerUserMW(objRepo),
-					renderMW("inAppViews/register"),
-				);
+				app.post("/register", authMW.isLoggedInAdmin(objRepo), registerUserMW(objRepo), renderMW("inAppViews/register"));
 
-				app.use(
-					"/home",
-					authMW.isLoggedIn(objRepo),
-					getDevicesMW(objRepo),
-					getDeviceStateStatMW(),
-					renderMW("inAppViews/home"),
-				);
+				app.use("/home", authMW.isLoggedIn(objRepo), getDevicesMW(objRepo), getDeviceStateStatMW(), renderMW("inAppViews/home"));
 
-				app.use(
-					"/setup",
-					getUsersMW(objRepo),
-					setupMW(),
-					registerUserMW(objRepo),
-					renderMW("outAppViews/setup"),
-				);
+				app.use("/setup", getUsersMW(objRepo), setupMW(), registerUserMW(objRepo), renderMW("outAppViews/setup"));
 
 				app.use(
 					"/downloads/:filename/delete",
@@ -116,12 +84,7 @@ module.exports = function (app) {
 
 				app.use("/downloads/:filename", authMW.isLoggedIn(objRepo), getFileMW(objRepo));
 
-				app.use(
-					"/downloads",
-					authMW.isLoggedIn(objRepo),
-					getFilesMW(objRepo),
-					renderMW("inAppViews/downloads"),
-				);
+				app.use("/downloads", authMW.isLoggedIn(objRepo), getFilesMW(objRepo), renderMW("inAppViews/downloads"));
 
 				app.post(
 					"/upload",

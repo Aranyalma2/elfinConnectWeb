@@ -4,7 +4,7 @@ module.exports = function (objectrepository) {
 	const viewCompsDB = requireOption(objectrepository, "ViewComponent");
 
 	return function (req, res, next) {
-		if (typeof res.locals.view === "undefined") {
+		if (res.locals.view === undefined || res.locals.view === null) {
 			return next();
 		}
 		viewCompsDB
