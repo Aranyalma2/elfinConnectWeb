@@ -8,7 +8,7 @@ module.exports = function (objectrepository) {
 			return next();
 		}
 		viewDB
-			.findOne({ _id: res.locals.device.view })
+			.findById(res.locals.device.view)
 			.then((view) => {
 				res.locals.view = view;
 				return next();

@@ -43,13 +43,12 @@ const viewComponentSchema = new mongoose.Schema({
 	type: String,
 	order: Number,
 	data: mongoose.Schema.Types.Mixed,
-	suffix: String,
 });
 
 const ViewComponent = mongoose.model("ViewComponent", viewComponentSchema);
 
 const viewSchema = new mongoose.Schema({
-	components: [{ type: mongoose.Schema.Types.ObjectId, ref: "ViewComponent" }],
+	components: [viewComponentSchema],
 });
 
 const View = mongoose.model("View", viewSchema);

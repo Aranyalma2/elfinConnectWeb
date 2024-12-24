@@ -19,8 +19,14 @@ module.exports = function () {
 						client.readCoils(deviceAddress, registerAddress, registerAddress, function (err, coils) {
 							console.log("Read coils:", coils);
 							console.log("Read error:", err);
-							res.locals.data = coils[0].readUInt16BE();
-							res.locals.component = component;
+							if (err) {
+								res.locals.error = err;
+								return next();
+							}
+							if (coils.length > 0) {
+								res.locals.component = component;
+								res.locals.data = coils[0];
+							}
 							return next();
 						});
 						break;
@@ -29,15 +35,42 @@ module.exports = function () {
 							console.log("Read discrete inputs:", discreteInputs);
 							console.log("Read error:", err);
 							if (err) {
-								return next(err);
+								res.locals.error = err;
+								return next();
 							}
-							res.locals.data = discreteInputs[0].readUInt16BE();
-							res.locals.component = component;
+							if (discreteInputs.length > 0) {
+								res.locals.component = component;
+								res.locals.data = discreteInputs[0].readUInt8();
+							}
 							return next();
 						});
 						break;
 					case 3:
 						client.readHoldingRegisters(deviceAddress, registerAddress, registerAddress, function (err, registers) {
+							console.log("Read registers:", registers);
+							console.log("Read error:", err);
+							if (err) {
+								res.locals.error = err;
+								return next();
+							}
+							if (registers.length > 0) {
+								res.locals.component = component;
+								switch (component.data.modbus.dataType) {
+									case "signed":
+										res.locals.data = registers[0].readInt16BE();
+										break;
+									case "unsigned":
+										res.locals.data = registers[0].readUInt16BE();
+										break;
+									default:
+										res.locals.data = registers[0].readUInt16BE();
+								}
+							}
+							return next();
+						});
+						break;
+					case 4:
+						client.readInputRegisters(deviceAddress, registerAddress, registerAddress, function (err, registers) {
 							console.log("Read registers:", registers);
 							console.log("Read error:", err);
 							if (err) {
@@ -60,25 +93,13 @@ module.exports = function () {
 							return next();
 						});
 						break;
-					case 4:
-						client.readInputRegisters(deviceAddress, registerAddress, registerAddress, function (err, registers) {
-							console.log("Read registers:", registers);
-							console.log("Read error:", err);
-							if (err) {
-								res.locals.error = err;
-								return next();
-							}
-							res.locals.data = registers[0].readUInt16BE();
-							res.locals.component = component;
-							return next();
-						});
-						break;
 					case 5:
 						client.writeSingleCoil(deviceAddress, component.data, function (err, coils) {
 							console.log("Write coils:", coils);
 							console.log("Write error:", err);
 							if (err) {
-								return next(err);
+								res.locals.error = err;
+								return next();
 							}
 						});
 						break;
@@ -87,7 +108,8 @@ module.exports = function () {
 							console.log("Write registers:", registers);
 							console.log("Write error:", err);
 							if (err) {
-								return next(err);
+								res.locals.error = err;
+								return next();
 							}
 						});
 						break;

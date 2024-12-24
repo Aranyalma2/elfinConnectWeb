@@ -1,9 +1,11 @@
 module.exports = function () {
 	return function (req, res, next) {
-		let viewComponents = res.locals.viewComponents;
-		if (typeof viewComponents === "undefined") {
+		if (res.locals.view === undefined || res.locals.view === null || res.locals.view.components === undefined || res.locals.view.components === null) {
 			return next();
 		}
+		console.log(res.locals.view);
+		let viewComponents = res.locals.view.components;
+
 		viewComponents.sort((a, b) => a.order - b.order);
 
 		viewComponents.forEach((viewComponent) => {
@@ -25,7 +27,8 @@ module.exports = function () {
 					break;
 			}
 		});
-
+		console.log(viewComponents);
+		res.locals.viewComponents = viewComponents;
 		return next();
 	};
 };
@@ -51,6 +54,7 @@ function renderLamp(viewComponent) {
 	viewComponent.html = `<div class="viewControll-lamp">
 							<div id="${viewComponent._id}"></div>
 							<a hidden>${JSON.stringify(viewComponent)}</a>
+							<div class="error text-danger"></div>
 						  </div>`;
 }
 

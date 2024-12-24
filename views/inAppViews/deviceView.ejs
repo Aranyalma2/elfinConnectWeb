@@ -3,121 +3,354 @@
 <section>
   <div class="row">
     <div class="col">
-      <h2 class="mb-4"><%= device.hostName %></h2>
+      <h2 class="mb-4"><%= device?.hostName || 'Device Name' %></h2>
     </div>
+
     <div class="col text-end mb-4">
-      <a href="" class="btn btn-success"><i class="bi bi-pencil-square"></i> <%= texts.test %></a>
-      <a href="" class="btn btn-primary"><%= texts.test %></a>
+      <button id="editModeToggle" class="btn btn-success">
+        <i class="bi bi-pencil-square"></i> <%= texts?.editMode || 'Edit Mode' %>
+      </button>
+      <a href="#" class="btn btn-primary"><%= texts?.test || 'Test' %></a>
     </div>
   </div>
 
-  <div class="d-flex flex-row justify-content-start flex-wrap">
-    <% if (typeof viewComponents !=='undefined' ) { for (let i = 0; i < viewComponents.length; i++) { %>
-    <div class="card m-1" style="width: 200px; height: 200px;">
-      <div class="card-body d-flex justify-content-between">
-        <div>
-          <h5 class="card-title fw-bold"><%= viewComponents[i].name %></h5>
-          <p class="card-text"><%- viewComponents[i].html %></p>
+  <div class="modal" id="editComponentModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><%= texts?.Edit_Component || 'Edit Component' %></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editComponentForm">
+            <!-- Name Input -->
+            <div class="mb-3">
+              <label for="componentName" class="form-label">Name</label>
+              <input type="text" class="form-control" id="componentName" name="name" placeholder="Enter component name" required>
+            </div>
+
+            <!-- Type Dropdown -->
+            <div class="mb-3">
+              <label for="componentType" class="form-label">Type</label>
+              <select class="form-select" id="componentType" name="type" required>
+                <option value="button">Button</option>
+                <option value="lamp">Lamp</option>
+                <option value="number-display">Number Display</option>
+                <option value="number-input">Number Input</option>
+              </select>
+            </div>
+
+            <!-- Modbus Group -->
+            <fieldset class="border p-3 rounded">
+              <legend class="float-none w-auto px-3">Modbus</legend>
+
+              <!-- Device Address -->
+              <div class="mb-3">
+                <label for="deviceAddress" class="form-label">Device Address</label>
+                <input type="number" class="form-control" id="deviceAddress" name="modbusDeviceAddress" min="0" max="255" placeholder="0-255" required>
+              </div>
+
+              <!-- Register Address -->
+              <div class="mb-3">
+                <label for="registerAddress" class="form-label">Register Address</label>
+                <input type="number" class="form-control" id="registerAddress" name="modbusRegisterAddress" min="0" max="65535" placeholder="0-65535" required>
+              </div>
+            </fieldset>
+
+            <!-- Save Button -->
+            <div class="mt-3">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-    <% }} %>
   </div>
 
+  <div id="cardContainer" class="d-flex flex-row justify-content-start flex-wrap p-1">
+    <!-- Dynamic Cards will be rendered here -->
+  </div>
+</section>
 
-  </sections>
+<script>
+  //Initial components array
+  let components = [];
+  //Add components to the array
+  <% if (Array.isArray(viewComponents)) { %>
+  <% viewComponents.forEach(component => { %>
+  components.push({
+    id: '<%- component.id %>',
+    name: '<%- component.name %>',
+    type: '<%- component.type %>',
+    order: <%- component.order %>,
+    data: <%- JSON.stringify(component.data) %>,
+    html: `<%- component.html %>`,
+  });
+  <% }); %>
+  <% } %>
 
+  //The runtime layout rendering function
+  function renderComponents() {
 
-  <script>
-    //deviceMAC is a variable that contains the MAC address of the device
-    //It`s for optimization purposes, so database query is not needed for API requests functionalities
-    const deviceMAC = '<%= device.macAddress %>';
+    console.log(components);
 
-    function addActiveRequestListeners() {
+    const cardContainer = document.getElementById('cardContainer');
+    cardContainer.innerHTML = '';
 
-      const viewControll_ButtonElements = document.getElementsByClassName('viewControll-button');
-      const viewControll_SwitchElements = document.getElementsByClassName('viewControll-switch');
+    // Sort components by order
+    components.sort((a, b) => a.order - b.order);
 
-      for (let i = 0; i < viewControll_ButtonElements.length; i++) {
-        const button = viewControll_ButtonElements[i].querySelector('button');
-        const data = JSON.parse(viewControll_ButtonElements[i].querySelector('a').innerText);
-        data['destinationMAC'] = deviceMAC;
+    // Render each component as a card
+    components.forEach((component) => {
+      const card = createCard(component);
+      cardContainer.appendChild(card);
+    });
 
-        button.addEventListener('click', function() {
-          sendRequest(data);
-        });
+    // Add "Add New" card button
+    const newCard = document.createElement('div');
+    newCard.id = 'addNewCard';
+    newCard.className = 'card m-1 border-dashed text-center d-none';
+    newCard.style.width = '200px';
+    newCard.style.height = '150px';
+    newCard.innerHTML = `
+      <div class="card-body d-flex justify-content-center align-items-center">
+        <span class="text-muted">+ Add New</span>
+      </div>
+    `;
+    cardContainer.appendChild(newCard);
+  }
+
+  function createCard(component) {
+    const card = document.createElement('div');
+    card.dataset.id = `card-${component.id}`;
+    card.className = 'card m-1';
+    card.style.width = '200px';
+    card.style.height = '150px';
+    card.dataset.order = component.order;
+
+    card.innerHTML = `
+        <div class="card-body">
+          <div class="card-title d-flex justify-content-between">
+            <button class="edit-card-btn btn d-none" data-bs-toggle="modal" data-bs-target="#editComponentModal" title="Edit"><i class="bi bi-pencil btn-secondary"></i></button>
+            <button class="delete-card-btn btn-close d-none" title="Delete"></button>
+          </div>
+          <div class="card-title d-flex justify-content-between">
+            <h5 class="fw-bold">${component.name}</h5>
+          </div>
+          <div class="card-text d-flex justify-content-center">${component.html}</div>
+        </div>
+      `;
+    return card;
+  }
+
+  // Initial render of components
+  renderComponents();
+</script>
+
+<script>
+  //EDIT MODE, DELETE, ADD NEW CARD, DRAG AND DROP FUNCTIONALITY
+  //It will edit the components array but never re-render the components
+  let isEditMode = false;
+
+  // Toggle edit mode
+  // Toggle edit mode
+  document.getElementById('editModeToggle').addEventListener('click', function() {
+    isEditMode = !isEditMode;
+
+    const deleteButtons = document.querySelectorAll('.delete-card-btn');
+    const addNewCard = document.getElementById('addNewCard');
+    const editModeToggleButton = document.getElementById('editModeToggle');
+
+    // Update button text based on edit mode state
+    editModeToggleButton.innerHTML = `
+      <i class="bi ${isEditMode ? 'bi-save' : 'bi-pencil-square'}"></i> 
+      ${isEditMode ? '<%= texts?.save || "Save" %>' : '<%= texts?.editMode || "Edit Mode" %>'}
+    `;
+
+    // Show/Hide draft card
+    addNewCard.classList.toggle('d-none', !isEditMode);
+
+    // Highlight cards in edit mode
+    const cards = document.querySelectorAll('#cardContainer .card:not(#addNewCard)');
+    cards.forEach((card) => {
+      setEditModeOnCard(card, isEditMode);
+    });
+
+    // Enable/disable drag-and-drop for reordering
+    toggleDragAndDrop(isEditMode);
+  });
+
+  //Edit card functionality
+  document.getElementById('editComponentModal').addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget;
+    const selectedComponentId = button.parentNode.parentNode.parentNode.dataset.id.replace('card-', '');
+    const selectedComponent = components.find((component) => component.id === selectedComponentId);
+
+    const modalTitle = selectedComponent.querySelector('.modal-title');
+    modalTitle.textContent = `Edit ${selectedComponent.name}`;
+
+  });
+
+  document.getElementById('editComponentForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const componentName = document.getElementById('componentName').value;
+    const componentType = document.getElementById('componentType').value;
+    const deviceAddress = document.getElementById('deviceAddress').value;
+    const registerAddress = document.getElementById('registerAddress').value;
+
+    // Perform your custom logic here
+    console.log({
+      name: componentName,
+      type: componentType,
+      modbus: {
+        deviceAddress: parseInt(deviceAddress, 10),
+        registerAddress: parseInt(registerAddress, 10),
       }
+    });
+  });
+
+
+  // Delete card functionality
+  document.getElementById('cardContainer').addEventListener('click', function(event) {
+    if (event.target.classList.contains('delete-card-btn')) {
+      const card = event.target.closest('.card');
+      const selectedComponentId = card.dataset.id.replace('card-', '');
+      components = components.filter((component) => component.id !== selectedComponentId);
+      card.remove();
+    }
+  });
+
+  // Add new card functionality
+  document.getElementById('addNewCard').addEventListener('click', function() {
+    if (!isEditMode) return;
+
+    const newCardData = {
+      id: `id_${Date.now()}`,
+      name: 'New Component',
+      html: '<div>New Content</div>',
+      order: components.length,
+    };
+
+    const newCard = createCard(newCardData);
+    setEditModeOnCard(newCard, true);
+
+    const container = document.getElementById('cardContainer');
+
+    container.insertBefore(newCard, container.lastElementChild);
+
+    components.push(newCard);
+    //renderComponents();
+  });
+
+  // Function to enable/disable edit mode on a card
+  function setEditModeOnCard(card, isEditMode) {
+    //Disable/Enable input fields and buttons
+    const inputsAndButtons = card.querySelectorAll('button, input, a');
+    inputsAndButtons.forEach((element) => {
+      element.disabled = isEditMode;
+    });
+
+    //Show or hide delete and edit button
+    const deleteButton = card.querySelector('.delete-card-btn');
+    deleteButton.classList.toggle('d-none', !isEditMode);
+    deleteButton.disabled = !isEditMode;
+    const editButton = card.querySelector('.edit-card-btn');
+    editButton.classList.toggle('d-none', !isEditMode);
+    editButton.disabled = !isEditMode;
+
+    //Show or hide highlight border
+    if (isEditMode) {
+      card.style.border = '2px dashed #007bff';
+      card.style.cursor = 'move';
+    } else {
+      card.style.border = '';
+      card.style.cursor = '';
+    }
+  }
+
+  // Drag-and-drop reordering
+  function toggleDragAndDrop(enable) {
+    const container = document.getElementById('cardContainer');
+    if (enable) {
+      container.addEventListener('dragstart', handleDragStart);
+      container.addEventListener('dragover', handleDragOver);
+      container.addEventListener('drop', handleDrop);
+    } else {
+      container.removeEventListener('dragstart', handleDragStart);
+      container.removeEventListener('dragover', handleDragOver);
+      container.removeEventListener('drop', handleDrop);
     }
 
-    async function passiveRequestRunner() {
-      const viewControll_LampElements = document.getElementsByClassName('viewControll-lamp');
-      const viewControll_NumberDisplayElements = document.getElementsByClassName('viewControll-numberdisplay');
+    const cards = container.querySelectorAll('.card:not(#addNewCard)');
+    cards.forEach((card) => {
+      card.setAttribute('draggable', enable);
+    });
+  }
 
-      const elements = [...viewControll_LampElements, ...viewControll_NumberDisplayElements];
+  let draggedCard = null;
+  let dragStartIndex = null;
+  let lastDragOverIndex = null
 
-      for (let i = 0; i < elements.length; i++) {
-        try {
-          // Extract data and add the destinationMAC field
-          const data = JSON.parse(elements[i].querySelector('a').innerText);
-          data['destinationMAC'] = deviceMAC;
+  function handleDragStart(event) {
+    draggedCard = event.target;
+    dragStartIndex = Array.from(draggedCard.parentNode.children).indexOf(draggedCard);
+    lastDragOverIndex = dragStartIndex;
+    draggedCard.style.opacity = 0.5;
+  }
 
-          // Wait for the server's response
-          const response = await sendRequest(data);
-          
-          if (response) {
-            if(response.error){
-              console.error(`Error processing element ${i}:`, response.error);
-              //find the error element
-              elements[i].querySelector('.error').innerHTML = response.error;
-              continue;
-            }
-            else {
-              //remove error message if exists
-              const errorElement = elements[i].querySelector('.error');
-              if(errorElement){
-                errorElement.innerHTML = '';
-              }
-            }
-            // Update the corresponding HTML element
-            const htmlElement = document.getElementById(response.id);
-            if (htmlElement) {
-              htmlElement.innerHTML = response.data;
-            }
-          }
-        } catch (error) {
-          console.error(`Error processing element ${i}:`, error);
+  function handleDragOver(event) {
+    event.preventDefault();
+    const target = event.target.closest('.card');
+    const dragOverIndex = Array.from(event.target.closest('#cardContainer').children).indexOf(
+      event.target.closest('.card')
+    );
+
+    if (dragOverIndex == -1) return;
+
+    if (target && target !== draggedCard) {
+      //Some times it can be buggy
+      const container = document.getElementById('cardContainer');
+      if (dragStartIndex > dragOverIndex) {
+        container.insertBefore(draggedCard, target);
+      } else if (dragStartIndex < dragOverIndex) {
+        container.insertBefore(draggedCard, target.nextSibling);
+      } else {
+        if (dragOverIndex > lastDragOverIndex) {
+          container.insertBefore(draggedCard, target.nextSibling);
+        } else {
+          container.insertBefore(draggedCard, target);
         }
       }
     }
 
-    async function sendRequest(data) {
-      const postURL = `${window.location.href}/api`;
+    lastDragOverIndex = dragOverIndex == lastDragOverIndex ? lastDragOverIndex : dragOverIndex;
+  }
 
-      try {
-        const response = await fetch(postURL, {
-          method: 'POST',
-          body: JSON.stringify({ data }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+  function handleDrop(event) {
+    event.preventDefault();
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    const dragEndIndex = Array.from(event.target.closest('#cardContainer').children).indexOf(
+      event.target.closest('.card')
+    );
 
-        return await response.json(); // Parse and return JSON response
-      } catch (error) {
-        console.error('Error during fetch:', error);
-        return null; // Return null on error to handle gracefully
-      }
+    if (dragStartIndex !== null && dragEndIndex !== null && draggedCard) {
+      // Reorder the components array
+      const draggedComponent = components.splice(dragStartIndex, 1)[0];
+      components.splice(dragEndIndex, 0, draggedComponent);
+
+      // Update order attribute
+      components.forEach((component, index) => {
+        component.order = index;
+      });
     }
 
-    addActiveRequestListeners();
+    draggedCard.style.opacity = '';
+    draggedCard = null;
+    dragStartIndex = null;
+  }
+</script>
 
-    passiveRequestRunner();
 
-    setInterval(passiveRequestRunner, 5000);
-  </script>
 
-  <%- include('frameBottom') -%>
+<%- include('frameBottom') -%>
