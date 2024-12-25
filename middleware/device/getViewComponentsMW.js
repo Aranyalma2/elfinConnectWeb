@@ -7,16 +7,7 @@ module.exports = function (objectrepository) {
 		if (res.locals.view === undefined || res.locals.view === null ||res.locals.view.components === undefined || res.locals.view.components === null) {
 			return next();
 		}
-		viewCompsDB
-			.find()
-			.where("_id")
-			.in(res.locals.view.components)
-			.then((viewComponentsArray) => {
-				res.locals.viewComponents = viewComponentsArray;
-				return next();
-			})
-			.catch((err) => {
-				return next(err);
-			});
+		res.locals.viewComponents = res.locals.view.components;
+		return next();
 	};
 };

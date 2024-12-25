@@ -17,7 +17,6 @@ const deleteFileMW = require("../middleware/files/deleteFileMW");
 const getViewMW = require("../middleware/device/getViewMW");
 const updateViewMW = require("../middleware/device/updateViewMW");
 const getViewComponentsMW = require("../middleware/device/getViewComponentsMW");
-const viewComponentPrerendererMW = require("../middleware/device/viewComponentPrerendererMW");
 const viewQueryJsonBuilderMW = require("../middleware/device/viewQueryJsonBuilderMW");
 const viewTaskRunnerMW = require("../middleware/device/viewTaskRunnerMW");
 
@@ -39,7 +38,7 @@ module.exports = function (app) {
 
 				app.post("/devices/:deviceid/view/api", authMW.isLoggedIn(objRepo), getDeviceMW(objRepo), viewTaskRunnerMW(), viewQueryJsonBuilderMW());
 
-				app.post("/devices/:deviceid/view/update", authMW.isLoggedIn(objRepo), getDeviceMW(objRepo), updateViewMW(objRepo), renderMW("inAppViews/deviceView"));
+				app.post("/devices/:deviceid/view", authMW.isLoggedIn(objRepo), getDeviceMW(objRepo), updateViewMW(objRepo), renderMW("inAppViews/deviceView"));
 
 				app.get(
 					"/devices/:deviceid/view",
@@ -47,7 +46,6 @@ module.exports = function (app) {
 					getDeviceMW(objRepo),
 					getViewMW(objRepo),
 					getViewComponentsMW(objRepo),
-					viewComponentPrerendererMW(),
 					renderMW("inAppViews/deviceView"),
 				);
 

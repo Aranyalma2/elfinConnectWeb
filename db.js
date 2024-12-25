@@ -42,7 +42,8 @@ const viewComponentSchema = new mongoose.Schema({
 	name: String,
 	type: String,
 	order: Number,
-	data: mongoose.Schema.Types.Mixed,
+	modbus: mongoose.Schema.Types.Mixed,
+	extra: mongoose.Schema.Types.Mixed,
 });
 
 const ViewComponent = mongoose.model("ViewComponent", viewComponentSchema);
