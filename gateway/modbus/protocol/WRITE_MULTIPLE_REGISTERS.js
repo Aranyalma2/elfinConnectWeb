@@ -17,10 +17,5 @@ exports.request = function (transactionId, unitId, startAddress, endAddress, dat
 };
 
 exports.response = function (transactionId, unitId, startAddress, endAddress) {
-	return new Package(
-		transactionId,
-		unitId,
-		"WRITE_MULTIPLE_REGISTERS",
-		pack(startAddress, endAddress - startAddress + 1),
-	);
+	return new Package(transactionId, unitId, "WRITE_MULTIPLE_REGISTERS", pack(startAddress, endAddress - startAddress + 1));
 };

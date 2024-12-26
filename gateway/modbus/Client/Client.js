@@ -144,11 +144,7 @@ function handleData(obj, data, responses) {
 		return obj.emit(ev, data.unitId, data.items, data);
 	}
 
-	responses[data.transactionId].next(
-		null,
-		data.items ? data.items.slice(0, responses[data.transactionId].limit) : undefined,
-		data,
-	);
+	responses[data.transactionId].next(null, data.items ? data.items.slice(0, responses[data.transactionId].limit) : undefined, data);
 
 	delete responses[data.transactionId];
 }

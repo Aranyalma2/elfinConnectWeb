@@ -42,7 +42,7 @@ async function createConnection(userID, devicemac) {
 			});
 			clientSocket.on("error", (err) => {
 				console.log("Socket error", err);
-				removeConnection(userID, devicemac)
+				removeConnection(userID, devicemac);
 				reject(err);
 			});
 

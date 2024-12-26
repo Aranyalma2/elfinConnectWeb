@@ -14,10 +14,5 @@ exports.request = function (transactionId, unitId, startAddress, endAddress, sta
 };
 
 exports.response = function (transactionId, unitId, startAddress, endAddress) {
-	return new Package(
-		transactionId,
-		unitId,
-		"WRITE_MULTIPLE_COILS",
-		pack(startAddress, endAddress - startAddress + 1),
-	);
+	return new Package(transactionId, unitId, "WRITE_MULTIPLE_COILS", pack(startAddress, endAddress - startAddress + 1));
 };
