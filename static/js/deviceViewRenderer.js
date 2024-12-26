@@ -49,8 +49,8 @@ function createCardContent(component, editMode) {
 	let cardContent = "";
 	switch (component.type) {
 		case "button":
-			cardConent = `<div class="viewControll-button">
-                            <button id="${component.id}" class="btn btn-primary">${component.data.label}</button>
+			cardContent = `<div class="viewControll-button">
+                            <button id="${component.id}" class="btn btn-primary">${component.extra?.label}</button>
                             <div class="error text-danger"></div>
                         </div>`;
 			break;
@@ -67,7 +67,7 @@ function createCardContent(component, editMode) {
 									<h1 id="${component.id}">0</h1>
 								</div>
 								<div>
-									${component.extra.suffix ? `<h1>${component.extra.suffix}</h1>` : ""}
+									${component.extra.suffix ? `<h1>${component.extra?.suffix}</h1>` : ""}
 								</div>
 							</div>
 							<div class="error text-danger"></div>

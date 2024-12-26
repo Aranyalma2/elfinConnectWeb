@@ -17,7 +17,7 @@ function addNewCardEventListeners(isEditMode) {
 				registerAddress: 1,
 			},
 			order: editModeComponents.length,
-			data: {
+			extra: {
 				label: "New Button",
 			},
 		};

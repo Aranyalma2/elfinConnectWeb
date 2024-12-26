@@ -15,83 +15,90 @@
   </div>
 
   <div class="modal" id="editComponentModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><%= texts?.Edit_Component || 'Edit Component' %></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="editComponentForm">
-            <a hidden id="formComponentId"></a>
-        
-            <!-- Name Input -->
-            <div class="mb-3">
-                <label for="formComponentName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="formComponentName" name="name" placeholder="Enter component name" required>
-            </div>
-        
-            <!-- Type Dropdown -->
-            <div class="mb-3">
-                <label for="formComponentType" class="form-label">Type</label>
-                <select class="form-select" id="formComponentType" name="type" required>
-                    <option value="button">Button</option>
-                    <option value="lamp">Lamp</option>
-                    <option value="number-display">Number Display</option>
-                    <option value="number-input">Number Input</option>
-                </select>
-            </div>
-        
-            <!-- Extra Field for Button -->
-            <div class="mb-3 d-none" id="buttonLabelGroup">
-                <label for="buttonLabel" class="form-label">Button Label</label>
-                <input type="text" class="form-control" id="buttonLabel" name="buttonLabel" placeholder="Enter button label">
-            </div>
-        
-            <!-- Checkbox for Signed/Unsigned -->
-            <div class="form-check d-none" id="numberDisplayGroup">
-                <input type="checkbox" class="form-check-input" id="isSignedCheckbox" name="isSigned">
-                <label class="form-check-label" for="isSignedCheckbox">Signed</label>
-            </div>
-        
-            <!-- Modbus Group -->
-            <fieldset class="border p-3 rounded">
-                <legend class="float-none w-auto px-3">Modbus</legend>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"">
+      <div class=" modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= texts?.Edit_Component || 'Edit Component' %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editComponentForm">
+          <a hidden id="formComponentId"></a>
 
-                <!-- Function Code -->
-                <div class="mb-3">
-                  <label for="formFunctionCode" class="form-label">Function Code</label>
-                  <select class="form-select" id="formFunctionCode" name="type" required>
-                    <option value="1">01 Read Coil</option>
-                    <option value="2">02 Read Input Status</option>
-                    <option value="3">03 Read Holding Register</option>
-                    <option value="4">04 Read Input Register</option>
-                    <option value="5">05 Write Coil</option>
-                    <option value="6">06 Write Holding Register</option>
-                </select>
-              </div>
-        
-                <!-- Device Address -->
-                <div class="mb-3">
-                    <label for="formDeviceAddress" class="form-label">Device Address</label>
-                    <input type="number" class="form-control" id="formDeviceAddress" name="modbusDeviceAddress" min="0" max="255" placeholder="0-255" required>
-                </div>
-        
-                <!-- Register Address -->
-                <div class="mb-3">
-                    <label for="formRegisterAddress" class="form-label">Register Address</label>
-                    <input type="number" class="form-control" id="formRegisterAddress" name="modbusRegisterAddress" min="0" max="65535" placeholder="0-65535" required>
-                </div>
-            </fieldset>
-        
-            <!-- Save Button -->
-            <div class="mt-3">
-                <button type="submit" class="btn btn-primary">Save</button>
+          <!-- Name Input -->
+          <div class="mb-3">
+            <label for="formComponentName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="formComponentName" name="name" placeholder="Enter component name" required>
+          </div>
+
+          <!-- Type Dropdown -->
+          <div class="mb-3">
+            <label for="formComponentType" class="form-label">Type</label>
+            <select class="form-select" id="formComponentType" name="type" required>
+              <option value="button">Button</option>
+              <option value="lamp">Lamp</option>
+              <option value="number-display">Number Display</option>
+              <option value="number-input">Number Input</option>
+            </select>
+          </div>
+
+          <!-- Modbus Group -->
+          <fieldset class="border p-3 rounded">
+            <legend class="float-none w-auto px-3">Modbus</legend>
+
+            <!-- Function Code -->
+            <div class="mb-3">
+              <label for="formFunctionCode" class="form-label">Function Code</label>
+              <select class="form-select" id="formFunctionCode" name="type" required>
+                <option value="1">01 Read Coil</option>
+                <option value="2">02 Read Input Status</option>
+                <option value="3">03 Read Holding Register</option>
+                <option value="4">04 Read Input Register</option>
+                <option value="5">05 Write Coil</option>
+                <option value="6">06 Write Holding Register</option>
+              </select>
             </div>
+
+            <!-- Device Address -->
+            <div class="mb-3">
+              <label for="formDeviceAddress" class="form-label">Device Address</label>
+              <input type="number" class="form-control" id="formDeviceAddress" name="modbusDeviceAddress" min="0" max="255" placeholder="0-255" required>
+            </div>
+
+            <!-- Register Address -->
+            <div class="mb-3">
+              <label for="formRegisterAddress" class="form-label">Register Address</label>
+              <input type="number" class="form-control" id="formRegisterAddress" name="modbusRegisterAddress" min="0" max="65535" placeholder="0-65535" required>
+            </div>
+          </fieldset>
+
+          <!-- Extra Fields -->
+          <fieldset class="border p-3 rounded">
+            <legend class="float-none w-auto px-3">Additional paramters</legend>
+            <div class="mb-3 d-none" id="buttonGroup">
+              <label for="buttonLabel" class="form-label">Button Label</label>
+              <input type="text" class="form-control" id="buttonLabel" name="label" placeholder="Enter button label">
+            </div>
+            <div class=" d-none" id="numberDisplayGroup">
+              <div class="mb-3">
+                <input type="checkbox" class="form-check-input" id="numberDisplaySigned" name="isSigned">
+                <label class="form-check-label" for="numberDisplaySigned">Signed</label>
+              </div>
+              <div class="mb-3">
+                <label for="numberDisplaySuffix" class="form-label">Suffix</label>
+                <input type="text" class="form-control" id="numberDisplaySuffix" name="suffix" placeholder="Enter a suffix">
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Save Button -->
+          <div class="mt-3">
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+          </div>
         </form>
-        </div>
       </div>
     </div>
+  </div>
   </div>
 
   <div id="cardContainer" class="d-flex flex-row justify-content-start flex-wrap p-1">
@@ -102,6 +109,7 @@
 <script src="/js/deviceViewRenderer.js"></script>
 <script src="/js/deviceViewDragAndDrop.js"></script>
 <script src="/js/deviceViewEventListeners.js"></script>
+<script src="/js/deviceViewModalFormControll.js"></script>
 <script>
   //Initial components array
   let runModeComponents = [];
@@ -110,7 +118,7 @@
   //Add components to the array
   <% if (typeof viewComponents !== 'undefined' && Array.isArray(viewComponents)) { %>
   <% viewComponents.forEach(component => { %>
-    runModeComponents.push({
+  runModeComponents.push({
     id: '<%- component.id %>',
     name: '<%- component.name %>',
     type: '<%- component.type %>',
@@ -134,16 +142,20 @@
         ${isEditMode ? '<%= texts?.save || "Save" %>' : '<%= texts?.editMode || "Edit Mode" %>'}
         `;
     // Re-render the components
-    if(isEditMode){
-      editModeComponents = runModeComponents.map(component => ({...component}));
+    if (isEditMode) {
+      editModeComponents = runModeComponents.map(component => ({
+        ...component
+      }));
       renderer(cardContainer, createLayout(editModeComponents, isEditMode), isEditMode);
-    }else{
-      runModeComponents = editModeComponents.map(component => ({...component}));
+    } else {
+      runModeComponents = editModeComponents.map(component => ({
+        ...component
+      }));
       renderer(cardContainer, createLayout(editModeComponents, isEditMode), isEditMode);
     }
 
     return isEditMode;
-}
+  }
 
   document.getElementById('editModeToggle').addEventListener('click', function() {
     isEditMode = toggleEditMode(isEditMode, document.getElementById('editModeToggle'));
@@ -158,72 +170,6 @@
       editModeComponents = editModeComponents.filter((component) => component.id !== selectedComponentId);
       renderer(cardContainer, createLayout(editModeComponents, isEditMode), isEditMode);
     }
-  });
-
-</script>
-
-<script>
-
-  //Edit card functionality
-  const modal =  document.getElementById('editComponentModal');
-  modal.addEventListener('show.bs.modal', event => {
-    const button = event.relatedTarget;
-    const selectedComponentId = button.parentNode.parentNode.parentNode.id.replace('card-', '');
-    const selectedComponent = editModeComponents.find((component) => component.id === selectedComponentId);
-
-    if(selectedComponent === undefined) return;
-
-    const modalTitle = modal.querySelector('.modal-title');
-    modalTitle.textContent = `Edit ${selectedComponent?.name}`;
-
-    const componentIdAttribute = modal.querySelector('#formComponentId');
-    componentIdAttribute.textContent = selectedComponent?.id;
-
-    const componentNameInput = modal.querySelector('#formComponentName');
-    componentNameInput.value = selectedComponent?.name;
-
-    const componentTypeInput = modal.querySelector('#formComponentType');
-    componentTypeInput.value = selectedComponent?.type;
-
-    const functionCodeInput = modal.querySelector('#formFunctionCode');
-    functionCodeInput.value = selectedComponent?.modbus?.functionCode;
-
-    const deviceAddressInput = modal.querySelector('#formDeviceAddress');
-    deviceAddressInput.value = selectedComponent?.modbus?.deviceAddress;
-
-    const registerAddressInput = modal.querySelector('#formRegisterAddress');
-    registerAddressInput.value = selectedComponent?.modbus?.registerAddress;
-
-  });
-
-  // Toggle visibility of extra fields based on selected type
-  document.getElementById('formComponentType').addEventListener('change', function () {
-        const formComponentType = document.getElementById('formComponentType');
-        buttonLabelGroup.classList.toggle('d-none', formComponentType.value !== 'button');
-        numberDisplayGroup.classList.toggle('d-none', formComponentType.value !== 'number-display');
-    });
-
-  document.getElementById('editComponentForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const componentId = modal.querySelector('#formComponentId').textContent;
-    const componentName = modal.querySelector('#formComponentName').value;
-    const componentType = modal.querySelector('#formComponentType').value;
-    const functionCode = modal.querySelector('#formFunctionCode').value;
-    const deviceAddress = modal.querySelector('#formDeviceAddress').value;
-    const registerAddress = modal.querySelector('#formRegisterAddress').value;
-
-    const componentObject = editModeComponents.find((component) => component.id === componentId);
-
-    componentObject.name = componentName;
-    componentObject.type = componentType;
-    componentObject.extra = {};
-    componentObject.modbus.deviceAddress = deviceAddress;
-    componentObject.modbus.registerAddress = registerAddress;
-    componentObject.modbus.functionCode = functionCode;
-
-    // LOG
-    console.log(componentObject);
   });
 </script>
 
