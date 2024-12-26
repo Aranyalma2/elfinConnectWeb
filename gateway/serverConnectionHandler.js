@@ -10,7 +10,7 @@ const activeTCPConnections = new Map();
 async function createConnection(userID, devicemac) {
 	const existingConnectionSet = activeTCPConnections.get(getDeviceKey(userID, devicemac)) || null;
 	if (existingConnectionSet) {
-		console.log("Reusing existing connection");
+		//console.log("Reusing existing connection");
 		return existingConnectionSet.modbusClient;
 	} else {
 		console.log("Creating new connection");
@@ -31,7 +31,8 @@ async function createConnection(userID, devicemac) {
 						}
 
 						//data;userID;PLACEHOLDER;PLACEHOLDER;PRIORITY;
-						const modbusClient = new modbusStream.Client(`data;${userID};E0;E0;1;`);
+						const random12Byte = Math.random().toString(36).substring(2, 14);
+						const modbusClient = new modbusStream.Client(`data;${userID};random12Byte;Web Backend;1;`);
 						modbusClient.pipe(clientSocket);
 
 						activeTCPConnections.set(getDeviceKey(userID, devicemac), { modbusClient, clientSocket });

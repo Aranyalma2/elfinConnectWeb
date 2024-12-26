@@ -49,22 +49,23 @@ function createCardContent(component, editMode) {
 	let cardContent = "";
 	switch (component.type) {
 		case "button":
-			cardContent = `<div class="viewControll-button">
-                            <button id="${component.id}" class="btn btn-primary">${component.extra?.label}</button>
+			cardContent = `<div id="${component.id}" class="viewActive">
+                            <input hidden class="viewContent" value="1"></input>
+                            <button class="btn btn-primary viewEvent">${component.extra?.label}</button>
                             <div class="error text-danger"></div>
                         </div>`;
 			break;
 		case "lamp":
-			cardContent = `<div class="viewControll-lamp">
-							<div id="${component.id}">0</div>
+			cardContent = `<div id="${component.id}" class="viewPassive">
+							<div class="viewContent">0</div>
 							<div class="error text-danger"></div>
 						  </div>`;
 			break;
 		case "number-display":
-			cardContent = `<div class="viewControll-numberdisplay ">
+			cardContent = `<div id="${component.id}" class="viewPassive">
 							<div class="d-flex flex-row">
 								<div>
-									<h1 id="${component.id}">0</h1>
+									<h1 class="viewContent">0</h1>
 								</div>
 								<div>
 									${component.extra.suffix ? `<h1>${component.extra?.suffix}</h1>` : ""}
@@ -74,6 +75,14 @@ function createCardContent(component, editMode) {
 						  </div>`;
 			break;
 		case "number-input":
+			cardContent = `<div id="${component.id}" class="viewActive viewPassive">
+                            <div class="d-flex flex-row align-items-center justify-content-between flex-wrap">
+                                <input class="viewContent form-control me-1" style="flex: 1;" type="number" value=${component.extra?.min || 0} min=${component.extra?.min || 0} max==${component.extra?.max || 65535}style="flex: 1;">
+                                <button class="btn btn-primary viewEvent" style="flex-shrink: 0;">Set</button>
+                            </div>
+                            <div class="error text-danger mt-2"></div>
+                        </div>
+                        `;
 			break;
 		case "addNew":
 			cardContent = `<div class="card-body d-flex justify-content-center align-items-center">
@@ -101,6 +110,38 @@ function createCardContent(component, editMode) {
         </div>
       `;
 	return cardFrame;
+}
+
+function updateCardContent(componentId, data, error) {
+	const viewElement = document.getElementById(componentId).querySelector(".viewContent");
+	const errorElement = document.getElementById(componentId).querySelector(".error");
+	if (errorElement) {
+		errorElement.textContent = error || "";
+	}
+	if (error || !viewElement) {
+		return;
+	}
+
+	const componentObject = runModeComponents.find((element) => element.id === componentId);
+	switch (componentObject.type) {
+		case "button":
+			break;
+		case "lamp":
+			viewElement.textContent = data;
+			break;
+		case "number-display":
+			data = parseFloat(data) * Math.pow(10, componentObject.extra.decimalpoint || 0);
+			if (componentObject.extra.decimalpoint < 0) data = data.toFixed(componentObject.extra.decimalpoint * -1);
+			viewElement.textContent = data;
+			break;
+		case "number-input":
+			data = parseFloat(data) * Math.pow(10, componentObject.extra.decimalpoint || 0);
+			if (componentObject.extra.decimalpoint < 0) data = data.toFixed(componentObject.extra.decimalpoint * -1);
+			viewElement.value = data;
+			break;
+		default:
+			return "Unknown component type";
+	}
 }
 
 // Function to enable/disable edit mode on a card

@@ -1,4 +1,46 @@
 const modal = document.getElementById("editComponentModal");
+
+const isSignedCheckbox = modal.querySelector("#numberInputSigned");
+const minInput = modal.querySelector("#numberInputMin");
+const maxInput = modal.querySelector("#numberInputMax");
+
+// Add event listeners for real-time validation
+isSignedCheckbox.addEventListener("input", validateMinMax);
+minInput.addEventListener("input", validateMinMax);
+maxInput.addEventListener("input", validateMinMax);
+
+function validateMinMax() {
+	const isSigned = isSignedCheckbox.checked;
+	let minVal = parseInt(minInput.value, 10);
+	let maxVal = parseInt(maxInput.value, 10);
+
+	if (isSigned) {
+		minInput.min = -32768;
+		minInput.max = 32767;
+		maxInput.min = -32768;
+		maxInput.max = 32767;
+	} else {
+		minInput.min = 0;
+		minInput.max = 65535;
+		maxInput.min = 0;
+		maxInput.max = 65535;
+	}
+
+	if (minVal < minInput.min) {
+		minVal = minInput.min;
+	} else if (minVal > minInput.max) {
+		minVal = minInput.max;
+	}
+	minInput.value = minVal;
+
+	if (maxVal < maxInput.min) {
+		maxVal = maxInput.min;
+	} else if (maxVal > maxInput.max) {
+		maxVal = maxInput.max;
+	}
+	maxInput.value = maxVal;
+}
+
 modal.addEventListener("show.bs.modal", (event) => {
 	const button = event.relatedTarget;
 	const selectedComponentId = button.parentNode.parentNode.parentNode.id.replace("card-", "");
@@ -27,21 +69,46 @@ modal.addEventListener("show.bs.modal", (event) => {
 	const registerAddressInput = modal.querySelector("#formRegisterAddress");
 	registerAddressInput.value = selectedComponent.modbus?.registerAddress;
 
+	const buttonGroup = modal.querySelector("#buttonGroup");
+	const numberDisplayGroup = modal.querySelector("#numberDisplayGroup");
+	const numberInputGroup = modal.querySelector("#numberInputGroup");
+
+	// Hide all extra fields
+	buttonGroup.classList.add("d-none");
+	numberDisplayGroup.classList.add("d-none");
+	numberInputGroup.classList.add("d-none");
+
 	switch (selectedComponent.type) {
-		case "button":
-			const buttonLabelGroup = modal.querySelector("#buttonGroup");
-			buttonLabelGroup.classList.remove("d-none");
+		case "button": {
+			buttonGroup.classList.remove("d-none");
 			const buttonLabelInput = modal.querySelector("#buttonLabel");
-			buttonLabelInput.value = selectedComponent?.extra?.label;
+			buttonLabelInput.value = selectedComponent.extra?.label;
 			break;
-		case "number-display":
-			const numberDisplayGroup = modal.querySelector("#numberDisplayGroup");
+		}
+		case "number-display": {
 			numberDisplayGroup.classList.remove("d-none");
 			const isSignedCheckbox = modal.querySelector("#numberDisplaySigned");
-			isSignedCheckbox.checked = selectedComponent?.extra?.isSigned;
+			isSignedCheckbox.checked = selectedComponent.extra?.isSigned;
 			const numberDisplaySuffixInput = modal.querySelector("#numberDisplaySuffix");
-			numberDisplaySuffixInput.value = selectedComponent?.extra?.suffix;
+			numberDisplaySuffixInput.value = selectedComponent.extra?.suffix;
+			const numberDisplayDecimalPointInput = modal.querySelector("#numberDisplayDecimalPoint");
+			numberDisplayDecimalPointInput.value = selectedComponent.extra?.decimalpoint;
 			break;
+		}
+		case "number-input": {
+			numberInputGroup.classList.remove("d-none");
+			const isSignedCheckbox = modal.querySelector("#numberInputSigned");
+			isSignedCheckbox.checked = selectedComponent.extra?.isSigned;
+			const numberInputDecimalPointInput = modal.querySelector("#numberInputDecimalPoint");
+			numberInputDecimalPointInput.value = selectedComponent.extra?.decimalpoint;
+			const numberInputMinInput = modal.querySelector("#numberInputMin");
+			numberInputMinInput.value = selectedComponent.extra?.min;
+			numberInputMinInput.min = isSignedCheckbox.checked ? -32768 : 0;
+			const numberInputMaxInput = modal.querySelector("#numberInputMax");
+			numberInputMaxInput.value = selectedComponent.extra?.max;
+			numberInputMaxInput.max = isSignedCheckbox.checked ? 32767 : 65535;
+			break;
+		}
 	}
 });
 
@@ -50,6 +117,7 @@ document.getElementById("formComponentType").addEventListener("change", function
 	const formComponentType = document.getElementById("formComponentType");
 	buttonGroup.classList.toggle("d-none", formComponentType.value !== "button");
 	numberDisplayGroup.classList.toggle("d-none", formComponentType.value !== "number-display");
+	numberInputGroup.classList.toggle("d-none", formComponentType.value !== "number-input");
 });
 
 document.getElementById("editComponentForm").addEventListener("submit", function (event) {
@@ -72,16 +140,32 @@ document.getElementById("editComponentForm").addEventListener("submit", function
 	componentObject.modbus.functionCode = functionCode;
 
 	switch (componentType) {
-		case "button":
+		case "button": {
 			const buttonLabel = modal.querySelector("#buttonLabel").value;
 			componentObject.extra.label = buttonLabel;
 			break;
+		}
 		case "number-display":
-			const isSigned = modal.querySelector("#numberDisplaySigned").checked;
-			componentObject.extra.isSigned = isSigned;
-			const numberDisplaySuffix = modal.querySelector("#numberDisplaySuffix").value;
-			componentObject.extra.suffix = numberDisplaySuffix;
+			{
+				const isSigned = modal.querySelector("#numberDisplaySigned").checked;
+				componentObject.extra.isSigned = isSigned;
+				const numberDisplaySuffix = modal.querySelector("#numberDisplaySuffix").value;
+				componentObject.extra.suffix = numberDisplaySuffix;
+				const numberDisplayDecimalPoint = modal.querySelector("#numberDisplayDecimalPoint").value;
+				componentObject.extra.decimalpoint = numberDisplayDecimalPoint;
+			}
 			break;
+		case "number-input": {
+			const isSigned = modal.querySelector("#numberInputSigned").checked;
+			componentObject.extra.isSigned = isSigned;
+			const numberInputDecimalPoint = modal.querySelector("#numberInputDecimalPoint").value;
+			componentObject.extra.decimalpoint = numberInputDecimalPoint;
+			const numberInputMin = modal.querySelector("#numberInputMin").value;
+			componentObject.extra.min = numberInputMin;
+			const numberInputMax = modal.querySelector("#numberInputMax").value;
+			componentObject.extra.max = numberInputMax;
+			break;
+		}
 	}
 
 	//Overwrite the component in the array

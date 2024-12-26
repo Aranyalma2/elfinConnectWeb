@@ -12,10 +12,10 @@ module.exports = function (objectrepository) {
 		}
 
 		let response = {
-			id: res.locals.component._id,
+			id: res.locals.component.id,
 			data: res.locals.data,
 		};
-		console.log("response: ", response);
+		//console.log("response: ", response);
 		res.end(JSON.stringify(response));
 	};
 };
