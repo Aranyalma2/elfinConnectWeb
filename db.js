@@ -39,6 +39,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 const viewComponentSchema = new mongoose.Schema({
+	id: String,
 	name: String,
 	type: String,
 	order: Number,

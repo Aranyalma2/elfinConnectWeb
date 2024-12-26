@@ -38,7 +38,7 @@ module.exports = function (app) {
 
 				app.post("/devices/:deviceid/view/api", authMW.isLoggedIn(objRepo), getDeviceMW(objRepo), viewTaskRunnerMW(), viewQueryJsonBuilderMW());
 
-				app.post("/devices/:deviceid/view", authMW.isLoggedIn(objRepo), getDeviceMW(objRepo), updateViewMW(objRepo), renderMW("inAppViews/deviceView"));
+				app.post("/devices/:deviceid/view", authMW.isLoggedIn(objRepo), getDeviceMW(objRepo), updateViewMW(objRepo));
 
 				app.get(
 					"/devices/:deviceid/view",

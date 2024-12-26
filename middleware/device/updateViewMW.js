@@ -12,7 +12,7 @@ module.exports = function (objectrepository) {
 			.findByIdAndUpdate(viewId, { $set: { components: req.body.view } }, { new: true, runValidators: true })
 			.then((updatedView) => {
 				console.log("Updated View:", updatedView);
-				return next();
+				res.end(JSON.stringify(updatedView.components));
 			})
 			.catch((error) => {
 				console.error("Error Updating View:", error);

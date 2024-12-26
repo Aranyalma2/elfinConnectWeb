@@ -11,10 +11,10 @@ module.exports = function () {
 		gateway
 			.getModbusClient(res.locals.user.uuid, component.destinationMAC)
 			.then((client) => {
-				const deviceAddress = component.data.modbus.deviceAddress;
-				const registerAddress = component.data.modbus.registerAddress;
+				const deviceAddress = component.modbus.deviceAddress;
+				const registerAddress = component.modbus.registerAddress;
 
-				switch (component.data.modbus.functionCode) {
+				switch (component.modbus.functionCode) {
 					case 1:
 						client.readCoils(deviceAddress, registerAddress, registerAddress, function (err, coils) {
 							console.log("Read coils:", coils);
@@ -55,15 +55,10 @@ module.exports = function () {
 							}
 							if (registers.length > 0) {
 								res.locals.component = component;
-								switch (component.data.modbus.dataType) {
-									case "signed":
-										res.locals.data = registers[0].readInt16BE();
-										break;
-									case "unsigned":
-										res.locals.data = registers[0].readUInt16BE();
-										break;
-									default:
-										res.locals.data = registers[0].readUInt16BE();
+								if (component.extra.signed === true) {
+									res.locals.data = registers[0].readInt16BE();
+								} else {
+									res.locals.data = registers[0].readUInt16BE();
 								}
 							}
 							return next();
