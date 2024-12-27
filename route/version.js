@@ -1,5 +1,6 @@
 /*
 Version holder file
 */
+const packageInfo = require('../package.json');
 
-module.exports = `Version ${process.env.npm_package_version}`;
+module.exports = `Version ${packageInfo.version}`;

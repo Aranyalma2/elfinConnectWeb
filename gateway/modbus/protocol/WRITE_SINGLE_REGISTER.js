@@ -5,7 +5,7 @@ exports.request = function (transactionId, unitId, address, value) {
 	let buf = new Buffer.alloc(4);
 
 	buf.writeUInt16BE(address, 0);
-	value.copy(buf, 2, 0, 2);
+	buf.writeUInt16BE(value, 2);
 
 	return new Package(transactionId, unitId, "WRITE_SINGLE_REGISTER", buf);
 };

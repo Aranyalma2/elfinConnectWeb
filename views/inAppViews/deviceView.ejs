@@ -225,6 +225,9 @@
 
       const postURL = `${window.location.href}/api`;
 
+      //Add device MAC address to the data object
+      data.destinationMAC = deviceMAC;
+
       try {
         const response = await fetch(postURL, {
           method: 'POST',
@@ -285,7 +288,6 @@
         id: componentObject.id,
         modbus: componentObject.modbus,
         extra: componentObject.extra,
-        destinationMAC: deviceMAC,
       };
 
       //console.log('Sending passive request for:', sendComponent);
@@ -324,7 +326,7 @@
   passiveRequestRunner(); // Initial call
   setInterval(() => {
     passiveRequestRunner(); // Schedule the function
-  }, 10000);
+  }, 5000);
 </script>
 
 

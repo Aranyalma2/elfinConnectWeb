@@ -16,6 +16,7 @@ async function createConnection(userID, devicemac) {
 		console.log("Creating new connection");
 		return new Promise((resolve, reject) => {
 			const clientSocket = new Socket();
+			const randomMAC = Math.random().toString(36).substring(2, 14);
 
 			clientSocket.connect(gatewayServerPORT, gatewayServerIP);
 			clientSocket.setTimeout(parseInt(gatewayServerTimeout));
@@ -31,8 +32,7 @@ async function createConnection(userID, devicemac) {
 						}
 
 						//data;userID;PLACEHOLDER;PLACEHOLDER;PRIORITY;
-						const random12Byte = Math.random().toString(36).substring(2, 14);
-						const modbusClient = new modbusStream.Client(`data;${userID};random12Byte;Web Backend;1;`);
+						const modbusClient = new modbusStream.Client(`data;${userID};${randomMAC};Web Backend;1;`);
 						modbusClient.pipe(clientSocket);
 
 						activeTCPConnections.set(getDeviceKey(userID, devicemac), { modbusClient, clientSocket });

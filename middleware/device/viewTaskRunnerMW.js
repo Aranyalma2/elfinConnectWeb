@@ -23,7 +23,7 @@ module.exports = function () {
 							}
 							if (coils.length > 0) {
 								res.locals.component = component;
-								res.locals.data = coils[0].readUInt8();
+								res.locals.data = coils[0];
 							}
 							return next();
 						});
@@ -76,20 +76,21 @@ module.exports = function () {
 						});
 						break;
 					case "05":
-						client.writeSingleCoil(deviceAddress, component.data, function (err, coils) {
+						client.writeSingleCoil(deviceAddress, registerAddress, component.data, function (err, coils) {
 							if (err) {
 								res.locals.error = err;
 								return next();
 							}
-							console.log(coils);
+							return next();
 						});
 						break;
 					case "06":
-						client.writeSingleRegister(deviceAddress, component.data, function (err, registers) {
+						client.writeSingleRegister(deviceAddress, registerAddress, component.data, function (err, registers) {
 							if (err) {
 								res.locals.error = err;
 								return next();
 							}
+							return next();
 						});
 						break;
 					default:
