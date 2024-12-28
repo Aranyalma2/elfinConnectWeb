@@ -1,11 +1,17 @@
 function addEventListener(isEditMode) {
 	toggleDragAndDrop(isEditMode);
-	addNewCardEventListeners(isEditMode);
-	if (isEditMode === false) addActiveComponentEventListeners();
+
+	if (isEditMode === true) {
+		addNewCardEventListeners(isEditMode);
+	}
+
+	if (isEditMode === false) {
+		addActiveComponentEventListeners();
+		addOnFocusDisableUpdate();
+	}
 }
 
 function addNewCardEventListeners(isEditMode) {
-	if (isEditMode !== true) return;
 	const addNewCard = document.getElementById("card-addNewCard");
 	addNewCard.addEventListener("click", function () {
 		const newCardData = {
@@ -52,7 +58,7 @@ function addActiveComponentEventListeners() {
 					// Send the event to the server
 					console.log("Button clicked", content.value);
 					componentObject.data = content.value;
-					sendDataRequest(componentObject);
+					activeRequestRunner(componentObject, value);
 				});
 				break;
 			}
@@ -66,11 +72,26 @@ function addActiveComponentEventListeners() {
 					// Send the event to the server
 					console.log("Number input changed", content.value);
 					const value = content.value * Math.pow(10, decimalPlaces * -1 || 0);
-					componentObject.data = value;
-					sendDataRequest(componentObject);
+					activeRequestRunner(componentObject, value);
 				});
 				break;
 			}
 		}
+	}
+}
+
+function addOnFocusDisableUpdate() {
+	const activeViewComponents = document.querySelectorAll(".viewActive");
+
+	for (componentDOM of activeViewComponents) {
+		const content = componentDOM.querySelector(".viewContent");
+		content.addEventListener("focus", function () {
+			//remove viewPassive class from grandparent
+			componentDOM.classList.remove("viewPassive");
+		});
+		content.addEventListener("blur", function () {
+			//add viewPassive class to grandparent
+			componentDOM.classList.add("viewPassive");
+		});
 	}
 }

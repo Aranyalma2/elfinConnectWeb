@@ -176,12 +176,12 @@
       }));
       renderer(cardContainer, createLayout(editModeComponents, isEditMode), isEditMode);
     } else {
-      /*
+      
       if (JSON.stringify(editModeComponents) === JSON.stringify(runModeComponents)) {
         console.log('No changes detected. Exiting edit mode.');
         renderer(cardContainer, createLayout(runModeComponents, isEditMode), isEditMode);
         return isEditMode;
-      }*/
+      }
       runModeComponents = editModeComponents.map(component => ({
         ...component
       }));
@@ -219,6 +219,39 @@
 </script>
 
 <script>
+
+  function modbusFunctionCodeParser(mode, functionCode) {
+    if (mode === 'read') {
+      switch (functionCode) {
+        case '0105':
+          return '01';
+        case '0306':
+          return '03';
+        case '05':
+          return 'Invalid';
+        case '06':
+          return 'Invalid';
+        default:
+          return functionCode;
+      }
+    } else if (mode === 'write') {
+      switch (functionCode) {
+        case '0105':
+          return '05';
+        case '0306':
+          return '06';
+        case '01':
+          return 'Invalid';
+        case '03':
+          return 'Invalid';
+        default:
+          return functionCode;
+      }
+    }
+  }
+
+  const deviceMAC = '<%= device.macAddress %>';
+
   async function sendDataRequest(data) {
       
       if (isEditMode) return;
@@ -273,7 +306,25 @@
 </script>
 
 <script>
-  const deviceMAC = '<%= device.macAddress %>';
+
+  async function activeRequestRunner(componentObject, value) {
+    const sendComponent = {
+        id: componentObject.id,
+        modbus: {...componentObject.modbus},
+        extra: componentObject.extra,
+        data: value,
+      };
+
+      // Adjust the function code to write mode
+      const fcode = modbusFunctionCodeParser('write', componentObject.modbus.functionCode);
+      if (fcode === 'Invalid') {
+        return;
+      }
+      sendComponent.modbus.functionCode = fcode;
+
+      const response = await sendDataRequest(sendComponent);
+  }
+
 
   async function passiveRequestRunner() {
     if (isEditMode) return;
@@ -281,30 +332,20 @@
     const passiveViewComponents = document.querySelectorAll('.viewPassive');
 
     for (const component of passiveViewComponents){
-      console.log('Processing component:');
       const componentObject = runModeComponents.find((element) => element.id === component.id);
 
       const sendComponent = {
         id: componentObject.id,
-        modbus: componentObject.modbus,
+        modbus: {...componentObject.modbus},
         extra: componentObject.extra,
       };
 
-      //console.log('Sending passive request for:', sendComponent);
-      
       // Adjust the function code to read mode
-      switch (componentObject.modbus.functionCode) {
-        case "0105":
-          sendComponent.modbus.functionCode = "01";
-          break;
-        case "0306":
-          sendComponent.modbus.functionCode = "03";
-          break;
-        case "05":
-          continue;
-        case "06":
-          continue;
+      const fcode = modbusFunctionCodeParser('read', componentObject.modbus.functionCode);
+      if (fcode === 'Invalid') {
+        continue;
       }
+      sendComponent.modbus.functionCode = fcode;
 
       try {
         const response = await sendDataRequest(sendComponent); // Use await here

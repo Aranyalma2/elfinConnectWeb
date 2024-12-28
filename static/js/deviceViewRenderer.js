@@ -77,7 +77,7 @@ function createCardContent(component, editMode) {
 		case "number-input":
 			cardContent = `<div id="${component.id}" class="viewActive viewPassive">
                             <div class="d-flex flex-row align-items-center justify-content-between flex-wrap">
-                                <input class="viewContent form-control me-1" style="flex: 1;" type="number" value=${component.extra?.min || 0} min=${component.extra?.min || 0} max==${component.extra?.max || 65535}style="flex: 1;">
+                                <input class="viewContent form-control me-1" style="flex: 1;" type="number" step=${Math.pow(10, component.extra?.decimalpoint) || 0} value=${component.extra?.min || 0} min=${component.extra?.min || 0} max==${component.extra?.max || 65535}style="flex: 1;">
                                 <button class="btn btn-primary viewEvent" style="flex-shrink: 0;">Set</button>
                             </div>
                             <div class="error text-danger mt-2"></div>
