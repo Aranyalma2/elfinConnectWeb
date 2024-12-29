@@ -1,5 +1,7 @@
 <%- include('frameTop') -%>
 
+<link rel="stylesheet" href="/custom-css/webview.css" />
+
 <section>
   <div class="row">
     <div class="col">
@@ -36,6 +38,7 @@
             <label for="formComponentType" class="form-label"><%= texts?.Type %></label>
             <select class="form-select" id="formComponentType" name="type" required>
               <option value="button">Button</option>
+              <option value="switch">Switch</option>
               <option value="lamp">Lamp</option>
               <option value="number-display">Number Display</option>
               <option value="number-input">Number Input</option>
@@ -183,12 +186,10 @@
         `;
     // Re-render the components
     if (isEditMode) {
-      editModeComponents = runModeComponents.map(component => ({
-        ...component
-      }));
+      editModeComponents = structuredClone(runModeComponents);
       renderer(cardContainer, createLayout(editModeComponents, isEditMode), isEditMode);
     } else {
-      
+      console.log(editModeComponents);
       if (JSON.stringify(editModeComponents) === JSON.stringify(runModeComponents)) {
         console.log('No changes detected. Exiting edit mode.');
         renderer(cardContainer, createLayout(runModeComponents, isEditMode), isEditMode);
@@ -332,6 +333,7 @@
       if (fcode === 'Invalid') {
         return;
       }
+
       sendComponent.modbus.functionCode = fcode;
 
       const response = await sendDataRequest(sendComponent);
@@ -357,6 +359,7 @@
       if (fcode === 'Invalid') {
         continue;
       }
+
       sendComponent.modbus.functionCode = fcode;
 
       try {

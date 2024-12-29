@@ -61,6 +61,14 @@ function addActiveComponentEventListeners() {
 				});
 				break;
 			}
+			case "switch": {
+				eventGenerator.addEventListener("change", function () {
+					// Send the event to the server
+					const value = content.checked;
+					activeRequestRunner(componentObject, value);
+				});
+				break;
+			}
 			case "number-input": {
 				eventGenerator.addEventListener("click", function () {
 					//Validate the input

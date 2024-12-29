@@ -35,7 +35,7 @@ function createCard(component, editMode) {
 	card.id = `card-${component.id}`;
 	card.className = "card m-1";
 	card.style.width = "200px";
-	card.style.height = "150px";
+	card.style.height = editMode ? "175PX" : "150px";
 	if (editMode && component.type !== "addNew") {
 		card.style.border = "2px dashed #007bff";
 		card.style.cursor = "move";
@@ -49,26 +49,38 @@ function createCardContent(component, editMode) {
 	let cardContent = "";
 	switch (component.type) {
 		case "button":
-			cardContent = `<div id="${component.id}" class="viewActive">
+			cardContent = `<div id="${component.id}" class="viewActive w-100">
                             <input hidden class="viewContent" value="1"></input>
-                            <button class="btn btn-primary viewEvent">${component.extra?.label}</button>
+                            <button class="btn btn-primary viewEvent w-100 h-100">${component.extra?.label}</button>
                             <div class="error text-danger"></div>
                         </div>`;
 			break;
+		case "switch":
+			cardContent = `<div id="${component.id}" class="viewPassive viewActive switch-container">
+									<div class="d-flex align-items-center">
+										<div class="form-check form-switch">
+											<input class="form-check-input viewContent viewEvent" type="checkbox" role="switch"}>
+										</div>
+									</div>
+									<div class="error text-danger"></div>
+								</div>`;
+			break;
 		case "lamp":
-			cardContent = `<div id="${component.id}" class="viewPassive">
-							<div class="viewContent">0</div>
+			cardContent = `<div id="${component.id}" class="viewPassive lamp-style">
+							<div class="lamp-body">
+								<div class="viewContent">0</div>
+							</div>
 							<div class="error text-danger"></div>
-						  </div>`;
+						</div>`;
 			break;
 		case "number-display":
 			cardContent = `<div id="${component.id}" class="viewPassive">
-							<div class="d-flex flex-row">
+							<div class="d-flex flex-row align-items-center">
 								<div>
-									<h1 class="viewContent">0</h1>
+									<h1 class="viewContent number-display-conent">0</h1>
 								</div>
 								<div>
-									${component.extra.suffix ? `<h1>${component.extra?.suffix}</h1>` : ""}
+								${component.extra.suffix ? `<h1 class="suffix">${component.extra?.suffix}</h1>` : ""}
 								</div>
 							</div>
 							<div class="error text-danger"></div>
@@ -92,7 +104,7 @@ function createCardContent(component, editMode) {
 			return "Unknown component type";
 	}
 	const cardFrame = `
-        <div class="card-body">
+        <div class="card-body d-flex flex-column" style="height: 100%;">
         ${
 			editMode
 				? `
@@ -106,7 +118,7 @@ function createCardContent(component, editMode) {
           <div class="card-title d-flex justify-content-between">
             <h5 class="fw-bold">${component.name}</h5>
           </div>
-          <div class="card-text d-flex justify-content-center">${cardContent}</div>
+          <div class="card-text d-flex justify-content-center flex-grow-1">${cardContent}</div>
         </div>
       `;
 	return cardFrame;
@@ -128,6 +140,16 @@ function updateCardContent(componentId, data, error) {
 			break;
 		case "lamp":
 			viewElement.textContent = data;
+			if (viewElement.textContent === "1") {
+				viewElement.parentElement.classList.add("on");
+				viewElement.parentElement.classList.remove("off");
+			} else {
+				viewElement.classList.remove("on");
+				viewElement.classList.add("off");
+			}
+			break;
+		case "switch":
+			viewElement.checked = data;
 			break;
 		case "number-display":
 			data = parseFloat(data) * Math.pow(10, componentObject.extra.decimalpoint || 0);
