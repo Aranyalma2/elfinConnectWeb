@@ -11,6 +11,10 @@ maxInput.addEventListener("input", validateMinMax);
 
 function validateMinMax() {
 	const isSigned = isSignedCheckbox.checked;
+
+	if (minInput.value === "" || maxInput.value === "") return;
+	if (isSigned && (minValue === "-" || maxValue === "-")) return;
+
 	let minVal = parseInt(minInput.value, 10);
 	let maxVal = parseInt(maxInput.value, 10);
 
@@ -49,7 +53,7 @@ modal.addEventListener("show.bs.modal", (event) => {
 	if (selectedComponent === undefined) return;
 
 	const modalTitle = modal.querySelector(".modal-title");
-	modalTitle.textContent = `Edit ${selectedComponent.name}`;
+	modalTitle.textContent = `${_texts.Edit} ${selectedComponent.name}`;
 
 	const componentIdAttribute = modal.querySelector("#formComponentId");
 	componentIdAttribute.textContent = selectedComponent.id;

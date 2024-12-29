@@ -16,7 +16,7 @@ function addNewCardEventListeners(isEditMode) {
 	addNewCard.addEventListener("click", function () {
 		const newCardData = {
 			id: `id_${Date.now()}`,
-			name: "New Component",
+			name: _texts.New_Component,
 			type: "button",
 			modbus: {
 				functionCode: "01",
@@ -25,7 +25,7 @@ function addNewCardEventListeners(isEditMode) {
 			},
 			order: editModeComponents.length,
 			extra: {
-				label: "New Button",
+				label: _texts.New_Button,
 			},
 		};
 		editModeComponents.push(newCardData);
@@ -56,7 +56,6 @@ function addActiveComponentEventListeners() {
 			case "button": {
 				eventGenerator.addEventListener("click", function () {
 					// Send the event to the server
-					console.log("Button clicked", content.value);
 					componentObject.data = content.value;
 					activeRequestRunner(componentObject, value);
 				});
@@ -70,7 +69,6 @@ function addActiveComponentEventListeners() {
 					const decimalPlaces = componentObject.extra.decimalpoint;
 					content.value = inputFieldRangeCorrector(content.value, min, max, decimalPlaces);
 					// Send the event to the server
-					console.log("Number input changed", content.value);
 					const value = content.value * Math.pow(10, decimalPlaces * -1 || 0);
 					activeRequestRunner(componentObject, value);
 				});

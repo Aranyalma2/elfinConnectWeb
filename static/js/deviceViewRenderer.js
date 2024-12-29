@@ -78,7 +78,7 @@ function createCardContent(component, editMode) {
 			cardContent = `<div id="${component.id}" class="viewActive viewPassive">
                             <div class="d-flex flex-row align-items-center justify-content-between flex-wrap">
                                 <input class="viewContent form-control me-1" style="flex: 1;" type="number" step=${Math.pow(10, component.extra?.decimalpoint) || 0} value=${component.extra?.min || 0} min=${component.extra?.min || 0} max==${component.extra?.max || 65535}style="flex: 1;">
-                                <button class="btn btn-primary viewEvent" style="flex-shrink: 0;">Set</button>
+                                <button class="btn btn-primary viewEvent" style="flex-shrink: 0;">${_texts.NumberInput_Set}</button>
                             </div>
                             <div class="error text-danger mt-2"></div>
                         </div>
@@ -86,7 +86,7 @@ function createCardContent(component, editMode) {
 			break;
 		case "addNew":
 			cardContent = `<div class="card-body d-flex justify-content-center align-items-center">
-                                <span class="text-muted">+ Add New</span>`;
+                                <span class="text-muted">+ ${_texts.AddNew_Card}</span>`;
 			return cardContent;
 		default:
 			return "Unknown component type";
@@ -97,8 +97,8 @@ function createCardContent(component, editMode) {
 			editMode
 				? `
           <div class="card-title d-flex justify-content-between">
-            <button class="edit-card-btn btn" data-bs-toggle="modal" data-bs-target="#editComponentModal" title="Edit"><i class="bi bi-pencil btn-secondary"></i></button>
-            <button class="delete-card-btn btn-close" title="Delete"></button>
+            <button class="edit-card-btn btn" data-bs-toggle="modal" data-bs-target="#editComponentModal" title="${_texts.Edit}"><i class="bi bi-pencil btn-secondary"></i></button>
+            <button class="delete-card-btn btn-close" title="${_texts.Delete}"></button>
           </div>
           `
 				: ""
