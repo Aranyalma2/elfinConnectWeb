@@ -8,15 +8,14 @@ let filesCollection;
 let gridfsBucket;
 
 const connectDB = async () => {
-	try{
+	try {
 		await mongoose.connect(`mongodb://${dbAddress}/${dbCollectionName}`);
 		console.log("DB Connected!");
-	}catch(err){
+	} catch (err) {
 		console.log("DB Connection Error: ", err);
-		console.log(dbAddress);
 		process.exit(1);
 	}
-	
+
 	gridfsBucket = new mongodb.GridFSBucket(mongoose.connection.db, {
 		bucketName: "downloads",
 	});
