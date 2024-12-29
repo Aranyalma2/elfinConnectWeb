@@ -136,9 +136,6 @@
 
 <script>
   const _texts = <%- JSON.stringify(texts) %>;
-  window.onbeforeunload = function() {
-        return "";
-    }
 </script>
 
 <script src="/js/deviceViewRenderer.js"></script>
@@ -170,6 +167,14 @@
 
   function toggleEditMode(isEditMode, editModeToggleButton) {
     isEditMode = !isEditMode;
+
+    if(isEditMode){
+      window.onbeforeunload = function() {
+        return "";
+      };
+    } else {
+      window.onbeforeunload = null;
+    }
 
     // Update button text based on edit mode state
     editModeToggleButton.innerHTML = `
