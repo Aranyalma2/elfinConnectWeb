@@ -87,7 +87,7 @@ function addActiveComponentEventListeners() {
 }
 
 function addOnFocusDisableUpdate() {
-	const activeViewComponents = document.querySelectorAll(".viewActive");
+	const activeViewComponents = document.querySelectorAll(".disableUpdateOnFocus");
 
 	for (componentDOM of activeViewComponents) {
 		const content = componentDOM.querySelector(".viewContent");
