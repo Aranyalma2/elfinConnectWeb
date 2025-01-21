@@ -18,6 +18,7 @@ function addNewCardEventListeners(isEditMode) {
 			id: `id_${Date.now()}`,
 			name: _texts.New_Component,
 			type: "button",
+			style: ButtonStyles.getDefaultStyle(),
 			modbus: {
 				functionCode: "01",
 				deviceAddress: "1",
@@ -56,7 +57,7 @@ function addActiveComponentEventListeners() {
 			case "button": {
 				eventGenerator.addEventListener("click", function () {
 					// Send the event to the server
-					componentObject.data = content.value;
+					const value = content.value;
 					activeRequestRunner(componentObject, value);
 				});
 				break;

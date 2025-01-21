@@ -1,49 +1,139 @@
 const modal = document.getElementById("editComponentModal");
 
+const FormControll = {
+	validateMinMax: function () {
+		const isSigned = isSignedCheckbox.checked;
+
+		if (minInput.value === "" || maxInput.value === "") return;
+		if (isSigned && (minValue === "-" || maxValue === "-")) return;
+
+		let minVal = parseInt(minInput.value, 10);
+		let maxVal = parseInt(maxInput.value, 10);
+
+		if (isSigned) {
+			minInput.min = -32768;
+			minInput.max = 32767;
+			maxInput.min = -32768;
+			maxInput.max = 32767;
+		} else {
+			minInput.min = 0;
+			minInput.max = 65535;
+			maxInput.min = 0;
+			maxInput.max = 65535;
+		}
+
+		if (minVal < minInput.min) {
+			minVal = minInput.min;
+		} else if (minVal > minInput.max) {
+			minVal = minInput.max;
+		}
+		minInput.value = minVal;
+
+		if (maxVal < maxInput.min) {
+			maxVal = maxInput.min;
+		} else if (maxVal > maxInput.max) {
+			maxVal = maxInput.max;
+		}
+		maxInput.value = maxVal;
+	},
+
+	styleDropdownRenderer: function (componentType, styleDropdownDOM) {
+		console.log(componentType);
+		const styleDropdownDOMRenderer = function (list) {
+			let domString = "";
+			console.log(list);
+			list.forEach((item) => {
+				const option = document.createElement("option");
+				option.value = item.id;
+				option.text = item.name;
+				domString += option.outerHTML;
+			});
+			return domString;
+		};
+
+		styleDropdownDOM.innerHTML = "";
+		switch (componentType) {
+			case "button":
+				styleDropdownDOM.innerHTML = styleDropdownDOMRenderer(ButtonStyles.getStyles());
+				break;
+			case "switch":
+				styleDropdownDOM.innerHTML = `<option value="default">${_texts?.Default}</option>`;
+				break;
+			case "lamp":
+				styleDropdownDOM.innerHTML = `<option value="default">${_texts?.Default}</option>`;
+				break;
+			case "number-display":
+				styleDropdownDOM.innerHTML = `<option value="default">${_texts?.Default}</option>`;
+				break;
+			case "number-input":
+				styleDropdownDOM.innerHTML = `<option value="default">${_texts?.Default}</option>`;
+		}
+	},
+
+	justShowDependantFields: function (componentType) {
+		const buttonGroups = modal.querySelectorAll(".buttonGroup");
+		const switchGroups = modal.querySelectorAll(".switchGroup");
+		const lampGroups = modal.querySelectorAll(".lampGroup");
+		const numberDisplayGroups = modal.querySelectorAll(".numberDisplayGroup");
+		const numberInputGroups = modal.querySelectorAll(".numberInputGroup");
+
+		// Hide all type dependant fields
+		buttonGroups.forEach((group) => {
+			group.classList.add("d-none");
+		});
+		switchGroups.forEach((group) => {
+			group.classList.add("d-none");
+		});
+		lampGroups.forEach((group) => {
+			group.classList.add("d-none");
+		});
+		numberDisplayGroups.forEach((group) => {
+			group.classList.add("d-none");
+		});
+		numberInputGroups.forEach((group) => {
+			group.classList.add("d-none");
+		});
+
+		switch (componentType) {
+			case "button":
+				buttonGroups.forEach((group) => {
+					group.classList.remove("d-none");
+				});
+				break;
+			case "switch":
+				switchGroups.forEach((group) => {
+					group.classList.remove("d-none");
+				});
+				break;
+			case "lamp":
+				lampGroups.forEach((group) => {
+					group.classList.remove("d-none");
+				});
+				break;
+			case "number-display":
+				numberDisplayGroups.forEach((group) => {
+					group.classList.remove("d-none");
+				});
+				break;
+			case "number-input":
+				numberInputGroups.forEach((group) => {
+					group.classList.remove("d-none");
+				});
+				break;
+		}
+
+		$("#myModal").modal("handleUpdate");
+	},
+};
+
 const isSignedCheckbox = modal.querySelector("#numberInputSigned");
 const minInput = modal.querySelector("#numberInputMin");
 const maxInput = modal.querySelector("#numberInputMax");
 
 // Add event listeners for real-time validation
-isSignedCheckbox.addEventListener("input", validateMinMax);
-minInput.addEventListener("input", validateMinMax);
-maxInput.addEventListener("input", validateMinMax);
-
-function validateMinMax() {
-	const isSigned = isSignedCheckbox.checked;
-
-	if (minInput.value === "" || maxInput.value === "") return;
-	if (isSigned && (minValue === "-" || maxValue === "-")) return;
-
-	let minVal = parseInt(minInput.value, 10);
-	let maxVal = parseInt(maxInput.value, 10);
-
-	if (isSigned) {
-		minInput.min = -32768;
-		minInput.max = 32767;
-		maxInput.min = -32768;
-		maxInput.max = 32767;
-	} else {
-		minInput.min = 0;
-		minInput.max = 65535;
-		maxInput.min = 0;
-		maxInput.max = 65535;
-	}
-
-	if (minVal < minInput.min) {
-		minVal = minInput.min;
-	} else if (minVal > minInput.max) {
-		minVal = minInput.max;
-	}
-	minInput.value = minVal;
-
-	if (maxVal < maxInput.min) {
-		maxVal = maxInput.min;
-	} else if (maxVal > maxInput.max) {
-		maxVal = maxInput.max;
-	}
-	maxInput.value = maxVal;
-}
+isSignedCheckbox.addEventListener("input", FormControll.validateMinMax);
+minInput.addEventListener("input", FormControll.validateMinMax);
+maxInput.addEventListener("input", FormControll.validateMinMax);
 
 modal.addEventListener("show.bs.modal", (event) => {
 	const button = event.relatedTarget;
@@ -73,24 +163,36 @@ modal.addEventListener("show.bs.modal", (event) => {
 	const registerAddressInput = modal.querySelector("#formRegisterAddress");
 	registerAddressInput.value = selectedComponent.modbus?.registerAddress;
 
-	const buttonGroup = modal.querySelector("#buttonGroup");
-	const numberDisplayGroup = modal.querySelector("#numberDisplayGroup");
-	const numberInputGroup = modal.querySelector("#numberInputGroup");
+	//Style selector
+	const styleDropdown = document.getElementById("formComponentTypeStyle");
+	FormControll.styleDropdownRenderer(selectedComponent.type, styleDropdown);
+	styleDropdown.value = selectedComponent.style.name;
 
-	// Hide all extra fields
-	buttonGroup.classList.add("d-none");
-	numberDisplayGroup.classList.add("d-none");
-	numberInputGroup.classList.add("d-none");
+	FormControll.justShowDependantFields(selectedComponent.type);
 
 	switch (selectedComponent.type) {
 		case "button": {
-			buttonGroup.classList.remove("d-none");
+			// Set values of the style fields
+			const buttonBackgroundColorInput = modal.querySelector("#buttonBackgroundColor");
+			buttonBackgroundColorInput.value = selectedComponent.style?.backgroundColor;
+			const buttonTextColorInput = modal.querySelector("#buttonTextColor");
+			buttonTextColorInput.value = selectedComponent.style?.textColor;
+			const buttonFontSizeInput = modal.querySelector("#buttonFontSize");
+			buttonFontSizeInput.value = selectedComponent.style?.fontSize;
+			const buttonBorderColorInput = modal.querySelector("#buttonBorderColor");
+			buttonBorderColorInput.value = selectedComponent.style?.borderColor;
+			const buttonBorderWidthInput = modal.querySelector("#buttonBorderWidth");
+			buttonBorderWidthInput.value = selectedComponent.style?.borderWidth;
+			const buttonTextStyleInput = modal.querySelector("#buttonTextStyle");
+			buttonTextStyleInput.value = selectedComponent.style?.textStyle;
+
+			// Set the values of the extra fields
 			const buttonLabelInput = modal.querySelector("#buttonLabel");
 			buttonLabelInput.value = selectedComponent.extra?.label;
 			break;
 		}
 		case "number-display": {
-			numberDisplayGroup.classList.remove("d-none");
+			// Set the values of the extra fields
 			const isSignedCheckbox = modal.querySelector("#numberDisplaySigned");
 			isSignedCheckbox.checked = selectedComponent.extra?.isSigned;
 			const numberDisplaySuffixInput = modal.querySelector("#numberDisplaySuffix");
@@ -100,7 +202,7 @@ modal.addEventListener("show.bs.modal", (event) => {
 			break;
 		}
 		case "number-input": {
-			numberInputGroup.classList.remove("d-none");
+			// Set the values of the extra fields
 			const isSignedCheckbox = modal.querySelector("#numberInputSigned");
 			isSignedCheckbox.checked = selectedComponent.extra?.isSigned;
 			const numberInputDecimalPointInput = modal.querySelector("#numberInputDecimalPoint");
@@ -118,10 +220,13 @@ modal.addEventListener("show.bs.modal", (event) => {
 
 // Toggle visibility of extra fields based on selected type
 document.getElementById("formComponentType").addEventListener("change", function () {
+	//Extra paramter groups
 	const formComponentType = document.getElementById("formComponentType");
-	buttonGroup.classList.toggle("d-none", formComponentType.value !== "button");
-	numberDisplayGroup.classList.toggle("d-none", formComponentType.value !== "number-display");
-	numberInputGroup.classList.toggle("d-none", formComponentType.value !== "number-input");
+	FormControll.justShowDependantFields(formComponentType.value);
+
+	//Styles
+	const styleDropdown = document.getElementById("formComponentTypeStyle");
+	FormControll.styleDropdownRenderer(formComponentType.value, styleDropdown);
 });
 
 document.getElementById("editComponentForm").addEventListener("submit", function (event) {
@@ -133,6 +238,7 @@ document.getElementById("editComponentForm").addEventListener("submit", function
 	const functionCode = modal.querySelector("#formFunctionCode").value;
 	const deviceAddress = modal.querySelector("#formDeviceAddress").value;
 	const registerAddress = modal.querySelector("#formRegisterAddress").value;
+	const styleName = modal.querySelector("#formComponentTypeStyle").value;
 
 	const componentObject = editModeComponents.find((component) => component.id === componentId);
 
@@ -142,11 +248,18 @@ document.getElementById("editComponentForm").addEventListener("submit", function
 	componentObject.modbus.deviceAddress = deviceAddress;
 	componentObject.modbus.registerAddress = registerAddress;
 	componentObject.modbus.functionCode = functionCode;
+	componentObject.style = { name: styleName };
 
 	switch (componentType) {
 		case "button": {
 			const buttonLabel = modal.querySelector("#buttonLabel").value;
 			componentObject.extra.label = buttonLabel;
+			componentObject.style.backgroundColor = modal.querySelector("#buttonBackgroundColor").value;
+			componentObject.style.textColor = modal.querySelector("#buttonTextColor").value;
+			componentObject.style.fontSize = modal.querySelector("#buttonFontSize").value;
+			componentObject.style.borderColor = modal.querySelector("#buttonBorderColor").value;
+			componentObject.style.borderWidth = modal.querySelector("#buttonBorderWidth").value;
+			componentObject.style.textStyle = modal.querySelector("#buttonTextStyle").value;
 			break;
 		}
 		case "number-display":

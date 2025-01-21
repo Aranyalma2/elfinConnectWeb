@@ -49,11 +49,7 @@ function createCardContent(component, editMode) {
 	let cardContent = "";
 	switch (component.type) {
 		case "button":
-			cardContent = `<div id="${component.id}" class="viewActive w-100">
-                            <input hidden class="viewContent" value="1"></input>
-                            <button class="btn btn-primary viewEvent w-100 h-100">${component.extra?.label}</button>
-                            <div class="error text-danger"></div>
-                        </div>`;
+			cardContent = ButtonStyles.getRenderWithStyle(component);
 			break;
 		case "switch":
 			cardContent = `<div id="${component.id}" class="viewPassive viewActive switch-container">

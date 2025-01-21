@@ -16,120 +16,181 @@
     </div>
   </div>
 
-  <div class="modal" id="editComponentModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"">
-      <div class=" modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><%= texts?.Edit_Component %></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="editComponentForm">
-          <a hidden id="formComponentId"></a>
-
-          <!-- Name Input -->
-          <div class="mb-3">
-            <label for="formComponentName" class="form-label"><%= texts?.Name %></label>
-            <input type="text" class="form-control" id="formComponentName" name="name" placeholder="<%= texts?.Enter_Component_Name %>" required>
+  <div class="modal modal-lg" id="editComponentModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><%= texts?.Edit_Component %></h5>
+          <div>
+            <button type="submit" form="editComponentForm" class="btn btn-primary me-2" data-bs-dismiss="modal"><%= texts?.Save %></button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close"><%= texts?.Cancel %></button>
           </div>
+        </div>
+        <div class="modal-body">
+          <form id="editComponentForm">
 
-          <!-- Type Dropdown -->
-          <div class="mb-3">
-            <label for="formComponentType" class="form-label"><%= texts?.Type %></label>
-            <select class="form-select" id="formComponentType" name="type" required>
-              <option value="button">Button</option>
-              <option value="switch">Switch</option>
-              <option value="lamp">Lamp</option>
-              <option value="number-display">Number Display</option>
-              <option value="number-input">Number Input</option>
-            </select>
-          </div>
+            <div class="row">
+              <!-- Left Column -->
+              <div class="col-md-6">
+                <a hidden id="formComponentId"></a>
 
-          <!-- Modbus Group -->
-          <fieldset class="border p-3 rounded">
-            <legend class="float-none w-auto px-3"><%= texts?.Modbus %></legend>
-
-            <!-- Function Code -->
-            <div class="mb-3">
-              <label for="formFunctionCode" class="form-label"><%= texts?.Function_code %></label>
-              <select class="form-select" id="formFunctionCode" name="type" required>
-                <option value="01">01 Read Coil</option>
-                <option value="02">02 Read Input Status</option>
-                <option value="03">03 Read Holding Register</option>
-                <option value="04">04 Read Input Register</option>
-                <option value="05">05 Write Coil</option>
-                <option value="06">06 Write Holding Register</option>
-                <option value="0105">01/05 Read/Write Coil</option>
-                <option value="0306">03/06 Read/Write Holding Register</option>
-              </select>
-            </div>
-
-            <!-- Device Address -->
-            <div class="mb-3">
-              <label for="formDeviceAddress" class="form-label"><%= texts?.Device_address %></label>
-              <input type="number" class="form-control" id="formDeviceAddress" name="modbusDeviceAddress" min="0" max="255" placeholder="0-255" required>
-            </div>
-
-            <!-- Register Address -->
-            <div class="mb-3">
-              <label for="formRegisterAddress" class="form-label"><%= texts?.Register_address %></label>
-              <input type="number" class="form-control" id="formRegisterAddress" name="modbusRegisterAddress" min="0" max="65535" placeholder="0-65535" required>
-            </div>
-          </fieldset>
-
-          <!-- Extra Fields -->
-          <fieldset class="border p-3 rounded">
-            <legend class="float-none w-auto px-3"><%= texts?.Additional_paramters %></legend>
-            <div class="mb-3 d-none" id="buttonGroup">
-              <label for="buttonLabel" class="form-label"><%= texts?.Button_label %></label>
-              <input type="text" class="form-control" id="buttonLabel" name="label" placeholder="<%= texts?.Enter_button_label %>">
-            </div>
-            <div class=" d-none" id="numberDisplayGroup">
-              <div class="mb-3">
+                <!-- Name Input -->
                 <div class="mb-3">
-                  <label for="numberDisplayDecimalPoint" class="form-label"><%= texts?.Slide_decimal_point %></label>
-                  <input type="number" class="form-control" id="numberDisplayDecimalPoint" name="decimalpoint" min="-10" max="10" placeholder="10^x" value="0">
+                  <label for="formComponentName" class="form-label"><%= texts?.Name %></label>
+                  <input type="text" class="form-control" id="formComponentName" name="name" placeholder="<%= texts?.Enter_Component_Name %>" required>
                 </div>
-                <input type="checkbox" class="form-check-input" id="numberDisplaySigned" name="isSigned">
-                <label class="form-check-label" for="numberDisplaySigned"><%= texts?.Signed %></label>
-              </div>
-              <div class="mb-3">
-                <label for="numberDisplaySuffix" class="form-label"><%= texts?.Suffix %></label>
-                <input type="text" class="form-control" id="numberDisplaySuffix" name="suffix" placeholder="<%= texts?.Enter_suffix %>">
-              </div>
-            </div>
-            <div class=" d-none" id="numberInputGroup">
-              <div class="mb-3">
-                <label for="numberInputDecimalPoint" class="form-label"><%= texts?.Slide_decimal_point %></label>
-                <input type="number" class="form-control" id="numberInputDecimalPoint" name="decimalpoint" min="-10" max="10" placeholder="10^x" value="0">
-              </div>
-              <div class="mb-3">
-                <input type="checkbox" class="form-check-input" id="numberInputSigned" name="isSigned">
-                <label class="form-check-label" for="numberInputSigned"><%= texts?.Signed %></label>
-              </div>
-              <div class="mb-3">
-                <label for="numberInputMin" class="form-label"><%= texts?.Minimum %></label>
-                <input type="text" class="form-control" id="numberInputMin" name="min" min="0" max="65535" placeholder="0" value="0">
-              </div>
-              <div class="mb-3">
-                <label for="numberInputMax" class="form-label"><%= texts?.Maximum %></label>
-                <input type="test" class="form-control" id="numberInputMax" name="max" min="0" max="65535" placeholder="65535" value="65535">
-              </div>
-              <small class="text-muted d-block mt-2">
-                Note: Ranges will auto-adjust to the minimum value. If the minimum is less than zero, the range will be signed, 
-                and the maximum will be set to a maximum of 32,767.
-              </small>
-            </div>
-          </fieldset>
 
-          <!-- Save Button -->
-          <div class="mt-3">
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"><%= texts?.Save %></button>
-          </div>
-        </form>
+                <!-- Type Dropdown -->
+                <div class="mb-3">
+                  <label for="formComponentType" class="form-label"><%= texts?.Type %></label>
+                  <select class="form-select" id="formComponentType" name="type" required>
+                    <option value="button"><%= texts?.Button %></option>
+                    <option value="switch"><%= texts?.Switch %></option>
+                    <option value="lamp"><%= texts?.Lamp %></option>
+                    <option value="number-display"><%= texts?.NumberDisplay %></option>
+                    <option value="number-input"><%= texts?.NumberInput %></option>
+                  </select>
+                </div>
+
+                <!-- Modbus Group -->
+                <fieldset class="border p-3 rounded">
+                  <legend class="float-none w-auto px-3"><%= texts?.Modbus %></legend>
+
+                  <!-- Function Code -->
+                  <div class="mb-3">
+                    <label for="formFunctionCode" class="form-label"><%= texts?.Function_code %></label>
+                    <select class="form-select" id="formFunctionCode" name="type" required>
+                      <option value="01">01 Read Coil</option>
+                      <option value="02">02 Read Input Status</option>
+                      <option value="03">03 Read Holding Register</option>
+                      <option value="04">04 Read Input Register</option>
+                      <option value="05">05 Write Coil</option>
+                      <option value="06">06 Write Holding Register</option>
+                      <option value="0105">01/05 Read/Write Coil</option>
+                      <option value="0306">03/06 Read/Write Holding Register</option>
+                    </select>
+                  </div>
+
+                  <!-- Device Address -->
+                  <div class="row">
+                    <div class="col-md-6 ps-0">
+                      <div class="mb-3">
+                        <label for="formDeviceAddress" class="form-label"><%= texts?.Device_address %></label>
+                        <input type="number" class="form-control" id="formDeviceAddress" name="modbusDeviceAddress" min="0" max="255" placeholder="0-255" required>
+                      </div>
+                    </div>
+
+                    <!-- Register Address -->
+                    <div class="col-md-6 pe-0">
+                      <div class="mb-3">               
+                        <label for="formRegisterAddress" class="form-label"><%= texts?.Register_address %></label>
+                        <input type="number" class="form-control" id="formRegisterAddress" name="modbusRegisterAddress" min="0" max="65535" placeholder="0-65535" required>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- Extra Fields -->
+                <fieldset class="border p-3 rounded">
+                  <legend class="float-none w-auto px-3"><%= texts?.Additional_paramters %></legend>
+                  <div class="d-none buttonGroup">
+                    <div class="mb-3">
+                      <label for="buttonLabel" class="form-label"><%= texts?.Button_label %></label>
+                      <input type="text" class="form-control" id="buttonLabel" name="label" placeholder="<%= texts?.Enter_button_label %>">
+                    </div>
+                  </div>
+                  <div class="d-none numberDisplayGroup">
+                    <div class="mb-3">
+                      <label for="numberDisplayDecimalPoint" class="form-label"><%= texts?.Slide_decimal_point %></label>
+                      <input type="number" class="form-control" id="numberDisplayDecimalPoint" name="decimalpoint" min="-10" max="10" placeholder="10^x" value="0">
+                    </div>
+                    <div class="mb-3">
+                      <input type="checkbox" class="form-check-input" id="numberDisplaySigned" name="isSigned">
+                      <label class="form-check-label" for="numberDisplaySigned"><%= texts?.Signed %></label>
+                    </div>
+                    <div class="mb-3">
+                      <label for="numberDisplaySuffix" class="form-label"><%= texts?.Suffix %></label>
+                      <input type="text" class="form-control" id="numberDisplaySuffix" name="suffix" placeholder="<%= texts?.Enter_suffix %>">
+                    </div>
+                  </div>
+                  <div class="d-none numberInputGroup">
+                    <div class="mb-3">
+                      <label for="numberInputDecimalPoint" class="form-label"><%= texts?.Slide_decimal_point %></label>
+                      <input type="number" class="form-control" id="numberInputDecimalPoint" name="decimalpoint" min="-10" max="10" placeholder="10^x" value="0">
+                    </div>
+                    <div class="mb-3">
+                      <input type="checkbox" class="form-check-input" id="numberInputSigned" name="isSigned">
+                      <label class="form-check-label" for="numberInputSigned"><%= texts?.Signed %></label>
+                    </div>
+                    <div class="mb-3">
+                      <label for="numberInputMin" class="form-label"><%= texts?.Minimum %></label>
+                      <input type="number" class="form-control" id="numberInputMin" name="min" min="0" max="65535" placeholder="0" value="0">
+                    </div>
+                    <div class="mb-3">
+                      <label for="numberInputMax" class="form-label"><%= texts?.Maximum %></label>
+                      <input type="number" class="form-control" id="numberInputMax" name="max" min="0" max="65535" placeholder="65535" value="65535">
+                    </div>
+                    <small class="text-muted d-block mt-2">
+                      <%= texts?.ValueRange_Note_Text %>
+                    </small>
+                  </div>
+                </fieldset>
+              </div>
+
+              <!-- Right Column -->
+              <div class="col-md-6">
+                <!-- Style Set Dropdowns -->
+                <fieldset class="border p-3 rounded">
+                  <legend class="float-none w-auto px-3"><%= texts?.Style %></legend>
+                  <div class="mb-3">
+                    <label for="formComponentTypeStyle" class="form-label"><%= texts?.Style %></label>
+                    <select class="form-select" id="formComponentTypeStyle" name="style" required></select>
+                  </div>
+                  <div class="d-none buttonGroup">
+                    <div class="row">
+                      <!-- Left Column -->
+                      <div class="col-md-6 ps-0">
+                        <div class="mb-3">
+                          <label for="buttonBackgroundColor" class="form-label"><%= texts?.BackgroundColor %></label>
+                          <input type="text" class="form-control" id="buttonBackgroundColor" name="backgroundcolor" placeholder="<%= texts?.Use_hexadecimal %>" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="buttonFontSize" class="form-label"><%= texts?.FontSize %></label>
+                          <input type="number" class="form-control" id="buttonFontSize" name="fontsize" min="0" max="30" value="16" placeholder="<%= texts?.Use_pixel %>" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="buttonBorderColor" class="form-label"><%= texts?.BorderColor %></label>
+                          <input type="text" class="form-control" id="buttonBorderColor" name="bordercolor" placeholder="<%= texts?.Use_hexadecimal %>" required>
+                        </div>
+                      </div>
+                      <!-- Right Column -->
+                      <div class="col-md-6 pe-0">
+                        <div class="mb-3">
+                          <label for="buttonTextColor" class="form-label"><%= texts?.TextColor %></label>
+                          <input type="text" class="form-control" id="buttonTextColor" name="textcolor" placeholder="<%= texts?.Use_hexadecimal %>" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="buttonTextStyle" class="form-label"><%= texts?.TextStyle %></label>
+                          <select class="form-select" id="buttonTextStyle" name="textstyle" required>
+                            <option value="normal"><%= texts?.Normal %></option>
+                            <option value="bold"><%= texts?.Bold %></option>
+                            <option value="italic"><%= texts?.Italic %></option>
+                          </select>
+                        </div>
+                        <div class="mb-3">
+                          <label for="buttonBorderWidth" class="form-label"><%= texts?.BorderWidth %></label>
+                          <input type="number" class="form-control" id="buttonBorderWidth" name="borderwidth" min="0" max="10" value="1" placeholder="<%= texts?.Use_pixel %>" required>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 
   <div id="cardContainer" class="d-flex flex-row justify-content-start flex-wrap p-1">
@@ -141,6 +202,10 @@
   const _texts = <%- JSON.stringify(texts) %>;
 </script>
 
+<!-- Component Styles -->
+<script src="/js/deviceViewStyles/buttons.js"></script>
+
+<!-- Component Function&Render -->
 <script src="/js/deviceViewRenderer.js"></script>
 <script src="/js/deviceViewDragAndDrop.js"></script>
 <script src="/js/deviceViewEventListeners.js"></script>
@@ -157,6 +222,7 @@
     id: '<%- component.id %>',
     name: '<%- component.name %>',
     type: '<%- component.type %>',
+    style: <%- JSON.stringify(component.style || {}) %>,
     order: <%- component.order %>,
     modbus: <%- JSON.stringify(component.modbus || {}) %>,
     extra: <%- JSON.stringify(component.extra || {}) %>,
@@ -171,7 +237,7 @@
   function toggleEditMode(isEditMode, editModeToggleButton) {
     isEditMode = !isEditMode;
 
-    if(isEditMode){
+    if (isEditMode) {
       window.onbeforeunload = function() {
         return "";
       };
@@ -199,18 +265,18 @@
         ...component
       }));
       saveLayout(runModeComponents)
-      .then(updatedComponents => {
-        if (updatedComponents) {
-          runModeComponents = updatedComponents;
-          console.log('Updated layout saved:', updatedComponents);
-        } else {
-          console.warn('Failed to save layout. Reverting to original layout.');
-        }
-        renderer(cardContainer, createLayout(runModeComponents, isEditMode), isEditMode);
-      })
-      .catch(error => {
-        console.error('Error saving layout:', error);
-      });
+        .then(updatedComponents => {
+          if (updatedComponents) {
+            runModeComponents = updatedComponents;
+            console.log('Updated layout saved:', updatedComponents);
+          } else {
+            console.warn('Failed to save layout. Reverting to original layout.');
+          }
+          renderer(cardContainer, createLayout(runModeComponents, isEditMode), isEditMode);
+        })
+        .catch(error => {
+          console.error('Error saving layout:', error);
+        });
     }
 
     return isEditMode;
@@ -232,7 +298,6 @@
 </script>
 
 <script>
-
   function modbusFunctionCodeParser(mode, functionCode) {
     if (mode === 'read') {
       switch (functionCode) {
@@ -266,77 +331,82 @@
   const deviceMAC = '<%= device.macAddress %>';
 
   async function sendDataRequest(data) {
-      
-      if (isEditMode) return;
 
-      const postURL = `${window.location.href}/api`;
+    if (isEditMode) return;
 
-      //Add device MAC address to the data object
-      data.destinationMAC = deviceMAC;
+    const postURL = `${window.location.href}/api`;
 
-      try {
-        const response = await fetch(postURL, {
-          method: 'POST',
-          body: JSON.stringify({ data }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+    //Add device MAC address to the data object
+    data.destinationMAC = deviceMAC;
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    try {
+      const response = await fetch(postURL, {
+        method: 'POST',
+        body: JSON.stringify({
+          data
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-        return await response.json(); // Parse and return JSON response
-      } catch (error) {
-        console.error('Error during fetch:', error);
-        return null; // Return null on error to handle gracefully
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      return await response.json(); // Parse and return JSON response
+    } catch (error) {
+      console.error('Error during fetch:', error);
+      return null; // Return null on error to handle gracefully
     }
+  }
 
-    async function saveLayout(layout = runModeComponents) {
-      const postURL = `${window.location.href}`;
+  async function saveLayout(layout = runModeComponents) {
+    const postURL = `${window.location.href}`;
 
-      try {
-        const response = await fetch(postURL, {
-          method: 'POST',
-          body: JSON.stringify({ view: layout }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+    try {
+      const response = await fetch(postURL, {
+        method: 'POST',
+        body: JSON.stringify({
+          view: layout
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        return await response.json(); // Parse and return JSON response
-      } catch (error) {
-        console.error('Error during fetch:', error);
-        return null; // Return null on error to handle gracefully
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      return await response.json(); // Parse and return JSON response
+    } catch (error) {
+      console.error('Error during fetch:', error);
+      return null; // Return null on error to handle gracefully
     }
+  }
 </script>
 
 <script>
-
   async function activeRequestRunner(componentObject, value) {
     const sendComponent = {
-        id: componentObject.id,
-        modbus: {...componentObject.modbus},
-        extra: componentObject.extra,
-        data: value,
-      };
+      id: componentObject.id,
+      modbus: {
+        ...componentObject.modbus
+      },
+      extra: componentObject.extra,
+      data: value,
+    };
 
-      // Adjust the function code to write mode
-      const fcode = modbusFunctionCodeParser('write', componentObject.modbus.functionCode);
-      if (fcode === 'Invalid') {
-        return;
-      }
+    // Adjust the function code to write mode
+    const fcode = modbusFunctionCodeParser('write', componentObject.modbus.functionCode);
+    if (fcode === 'Invalid') {
+      return;
+    }
 
-      sendComponent.modbus.functionCode = fcode;
+    sendComponent.modbus.functionCode = fcode;
 
-      const response = await sendDataRequest(sendComponent);
+    const response = await sendDataRequest(sendComponent);
   }
 
 
@@ -345,12 +415,14 @@
 
     const passiveViewComponents = document.querySelectorAll('.viewPassive');
 
-    for (const component of passiveViewComponents){
+    for (const component of passiveViewComponents) {
       const componentObject = runModeComponents.find((element) => element.id === component.id);
 
       const sendComponent = {
         id: componentObject.id,
-        modbus: {...componentObject.modbus},
+        modbus: {
+          ...componentObject.modbus
+        },
         extra: componentObject.extra,
       };
 

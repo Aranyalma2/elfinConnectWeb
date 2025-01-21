@@ -47,6 +47,7 @@ const viewComponentSchema = new mongoose.Schema({
 	id: String,
 	name: String,
 	type: String,
+	style: mongoose.Schema.Types.Mixed,
 	order: Number,
 	modbus: mongoose.Schema.Types.Mixed,
 	extra: mongoose.Schema.Types.Mixed,
