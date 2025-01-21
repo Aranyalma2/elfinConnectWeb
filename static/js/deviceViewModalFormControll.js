@@ -38,10 +38,8 @@ const FormControll = {
 	},
 
 	styleSectionRenderer: function (componentType, styleSectionDOM, data) {
-		console.log(componentType);
 		const dropdownDOMRenderer = function (list) {
 			let domString = "";
-			console.log(list);
 			list.forEach((item) => {
 				const option = document.createElement("option");
 				option.value = item.id;
@@ -108,6 +106,45 @@ const FormControll = {
 				break;
 			case "number-input":
 				styleDropdownDOM.innerHTML = `<option value="default">${_texts?.Default}</option>`;
+		}
+	},
+
+	extraParamSectionRenderer: function (componentType, extraParamSectionDOM, data) {
+		switch (componentType) {
+			case "button": {
+				// Set the values of the extra fields
+				const buttonLabelInput = extraParamSectionDOM.querySelector("#buttonLabel");
+				buttonLabelInput.value = data.label;
+				break;
+			}
+			case "switch":
+				break;
+			case "lamp":
+				break;
+			case "number-display":{
+				// Set the values of the extra fields
+				const isSignedCheckbox = extraParamSectionDOM.querySelector("#numberDisplaySigned");
+				isSignedCheckbox.checked = data.isSigned;
+				const numberDisplaySuffixInput = extraParamSectionDOM.querySelector("#numberDisplaySuffix");
+				numberDisplaySuffixInput.value = data.suffix;
+				const numberDisplayDecimalPointInput = extraParamSectionDOM.querySelector("#numberDisplayDecimalPoint");
+				numberDisplayDecimalPointInput.value = data.decimalpoint;
+				break;
+			}
+			case "number-input":{
+				// Set the values of the extra fields
+				const isSignedCheckbox = extraParamSectionDOM.querySelector("#numberInputSigned");
+				isSignedCheckbox.checked = data.isSigned;
+				const numberInputDecimalPointInput = extraParamSectionDOM.querySelector("#numberInputDecimalPoint");
+				numberInputDecimalPointInput.value = data.decimalpoint;
+				const numberInputMinInput = extraParamSectionDOM.querySelector("#numberInputMin");
+				numberInputMinInput.value = data.min;
+				numberInputMinInput.min = isSignedCheckbox.checked ? -32768 : 0;
+				const numberInputMaxInput = extraParamSectionDOM.querySelector("#numberInputMax");
+				numberInputMaxInput.value = data.max;
+				numberInputMaxInput.max = isSignedCheckbox.checked ? 32767 : 65535;
+				break;
+			}
 		}
 	},
 
@@ -208,47 +245,12 @@ modal.addEventListener("show.bs.modal", (event) => {
 	const styleSection = document.getElementById("formSectionStyle");
 	FormControll.styleSectionRenderer(selectedComponent.type, styleSection, selectedComponent.style);
 
+	//Extra parameter section
+	const extraParamSection = document.getElementById("formSectionExtra");
+	FormControll.extraParamSectionRenderer(selectedComponent.type, extraParamSection, selectedComponent.extra);
+
 	FormControll.justShowDependantFields(selectedComponent.type);
-
-	switch (selectedComponent.type) {
-		case "button": {
-			// Set the values of the extra fields
-			const buttonLabelInput = modal.querySelector("#buttonLabel");
-			buttonLabelInput.value = selectedComponent.extra?.label;
-			break;
-		}
-
-		case "lamp": {
-			// Set values of the style fields
-
-			break;
-		}
-
-		case "number-display": {
-			// Set the values of the extra fields
-			const isSignedCheckbox = modal.querySelector("#numberDisplaySigned");
-			isSignedCheckbox.checked = selectedComponent.extra?.isSigned;
-			const numberDisplaySuffixInput = modal.querySelector("#numberDisplaySuffix");
-			numberDisplaySuffixInput.value = selectedComponent.extra?.suffix;
-			const numberDisplayDecimalPointInput = modal.querySelector("#numberDisplayDecimalPoint");
-			numberDisplayDecimalPointInput.value = selectedComponent.extra?.decimalpoint;
-			break;
-		}
-		case "number-input": {
-			// Set the values of the extra fields
-			const isSignedCheckbox = modal.querySelector("#numberInputSigned");
-			isSignedCheckbox.checked = selectedComponent.extra?.isSigned;
-			const numberInputDecimalPointInput = modal.querySelector("#numberInputDecimalPoint");
-			numberInputDecimalPointInput.value = selectedComponent.extra?.decimalpoint;
-			const numberInputMinInput = modal.querySelector("#numberInputMin");
-			numberInputMinInput.value = selectedComponent.extra?.min;
-			numberInputMinInput.min = isSignedCheckbox.checked ? -32768 : 0;
-			const numberInputMaxInput = modal.querySelector("#numberInputMax");
-			numberInputMaxInput.value = selectedComponent.extra?.max;
-			numberInputMaxInput.max = isSignedCheckbox.checked ? 32767 : 65535;
-			break;
-		}
-	}
+	
 });
 
 // Toggle visibility of extra fields based on selected type
