@@ -8,8 +8,32 @@ const ButtonStyles = {
 		];
 	},
 
+	getDefaultStyle: function () {
+		return {
+			name: "rectangle",
+			backgroundColor: "#0D6EFD", // Background color
+			textColor: "#FFFFFF", // Text color
+			borderColor: "#0D6EFD", // Border color
+			borderWidth: "1", // Border width
+			textStyle: "normal", // Text style (normal, italic, bold)
+			fontSize: "16", // Font size
+		};
+	},
+
+	checkStyleAttributes: function (style) {
+		if (!style) style = ButtonStyles.getDefaultStyle();
+		if (!style.name) style.name = ButtonStyles.getDefaultStyle().name;
+		if (!style.backgroundColor) style.backgroundColor = ButtonStyles.getDefaultStyle().backgroundColor;
+		if (!style.textColor) style.textColor = ButtonStyles.getDefaultStyle().textColor;
+		if (!style.borderColor) style.borderColor = ButtonStyles.getDefaultStyle().borderColor;
+		if (!style.borderWidth) style.borderWidth = ButtonStyles.getDefaultStyle().borderWidth;
+		if (!style.textStyle) style.textStyle = ButtonStyles.getDefaultStyle().textStyle;
+		if (!style.fontSize) style.fontSize = ButtonStyles.getDefaultStyle().fontSize;
+		return style;
+	},
+
 	getRenderWithStyle: function (componentObject) {
-		componentObject.style = componentObject.style || ButtonStyles.getDefaultStyle();
+		componentObject.style = ButtonStyles.checkStyleAttributes(componentObject.style);
 
 		console.log(componentObject.style);
 
@@ -26,18 +50,6 @@ const ButtonStyles = {
 				componentObject.style = ButtonStyles.getDefaultStyle();
 				return ButtonStyles.getRenderWithStyle(componentObject);
 		}
-	},
-
-	getDefaultStyle: function () {
-		return {
-			name: "rectangle",
-			backgroundColor: "#0D6EFD", // Background color
-			textColor: "#FFFFFF", // Text color
-			borderColor: "#0D6EFD", // Border color
-			borderWidth: "1", // Border width
-			textStyle: "normal", // Text style (normal, italic, bold)
-			fontSize: "16", // Font size
-		};
 	},
 
 	getRectangleButton: function (component) {

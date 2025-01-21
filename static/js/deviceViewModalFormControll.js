@@ -37,9 +37,9 @@ const FormControll = {
 		maxInput.value = maxVal;
 	},
 
-	styleDropdownRenderer: function (componentType, styleDropdownDOM) {
+	styleSectionRenderer: function (componentType, styleSectionDOM, data) {
 		console.log(componentType);
-		const styleDropdownDOMRenderer = function (list) {
+		const dropdownDOMRenderer = function (list) {
 			let domString = "";
 			console.log(list);
 			list.forEach((item) => {
@@ -51,16 +51,57 @@ const FormControll = {
 			return domString;
 		};
 
+		styleDropdownDOM = styleSectionDOM.querySelector("#formComponentTypeStyle");
 		styleDropdownDOM.innerHTML = "";
 		switch (componentType) {
 			case "button":
-				styleDropdownDOM.innerHTML = styleDropdownDOMRenderer(ButtonStyles.getStyles());
+				styleDropdownDOM.innerHTML = dropdownDOMRenderer(ButtonStyles.getStyles());
+				data = ButtonStyles.checkStyleAttributes(data);
+				// Set values of the style fields
+				styleDropdownDOM.value = data.name;
+				const buttonBackgroundColorInput = modal.querySelector("#buttonBackgroundColor");
+				buttonBackgroundColorInput.value = data.backgroundColor;
+				buttonBackgroundColorInput.jscolor.fromString(data.backgroundColor);
+				const buttonTextColorInput = modal.querySelector("#buttonTextColor");
+				buttonTextColorInput.value = data.textColor;
+				buttonTextColorInput.jscolor.fromString(data.textColor);
+				const buttonFontSizeInput = modal.querySelector("#buttonFontSize");
+				buttonFontSizeInput.value = data.fontSize;
+				const buttonBorderColorInput = modal.querySelector("#buttonBorderColor");
+				buttonBorderColorInput.value = data.borderColor;
+				buttonBorderColorInput.jscolor.fromString(data.borderColor);
+				const buttonBorderWidthInput = modal.querySelector("#buttonBorderWidth");
+				buttonBorderWidthInput.value = data.borderWidth;
+				const buttonTextStyleInput = modal.querySelector("#buttonTextStyle");
+				buttonTextStyleInput.value = data.textStyle;
+
 				break;
 			case "switch":
 				styleDropdownDOM.innerHTML = `<option value="default">${_texts?.Default}</option>`;
 				break;
 			case "lamp":
-				styleDropdownDOM.innerHTML = `<option value="default">${_texts?.Default}</option>`;
+				styleDropdownDOM.innerHTML = dropdownDOMRenderer(LampStyles.getStyles());
+				data = LampStyles.checkStyleAttributes(data);
+				// Set values of the style fields
+				styleDropdownDOM.value = data.name;
+				const lampBackgroundColorOnInput = modal.querySelector("#lampBackgroundColorOn");
+				lampBackgroundColorOnInput.value = data.backgroundColorOn;
+				lampBackgroundColorOnInput.jscolor.fromString(data.backgroundColorOn);
+				const lampBackgroundColorOffInput = modal.querySelector("#lampBackgroundColorOff");
+				lampBackgroundColorOffInput.value = data.backgroundColorOff;
+				lampBackgroundColorOffInput.jscolor.fromString(data.backgroundColorOff);
+				const lampStateOnTextInput = modal.querySelector("#lampStateOnText");
+				lampStateOnTextInput.value = data.stateOnText;
+				const lampStateOffTextInput = modal.querySelector("#lampStateOffText");
+				lampStateOffTextInput.value = data.stateOffText;
+				const lampBorderColorInput = modal.querySelector("#lampBorderColor");
+				lampBorderColorInput.value = data.borderColor;
+				lampBorderColorInput.jscolor.fromString(data.borderColor);
+				const lampBorderWidthInput = modal.querySelector("#lampBorderWidth");
+				lampBorderWidthInput.value = data.borderWidth;
+				const lampEffectInput = modal.querySelector("#lampEffect");
+				lampEffectInput.innerHTML = dropdownDOMRenderer(LampStyles.getEffects());
+				lampEffectInput.value = data.effect;
 				break;
 			case "number-display":
 				styleDropdownDOM.innerHTML = `<option value="default">${_texts?.Default}</option>`;
@@ -163,34 +204,26 @@ modal.addEventListener("show.bs.modal", (event) => {
 	const registerAddressInput = modal.querySelector("#formRegisterAddress");
 	registerAddressInput.value = selectedComponent.modbus?.registerAddress;
 
-	//Style selector
-	const styleDropdown = document.getElementById("formComponentTypeStyle");
-	FormControll.styleDropdownRenderer(selectedComponent.type, styleDropdown);
-	styleDropdown.value = selectedComponent.style.name;
+	//Style section
+	const styleSection = document.getElementById("formSectionStyle");
+	FormControll.styleSectionRenderer(selectedComponent.type, styleSection, selectedComponent.style);
 
 	FormControll.justShowDependantFields(selectedComponent.type);
 
 	switch (selectedComponent.type) {
 		case "button": {
-			// Set values of the style fields
-			const buttonBackgroundColorInput = modal.querySelector("#buttonBackgroundColor");
-			buttonBackgroundColorInput.value = selectedComponent.style?.backgroundColor;
-			const buttonTextColorInput = modal.querySelector("#buttonTextColor");
-			buttonTextColorInput.value = selectedComponent.style?.textColor;
-			const buttonFontSizeInput = modal.querySelector("#buttonFontSize");
-			buttonFontSizeInput.value = selectedComponent.style?.fontSize;
-			const buttonBorderColorInput = modal.querySelector("#buttonBorderColor");
-			buttonBorderColorInput.value = selectedComponent.style?.borderColor;
-			const buttonBorderWidthInput = modal.querySelector("#buttonBorderWidth");
-			buttonBorderWidthInput.value = selectedComponent.style?.borderWidth;
-			const buttonTextStyleInput = modal.querySelector("#buttonTextStyle");
-			buttonTextStyleInput.value = selectedComponent.style?.textStyle;
-
 			// Set the values of the extra fields
 			const buttonLabelInput = modal.querySelector("#buttonLabel");
 			buttonLabelInput.value = selectedComponent.extra?.label;
 			break;
 		}
+
+		case "lamp": {
+			// Set values of the style fields
+
+			break;
+		}
+
 		case "number-display": {
 			// Set the values of the extra fields
 			const isSignedCheckbox = modal.querySelector("#numberDisplaySigned");
@@ -225,8 +258,8 @@ document.getElementById("formComponentType").addEventListener("change", function
 	FormControll.justShowDependantFields(formComponentType.value);
 
 	//Styles
-	const styleDropdown = document.getElementById("formComponentTypeStyle");
-	FormControll.styleDropdownRenderer(formComponentType.value, styleDropdown);
+	const styleSection = document.getElementById("formSectionStyle");
+	FormControll.styleSectionRenderer(formComponentType.value, styleSection, null);
 });
 
 document.getElementById("editComponentForm").addEventListener("submit", function (event) {
@@ -260,6 +293,16 @@ document.getElementById("editComponentForm").addEventListener("submit", function
 			componentObject.style.borderColor = modal.querySelector("#buttonBorderColor").value;
 			componentObject.style.borderWidth = modal.querySelector("#buttonBorderWidth").value;
 			componentObject.style.textStyle = modal.querySelector("#buttonTextStyle").value;
+			break;
+		}
+		case "lamp": {
+			componentObject.style.backgroundColorOn = modal.querySelector("#lampBackgroundColorOn").value;
+			componentObject.style.backgroundColorOff = modal.querySelector("#lampBackgroundColorOff").value;
+			componentObject.style.stateOnText = modal.querySelector("#lampStateOnText").value;
+			componentObject.style.stateOffText = modal.querySelector("#lampStateOffText").value;
+			componentObject.style.borderColor = modal.querySelector("#lampBorderColor").value;
+			componentObject.style.borderWidth = modal.querySelector("#lampBorderWidth").value;
+			componentObject.style.effect = modal.querySelector("#lampEffect").value;
 			break;
 		}
 		case "number-display":

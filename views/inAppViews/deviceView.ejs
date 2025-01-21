@@ -140,7 +140,7 @@
               <!-- Right Column -->
               <div class="col-md-6">
                 <!-- Style Set Dropdowns -->
-                <fieldset class="border p-3 rounded">
+                <fieldset class="border p-3 rounded" id="formSectionStyle">
                   <legend class="float-none w-auto px-3"><%= texts?.Style %></legend>
                   <div class="mb-3">
                     <label for="formComponentTypeStyle" class="form-label"><%= texts?.Style %></label>
@@ -152,26 +152,26 @@
                       <div class="col-md-6 ps-0">
                         <div class="mb-3">
                           <label for="buttonBackgroundColor" class="form-label"><%= texts?.BackgroundColor %></label>
-                          <input type="text" class="form-control" id="buttonBackgroundColor" name="backgroundcolor" placeholder="<%= texts?.Use_hexadecimal %>" required>
+                          <input type="text" class="form-control" id="buttonBackgroundColor" name="backgroundcolor" data-jscolor="{}" placeholder="<%= texts?.Use_hexadecimal %>">
                         </div>
                         <div class="mb-3">
                           <label for="buttonFontSize" class="form-label"><%= texts?.FontSize %></label>
-                          <input type="number" class="form-control" id="buttonFontSize" name="fontsize" min="0" max="30" value="16" placeholder="<%= texts?.Use_pixel %>" required>
+                          <input type="number" class="form-control" id="buttonFontSize" name="fontsize" min="0" max="30" value="16" placeholder="<%= texts?.Use_pixel %>">
                         </div>
                         <div class="mb-3">
                           <label for="buttonBorderColor" class="form-label"><%= texts?.BorderColor %></label>
-                          <input type="text" class="form-control" id="buttonBorderColor" name="bordercolor" placeholder="<%= texts?.Use_hexadecimal %>" required>
+                          <input type="text" class="form-control" id="buttonBorderColor" name="bordercolor" data-jscolor="{}" placeholder="<%= texts?.Use_hexadecimal %>">
                         </div>
                       </div>
                       <!-- Right Column -->
                       <div class="col-md-6 pe-0">
                         <div class="mb-3">
                           <label for="buttonTextColor" class="form-label"><%= texts?.TextColor %></label>
-                          <input type="text" class="form-control" id="buttonTextColor" name="textcolor" placeholder="<%= texts?.Use_hexadecimal %>" required>
+                          <input type="text" class="form-control" id="buttonTextColor" name="textcolor" data-jscolor="{}" placeholder="<%= texts?.Use_hexadecimal %>">
                         </div>
                         <div class="mb-3">
                           <label for="buttonTextStyle" class="form-label"><%= texts?.TextStyle %></label>
-                          <select class="form-select" id="buttonTextStyle" name="textstyle" required>
+                          <select class="form-select" id="buttonTextStyle" name="textstyle">
                             <option value="normal"><%= texts?.Normal %></option>
                             <option value="bold"><%= texts?.Bold %></option>
                             <option value="italic"><%= texts?.Italic %></option>
@@ -179,7 +179,45 @@
                         </div>
                         <div class="mb-3">
                           <label for="buttonBorderWidth" class="form-label"><%= texts?.BorderWidth %></label>
-                          <input type="number" class="form-control" id="buttonBorderWidth" name="borderwidth" min="0" max="10" value="1" placeholder="<%= texts?.Use_pixel %>" required>
+                          <input type="number" class="form-control" id="buttonBorderWidth" name="borderwidth" min="0" max="10" value="1" placeholder="<%= texts?.Use_pixel %>">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-none lampGroup">
+                    <div class="row">
+                      <!-- Left Column -->
+                      <div class="col-md-6 ps-0">
+                        <div class="mb-3">
+                          <label for="lampBackgroundColorOn" class="form-label"><%= texts?.BackgroundColorOn %></label>
+                          <input type="text" class="form-control" id="lampBackgroundColorOn" name="backgroundcoloron" data-jscolor="{}" placeholder="<%= texts?.Use_hexadecimal %>">
+                        </div>
+                        <div class="mb-3">
+                          <label for="lampStateOnText" class="form-label"><%= texts?.StateOnText %></label>
+                          <input type="text" class="form-control" id="lampStateOnText" name="stateontext" placeholder="<%= texts?.EGON %>">
+                        </div>
+                        <div class="mb-3">
+                          <label for="lampBorderColor" class="form-label"><%= texts?.BorderColor %></label>
+                          <input type="text" class="form-control" id="lampBorderColor" name="bordercolor" data-jscolor="{}" placeholder="<%= texts?.Use_hexadecimal %>">
+                        </div>
+                        <div class="mb-3">
+                          <label for="lampEffect" class="form-label"><%= texts?.Effect %></label>
+                          <select class="form-select" id="lampEffect" name="lampeffect"></select>
+                        </div>
+                      </div>
+                      <!-- Right Column -->
+                      <div class="col-md-6 pe-0">
+                        <div class="mb-3">
+                          <label for="lampBackgroundColorOff" class="form-label"><%= texts?.BackgroundColorOff %></label>
+                          <input type="text" class="form-control" id="lampBackgroundColorOff" name="backgroundcoloroff" data-jscolor="{}" placeholder="<%= texts?.Use_hexadecimal %>">
+                        </div>
+                        <div class="mb-3">
+                          <label for="lampStateOffText" class="form-label"><%= texts?.StateOffText %></label>
+                          <input type="text" class="form-control" id="lampStateOffText" name="stateofftext" placeholder="<%= texts?.EGOFF %>">
+                        </div>
+                        <div class="mb-3">
+                          <label for="lampBorderWidth" class="form-label"><%= texts?.BorderWidth %></label>
+                          <input type="number" class="form-control" id="lampBorderWidth" name="borderwidth" min="0" max="10" value="1" placeholder="<%= texts?.Use_pixel %>">
                         </div>
                       </div>
                     </div>
@@ -202,8 +240,22 @@
   const _texts = <%- JSON.stringify(texts) %>;
 </script>
 
+<script src="/js/jscolor.js"></script>
+<script>
+    jscolor.presets.default = {
+    position: 'right',
+    palette: [
+        '#000000', '#7d7d7d', '#870014', '#ec1c23', '#ff7e26',
+        '#fef100', '#22b14b', '#00a1e7', '#3f47cc', '#a349a4',
+        '#ffffff', '#c3c3c3', '#b87957', '#feaec9', '#ffc80d',
+        '#eee3af', '#b5e61d', '#99d9ea', '#7092be', '#c8bfe7',
+    ],
+};
+</script>
+
 <!-- Component Styles -->
 <script src="/js/deviceViewStyles/buttons.js"></script>
+<script src="/js/deviceViewStyles/lamps.js"></script>
 
 <!-- Component Function&Render -->
 <script src="/js/deviceViewRenderer.js"></script>

@@ -62,12 +62,7 @@ function createCardContent(component, editMode) {
 								</div>`;
 			break;
 		case "lamp":
-			cardContent = `<div id="${component.id}" class="viewPassive lamp-style">
-							<div class="lamp-body">
-								<div class="viewContent">0</div>
-							</div>
-							<div class="error text-danger"></div>
-						</div>`;
+			cardContent = LampStyles.getRenderWithStyle(component);
 			break;
 		case "number-display":
 			cardContent = `<div id="${component.id}" class="viewPassive">
@@ -126,7 +121,7 @@ function updateCardContent(componentId, data, error) {
 	if (errorElement) {
 		errorElement.textContent = error || "";
 	}
-	if (error || !viewElement) {
+	if (error) {
 		return;
 	}
 
@@ -135,14 +130,12 @@ function updateCardContent(componentId, data, error) {
 		case "button":
 			break;
 		case "lamp":
-			viewElement.textContent = data;
-			if (viewElement.textContent === "1") {
-				viewElement.parentElement.classList.add("on");
-				viewElement.parentElement.classList.remove("off");
-			} else {
-				viewElement.classList.remove("on");
-				viewElement.classList.add("off");
-			}
+			const copyComponentObject = componentObject;
+			copyComponentObject.state = data;
+
+			const lampStyle = LampStyles.getRenderWithStyle(copyComponentObject);
+			document.getElementById(componentId).parentElement.innerHTML = lampStyle;
+
 			break;
 		case "switch":
 			viewElement.checked = data;
