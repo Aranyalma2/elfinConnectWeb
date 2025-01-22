@@ -4,6 +4,40 @@
 	color: #333;
 }
 
+.lamp-container .viewContent.off {
+	background-color: var(--tooltip-backgroundOff-color);
+	color: var(--tooltip-textOff-color);
+}
+
+.lamp-container .viewContent.on {
+	background-color: var(--tooltip-backgroundOn-color);
+	color: var(--tooltip-textOn-color); 
+}
+
+.lamp-container .viewContent.off .lampOff {
+	display: block;
+}
+
+.lamp-container .viewContent.off .lampOn {
+	display: none;
+}
+
+.lamp-container .viewContent.on .lampOn {
+	display: block;
+}
+
+.lamp-container .viewContent.on .lampOff{
+	display: none;
+}
+/*
+.lamp-container .viewContent.off.neon {
+	box-shadow: 0 0 10px var(--tooltip-backgroundOff-color), 0 0 20px var(--tooltip-backgroundOff-color), 0 0 30px var(--tooltip-backgroundOff-color);
+}
+*/
+.lamp-container .viewContent.on.neon {
+	box-shadow: 0 0 10px var(--tooltip-backgroundOn-color), 0 0 20px var(--tooltip-backgroundOn-color), 0 0 30px var(--tooltip-backgroundOn-color);
+}
+
 /* Style for making the checkbox bigger */
 .large-checkbox {
 	width: 20px;  /* Increase the width */
@@ -22,7 +56,7 @@
 	  opacity: 0.0;
 	}
   }
-  .blink {
+  .effectBlink.on {
 	animation: blink 1s step-start 0s infinite;
   }
 
@@ -47,6 +81,22 @@
 .switch-container .form-check-input {
 	width: 112px; /* Increased width of the switch */
 	height: 64px; /* Increased height of the switch */
+	
+}
+
+/* Set color if focused */
+.switch-container .form-check-input:focus {
+	border-color: var(--tooltip-border-color);
+    outline: 0;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(0,0,0,0.25)'/></svg>");
+}
+
+/* Set color if checked */
+.switch-container .form-check-input:checked {
+	background-color: var(--tooltip-background-color);
+	border: none;
+	background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(255,255,255,1.0)'/></svg>");
 }
 
 /* Increase the size of the round slider (circle inside the switch) */

@@ -52,14 +52,7 @@ function createCardContent(component, editMode) {
 			cardContent = ButtonStyles.getRenderWithStyle(component);
 			break;
 		case "switch":
-			cardContent = `<div id="${component.id}" class="viewPassive viewActive switch-container">
-									<div class="d-flex align-items-center">
-										<div class="form-check form-switch">
-											<input class="form-check-input viewContent viewEvent" type="checkbox" role="switch"}>
-										</div>
-									</div>
-									<div class="error text-danger"></div>
-								</div>`;
+			cardContent = SwitchStyles.getRenderWithStyle(component);
 			break;
 		case "lamp":
 			cardContent = LampStyles.getRenderWithStyle(component);
@@ -129,17 +122,20 @@ function updateCardContent(componentId, data, error) {
 	switch (componentObject.type) {
 		case "button":
 			break;
-		case "lamp":
-			const copyComponentObject = componentObject;
-			copyComponentObject.state = data;
-
-			const lampStyle = LampStyles.getRenderWithStyle(copyComponentObject);
-			document.getElementById(componentId).parentElement.innerHTML = lampStyle;
-
+		case "lamp":{
+			if (data) {
+				viewElement.classList.add("on");
+				viewElement.classList.remove("off");
+			} else {
+				viewElement.classList.add("off");
+				viewElement.classList.remove("on");
+			}
 			break;
-		case "switch":
+		}
+		case "switch": {
 			viewElement.checked = data;
 			break;
+		}
 		case "number-display":
 			data = parseFloat(data) * Math.pow(10, componentObject.extra.decimalpoint || 0);
 			if (componentObject.extra.decimalpoint < 0) data = data.toFixed(componentObject.extra.decimalpoint * -1);

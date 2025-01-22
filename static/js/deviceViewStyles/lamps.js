@@ -48,7 +48,7 @@ const LampStyles = {
 			case "none":
 				return "";
 			case "blink":
-				return "blink";
+				return "effectBlink";
 			default:
 				return "";
 		}
@@ -77,122 +77,136 @@ const LampStyles = {
 	},
 
 	getRectangleLamp: function (component) {
-		const backgroundColor = component.state === 1 ? component.style.backgroundColorOn : component.style.backgroundColorOff;
 		return `
-            <div id="${component.id}" class="viewPassive w-100">
-                <div class="w-100 h-100 d-flex justify-content-center align-items-center ${component.state === 1 ? LampStyles.getEffect(component.style.effect) : ""}"
+            <div id="${component.id}" class="viewPassive w-100 lamp-container">
+                <div class="w-100 h-100 d-flex justify-content-center align-items-center viewContent off ${LampStyles.getEffect(component.style.effect)}"
                     style="
-                        background-color: ${backgroundColor};
+                        --tooltip-backgroundOn-color: ${component.style.backgroundColorOn};
+                        --tooltip-backgroundOff-color: ${component.style.backgroundColorOff};
+                        --tooltip-textOn-color:${getTextColorForBackground(component.style.backgroundColorOn)};
+                        --tooltip-textOff-color:${getTextColorForBackground(component.style.backgroundColorOff)};
                         border-color: ${component.style.borderColor};
                         border-width: ${component.style.borderWidth}px;
                         border-style: solid;
                         position: relative;
                     ">
-                    <div class="viewContent position-absolute" style="color:${getTextColorForBackground(backgroundColor)};">${component.state === 1 ? component.style.stateOnText : component.style.stateOffText}</div>
+                    <div class="lampOn position-absolute">${component.style.stateOnText}</div>
+                    <div class="lampOff position-absolute">${component.style.stateOffText}</div>
                 </div>
                 <div class="error text-danger"></div>
             </div>`;
 	},
 
 	getRectangleNeonLamp: function (component) {
-		const backgroundColor = component.state === 1 ? component.style.backgroundColorOn : component.style.backgroundColorOff;
 		return `
-            <div id="${component.id}" class="viewPassive w-100">
-                <div class="w-100 h-100 d-flex justify-content-center align-items-center ${component.state === 1 ? LampStyles.getEffect(component.style.effect) : ""}"
+            <div id="${component.id}" class="viewPassive w-100 lamp-container">
+                <div class="w-100 h-100 d-flex justify-content-center align-items-center viewContent off neon ${LampStyles.getEffect(component.style.effect)}"
                     style="
-                        background-color: ${backgroundColor};
+                        --tooltip-backgroundOn-color: ${component.style.backgroundColorOn};
+                        --tooltip-backgroundOff-color: ${component.style.backgroundColorOff};
+                        --tooltip-textOn-color:${getTextColorForBackground(component.style.backgroundColorOn)};
+                        --tooltip-textOff-color:${getTextColorForBackground(component.style.backgroundColorOff)};
                         border-color: ${component.style.borderColor};
                         border-width: ${component.style.borderWidth}px;
                         border-style: solid;
                         position: relative;
-                        box-shadow: 0 0 10px ${backgroundColor}, 0 0 20px ${backgroundColor}, 0 0 30px ${backgroundColor};
                     ">
-                    <div class="viewContent position-absolute" style="color:${getTextColorForBackground(backgroundColor)};">${component.state === 1 ? component.style.stateOnText : component.style.stateOffText}</div>
+                    <div class="lampOn position-absolute">${component.style.stateOnText}</div>
+                    <div class="lampOff position-absolute">${component.style.stateOffText}</div>
                 </div>
                 <div class="error text-danger"></div>
             </div>`;
 	},
 
 	getRoundedLamp: function (component) {
-		const backgroundColor = component.state === 1 ? component.style.backgroundColorOn : component.style.backgroundColorOff;
 		return `
-        <div id="${component.id}" class="viewPassive w-100">
-            <div class="w-100 h-100 d-flex justify-content-center align-items-center ${component.state === 1 ? LampStyles.getEffect(component.style.effect) : ""}"
-                style="
-                    background-color: ${backgroundColor};
-                    border-color: ${component.style.borderColor};
-                    border-width: ${component.style.borderWidth}px;
-                    border-style: solid;
-                    position: relative;
-                    border-radius: 20px;
-                ">
-                <div class="viewContent position-absolute" style="color:${getTextColorForBackground(backgroundColor)};">${component.state === 1 ? component.style.stateOnText : component.style.stateOffText}</div>
-            </div>
-            <div class="error text-danger"></div>
-        </div>`;
+            <div id="${component.id}" class="viewPassive w-100 lamp-container">
+                <div class="w-100 h-100 d-flex justify-content-center align-items-center viewContent off ${LampStyles.getEffect(component.style.effect)}"
+                    style="
+                        --tooltip-backgroundOn-color: ${component.style.backgroundColorOn};
+                        --tooltip-backgroundOff-color: ${component.style.backgroundColorOff};
+                        --tooltip-textOn-color:${getTextColorForBackground(component.style.backgroundColorOn)};
+                        --tooltip-textOff-color:${getTextColorForBackground(component.style.backgroundColorOff)};
+                        border-color: ${component.style.borderColor};
+                        border-width: ${component.style.borderWidth}px;
+                        border-style: solid;
+                        position: relative;
+                        border-radius: 20px;
+                    ">
+                    <div class="lampOn position-absolute">${component.style.stateOnText}</div>
+                    <div class="lampOff position-absolute">${component.style.stateOffText}</div>
+                </div>
+                <div class="error text-danger"></div>
+            </div>`;
 	},
 
 	getRoundedNeonLamp: function (component) {
-		const backgroundColor = component.state === 1 ? component.style.backgroundColorOn : component.style.backgroundColorOff;
 		return `
-        <div id="${component.id}" class="viewPassive w-100">
-            <div class="w-100 h-100 d-flex justify-content-center align-items-center ${component.state === 1 ? LampStyles.getEffect(component.style.effect) : ""}"
-                style="
-                    background-color: ${backgroundColor};
-                    border-color: ${component.style.borderColor};
-                    border-width: ${component.style.borderWidth}px;
-                    border-style: solid;
-                    position: relative;
-                    border-radius: 20px;
-                    box-shadow: 0 0 10px ${backgroundColor}, 0 0 20px ${backgroundColor}, 0 0 30px ${backgroundColor};
-                ">
-                <div class="viewContent position-absolute" style="color:${getTextColorForBackground(backgroundColor)};">${component.state === 1 ? component.style.stateOnText : component.style.stateOffText}</div>
-            </div>
-            <div class="error text-danger"></div>
-        </div>`;
+            <div id="${component.id}" class="viewPassive w-100 lamp-container">
+                <div class="w-100 h-100 d-flex justify-content-center align-items-center viewContent off neon ${LampStyles.getEffect(component.style.effect)}"
+                    style="
+                        --tooltip-backgroundOn-color: ${component.style.backgroundColorOn};
+                        --tooltip-backgroundOff-color: ${component.style.backgroundColorOff};
+                        --tooltip-textOn-color:${getTextColorForBackground(component.style.backgroundColorOn)};
+                        --tooltip-textOff-color:${getTextColorForBackground(component.style.backgroundColorOff)};
+                        border-color: ${component.style.borderColor};
+                        border-width: ${component.style.borderWidth}px;
+                        border-style: solid;
+                        position: relative;
+                        border-radius: 20px;
+                    ">
+                    <div class="lampOn position-absolute">${component.style.stateOnText}</div>
+                    <div class="lampOff position-absolute">${component.style.stateOffText}</div>
+                </div>
+                <div class="error text-danger"></div>
+            </div>`;
 	},
 
 	getCircleLamp: function (component) {
-		const backgroundColor = component.state === 1 ? component.style.backgroundColorOn : component.style.backgroundColorOff;
 		return `
-        <div id="${component.id}" class="viewPassive justify-content-center align-items-center">
-            <div class="d-flex justify-content-center align-items-center ${component.state === 1 ? LampStyles.getEffect(component.style.effect) : ""}"
-                style="
-                    background-color: ${backgroundColor};
-                    border-color: ${component.style.borderColor};
-                    border-width: ${component.style.borderWidth}px;
-                    border-style: solid;
-                    position: relative;
-                    height: 75px;
-                    width: 75px;
-                    border-radius: 50%;
-                ">
-                <div class="viewContent position-absolute" style="color:${getTextColorForBackground(backgroundColor)};">${component.state === 1 ? component.style.stateOnText : component.style.stateOffText}</div>
-            </div>
-            <div class="error text-danger"></div>
-        </div>`;
+            <div id="${component.id}" class="viewPassive justify-content-center align-items-center lamp-container">
+                <div class="d-flex justify-content-center align-items-center viewContent off ${LampStyles.getEffect(component.style.effect)}"
+                    style="
+                        --tooltip-backgroundOn-color: ${component.style.backgroundColorOn};
+                        --tooltip-backgroundOff-color: ${component.style.backgroundColorOff};
+                        --tooltip-textOn-color:${getTextColorForBackground(component.style.backgroundColorOn)};
+                        --tooltip-textOff-color:${getTextColorForBackground(component.style.backgroundColorOff)};
+                        border-color: ${component.style.borderColor};
+                        border-width: ${component.style.borderWidth}px;
+                        border-style: solid;
+                        position: relative;
+                        height: 75px;
+                        width: 75px;
+                        border-radius: 50%;
+                    ">
+                    <div class="lampOn position-absolute">${component.style.stateOnText}</div>
+                    <div class="lampOff position-absolute">${component.style.stateOffText}</div>
+                <div class="error text-danger"></div>
+            </div>`;
 	},
 
 	getCircleNeonLamp: function (component) {
-		const backgroundColor = component.state === 1 ? component.style.backgroundColorOn : component.style.backgroundColorOff;
 		return `
-        <div id="${component.id}" class="viewPassive justify-content-center align-items-center">
-            <div class="d-flex justify-content-center align-items-center ${component.state === 1 ? LampStyles.getEffect(component.style.effect) : ""}"
-                style="
-                    background-color: ${backgroundColor};
-                    border-color: ${component.style.borderColor};
-                    border-width: ${component.style.borderWidth}px;
-                    border-style: solid;
-                    position: relative;
-                    height: 75px;
-                    width: 75px;
-                    border-radius: 50%;
-                    box-shadow: 0 0 10px ${backgroundColor}, 0 0 20px ${backgroundColor}, 0 0 30px ${backgroundColor};
-                ">
-                <div class="viewContent position-absolute" style="color:${getTextColorForBackground(backgroundColor)};">${component.state === 1 ? component.style.stateOnText : component.style.stateOffText}</div>
-            </div>
-            <div class="error text-danger"></div>
-        </div>`;
+            <div id="${component.id}" class="viewPassive justify-content-center align-items-center lamp-container">
+                <div class="d-flex justify-content-center align-items-center viewContent off neon ${LampStyles.getEffect(component.style.effect)}"
+                    style="
+                        --tooltip-backgroundOn-color: ${component.style.backgroundColorOn};
+                        --tooltip-backgroundOff-color: ${component.style.backgroundColorOff};
+                        --tooltip-textOn-color:${getTextColorForBackground(component.style.backgroundColorOn)};
+                        --tooltip-textOff-color:${getTextColorForBackground(component.style.backgroundColorOff)};
+                        border-color: ${component.style.borderColor};
+                        border-width: ${component.style.borderWidth}px;
+                        border-style: solid;
+                        position: relative;
+                        height: 75px;
+                        width: 75px;
+                        border-radius: 50%;
+                    ">
+                    <div class="lampOn position-absolute">${component.style.stateOnText}</div>
+                    <div class="lampOff position-absolute">${component.style.stateOffText}</div>
+                </div>
+                <div class="error text-danger"></div>
+            </div>`;
 	},
 };
 

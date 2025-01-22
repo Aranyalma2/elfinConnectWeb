@@ -222,6 +222,12 @@
                       </div>
                     </div>
                   </div>
+                  <div class="d-none switchGroup">
+                    <div class="mb-3">
+                      <label for="switchBackgroundColor" class="form-label"><%= texts?.BackgroundColor %></label>
+                      <input type="text" class="form-control" id="switchBackgroundColor" name="backgroundcolor" data-jscolor="{}" placeholder="<%= texts?.Use_hexadecimal %>">
+                    </div>
+                  </div>
                 </fieldset>
               </div>
             </div>
@@ -256,6 +262,7 @@
 <!-- Component Styles -->
 <script src="/js/deviceViewStyles/buttons.js"></script>
 <script src="/js/deviceViewStyles/lamps.js"></script>
+<script src="/js/deviceViewStyles/switches.js"></script>
 
 <!-- Component Function&Render -->
 <script src="/js/deviceViewRenderer.js"></script>

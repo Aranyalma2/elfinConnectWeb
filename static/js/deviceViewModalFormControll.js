@@ -75,7 +75,13 @@ const FormControll = {
 
 				break;
 			case "switch":
-				styleDropdownDOM.innerHTML = `<option value="default">${_texts?.Default}</option>`;
+				styleDropdownDOM.innerHTML = dropdownDOMRenderer(SwitchStyles.getStyles());
+				data = SwitchStyles.checkStyleAttributes(data);
+				// Set values of the style fields
+				styleDropdownDOM.value = data.name;
+				const switchBackgroundColorInput = modal.querySelector("#switchBackgroundColor");
+				switchBackgroundColorInput.value = data.backgroundColor;
+				switchBackgroundColorInput.jscolor.fromString(data.backgroundColor);
 				break;
 			case "lamp":
 				styleDropdownDOM.innerHTML = dropdownDOMRenderer(LampStyles.getStyles());
@@ -305,6 +311,10 @@ document.getElementById("editComponentForm").addEventListener("submit", function
 			componentObject.style.borderColor = modal.querySelector("#lampBorderColor").value;
 			componentObject.style.borderWidth = modal.querySelector("#lampBorderWidth").value;
 			componentObject.style.effect = modal.querySelector("#lampEffect").value;
+			break;
+		}
+		case "switch": {
+			componentObject.style.backgroundColor = modal.querySelector("#switchBackgroundColor").value;
 			break;
 		}
 		case "number-display":
