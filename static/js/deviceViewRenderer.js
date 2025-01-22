@@ -122,7 +122,7 @@ function updateCardContent(componentId, data, error) {
 	switch (componentObject.type) {
 		case "button":
 			break;
-		case "lamp":{
+		case "lamp": {
 			if (data) {
 				viewElement.classList.add("on");
 				viewElement.classList.remove("off");

@@ -1,8 +1,6 @@
 const SwitchStyles = {
 	getStyles: function () {
-		return [
-			{ id: "simple", name: _texts.Default },
-		];
+		return [{ id: "simple", name: _texts.Default }];
 	},
 
 	getDefaultStyle: function () {
@@ -45,7 +43,7 @@ const SwitchStyles = {
 									<div class="error text-danger"></div>
 								</div>
     `;
-	}
+	},
 };
 
 function darkenColor(color, percent) {

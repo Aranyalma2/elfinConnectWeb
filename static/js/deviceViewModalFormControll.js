@@ -127,7 +127,7 @@ const FormControll = {
 				break;
 			case "lamp":
 				break;
-			case "number-display":{
+			case "number-display": {
 				// Set the values of the extra fields
 				const isSignedCheckbox = extraParamSectionDOM.querySelector("#numberDisplaySigned");
 				isSignedCheckbox.checked = data.isSigned;
@@ -137,7 +137,7 @@ const FormControll = {
 				numberDisplayDecimalPointInput.value = data.decimalpoint;
 				break;
 			}
-			case "number-input":{
+			case "number-input": {
 				// Set the values of the extra fields
 				const isSignedCheckbox = extraParamSectionDOM.querySelector("#numberInputSigned");
 				isSignedCheckbox.checked = data.isSigned;
@@ -256,7 +256,6 @@ modal.addEventListener("show.bs.modal", (event) => {
 	FormControll.extraParamSectionRenderer(selectedComponent.type, extraParamSection, selectedComponent.extra);
 
 	FormControll.justShowDependantFields(selectedComponent.type);
-	
 });
 
 // Toggle visibility of extra fields based on selected type
