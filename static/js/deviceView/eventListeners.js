@@ -30,7 +30,7 @@ function addNewCardEventListeners(isEditMode) {
 			},
 		};
 		editModeComponents.push(newCardData);
-		renderer(cardContainer, createLayout(editModeComponents, isEditMode), isEditMode);
+		renderer(cardContainer, createLayout(editModeLayout, editModeComponents, isEditMode), isEditMode);
 	});
 }
 

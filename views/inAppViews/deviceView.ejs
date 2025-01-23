@@ -9,21 +9,50 @@
     </div>
 
     <div class="col text-end mb-4">
-      <button id="editModeToggle" class="btn btn-success">
+      <button id="editLayout" class="btn btn-primary d-none m-1" data-bs-toggle="modal" data-bs-target="#editLayoutModal">
+        <i class="bi bi-columns"></i> <%= texts?.EditLayout %>
+      </button>
+      <button id="editModeToggle" class="btn btn-success m-1">
         <i class="bi bi-pencil-square"></i> <%= texts?.EditMode %>
       </button>
-      <!--<a href="#" class="btn btn-primary"><%= texts?.test %></a>-->
     </div>
   </div>
 
-  <div class="modal modal-lg" id="editComponentModal" tabindex="-1">
+  <!-- Edit Layout Modal -->
+  <div class="modal modal-md" id="editLayoutModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><%= texts?.EditLayout %></h5>
+          <div>
+            <button type="submit" form="editLayoutForm" class="btn btn-primary m-1" data-bs-dismiss="modal"><%= texts?.Save %></button>
+            <button type="button" class="btn btn-secondary m-1" data-bs-dismiss="modal" aria-label="Close"><%= texts?.Cancel %></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form id="editLayoutForm">
+            <div class="mb-3">
+              <label for="formLayoutType" class="form-label"><%= texts?.Type %></label>
+              <select class="form-select" id="formLayoutType" name="type" required>
+                <option value="fixed"><%= texts?.Fix %></option>
+                <option value="fill"><%= texts?.Fill %></option>
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Component Modal -->
+  <div class="modal modal-lg" id="editComponentModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title"><%= texts?.Edit_Component %></h5>
           <div>
-            <button type="submit" form="editComponentForm" class="btn btn-primary me-2" data-bs-dismiss="modal"><%= texts?.Save %></button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close"><%= texts?.Cancel %></button>
+            <button type="submit" form="editComponentForm" class="btn btn-primary m-1" data-bs-dismiss="modal"><%= texts?.Save %></button>
+            <button type="button" class="btn btn-secondary m-1" data-bs-dismiss="modal" aria-label="Close"><%= texts?.Cancel %></button>
           </div>
         </div>
         <div class="modal-body">
@@ -82,7 +111,7 @@
 
                     <!-- Register Address -->
                     <div class="col-md-6 pe-0">
-                      <div class="mb-3">               
+                      <div class="mb-3">
                         <label for="formRegisterAddress" class="form-label"><%= texts?.Register_address %></label>
                         <input type="number" class="form-control" id="formRegisterAddress" name="modbusRegisterAddress" min="0" max="65535" placeholder="0-65535" required>
                       </div>
@@ -248,31 +277,34 @@
 
 <script src="/js/jscolor.js"></script>
 <script>
-    jscolor.presets.default = {
-    position: 'right',
+  jscolor.presets.default = {
+    position: 'bottom',
     palette: [
-        '#000000', '#7d7d7d', '#870014', '#ec1c23', '#ff7e26',
-        '#fef100', '#22b14b', '#00a1e7', '#3f47cc', '#a349a4',
-        '#ffffff', '#c3c3c3', '#b87957', '#feaec9', '#ffc80d',
-        '#eee3af', '#b5e61d', '#99d9ea', '#7092be', '#c8bfe7',
+      '#000000', '#7d7d7d', '#870014', '#ec1c23', '#ff7e26',
+      '#fef100', '#22b14b', '#00a1e7', '#3f47cc', '#a349a4',
+      '#ffffff', '#c3c3c3', '#b87957', '#feaec9', '#ffc80d',
+      '#eee3af', '#b5e61d', '#99d9ea', '#7092be', '#c8bfe7',
     ],
-};
+  };
 </script>
 
 <!-- Component Styles -->
-<script src="/js/deviceViewStyles/buttons.js"></script>
-<script src="/js/deviceViewStyles/lamps.js"></script>
-<script src="/js/deviceViewStyles/switches.js"></script>
+<script src="/js/deviceView/styles/buttons.js"></script>
+<script src="/js/deviceView/styles/lamps.js"></script>
+<script src="/js/deviceView/styles/switches.js"></script>
 
 <!-- Component Function&Render -->
-<script src="/js/deviceViewRenderer.js"></script>
-<script src="/js/deviceViewDragAndDrop.js"></script>
-<script src="/js/deviceViewEventListeners.js"></script>
-<script src="/js/deviceViewModalFormControll.js"></script>
+<script src="/js/deviceView/renderer.js"></script>
+<script src="/js/deviceView/dragAndDrop.js"></script>
+<script src="/js/deviceView/eventListeners.js"></script>
+<script src="/js/deviceView/componentEditFormControll.js"></script>
+<script src="/js/deviceView/layoutEditFormControll.js"></script>
 <script>
   //Initial components array
   let runModeComponents = [];
   let editModeComponents = [];
+  let runModeLayout = <%- JSON.stringify(viewLayout || {}) %>;
+  let editModeLayout = <%- JSON.stringify(viewLayout || {}) %>;
   let isEditMode = false;
   //Add components to the array
   <% if (typeof viewComponents !== 'undefined' && Array.isArray(viewComponents)) { %>
@@ -291,7 +323,7 @@
 
   //Render the components
   const cardContainer = document.getElementById('cardContainer');
-  renderer(cardContainer, createLayout(runModeComponents, isEditMode), isEditMode);
+  renderer(cardContainer, createLayout(runModeLayout, runModeComponents, isEditMode), isEditMode);
 
   function toggleEditMode(isEditMode, editModeToggleButton) {
     isEditMode = !isEditMode;
@@ -309,29 +341,35 @@
         <i class="bi ${isEditMode ? 'bi-save' : 'bi-pencil-square'}"></i> 
         ${isEditMode ? '<%= texts?.Save || "Save" %>' : '<%= texts?.EditMode || "Edit Mode" %>'}
         `;
+
+    // show layout button in editmode
+    document.getElementById('editLayout').classList.toggle('d-none', !isEditMode);
+
     // Re-render the components
     if (isEditMode) {
+      editModeLayout = structuredClone(runModeLayout);
       editModeComponents = structuredClone(runModeComponents);
-      renderer(cardContainer, createLayout(editModeComponents, isEditMode), isEditMode);
+      renderer(cardContainer, createLayout(editModeLayout, editModeComponents, isEditMode), isEditMode);
     } else {
+      console.log(editModeLayout);
       console.log(editModeComponents);
-      if (JSON.stringify(editModeComponents) === JSON.stringify(runModeComponents)) {
+      if (JSON.stringify(editModeComponents) === JSON.stringify(runModeComponents) && JSON.stringify(editModeLayout) === JSON.stringify(runModeLayout)) {
         console.log('No changes detected. Exiting edit mode.');
-        renderer(cardContainer, createLayout(runModeComponents, isEditMode), isEditMode);
+        renderer(cardContainer, createLayout(runModeLayout, runModeComponents, isEditMode), isEditMode);
         return isEditMode;
       }
-      runModeComponents = editModeComponents.map(component => ({
-        ...component
-      }));
-      saveLayout(runModeComponents)
-        .then(updatedComponents => {
-          if (updatedComponents) {
-            runModeComponents = updatedComponents;
-            console.log('Updated layout saved:', updatedComponents);
+      runModeComponents = structuredClone(editModeComponents);
+      runModeLayout = structuredClone(editModeLayout);
+      saveLayout(runModeLayout, runModeComponents)
+        .then(updatedView => {
+          if (updatedView && updatedView.layout && updatedView.components) {
+            runModeLayout = updatedView.layout;
+            runModeComponents = updatedView.components;
+            console.log('Updated layout saved');
           } else {
             console.warn('Failed to save layout. Reverting to original layout.');
           }
-          renderer(cardContainer, createLayout(runModeComponents, isEditMode), isEditMode);
+          renderer(cardContainer, createLayout(runModeLayout, runModeComponents, isEditMode), isEditMode);
         })
         .catch(error => {
           console.error('Error saving layout:', error);
@@ -351,7 +389,7 @@
       const card = event.target.closest('.card');
       const selectedComponentId = card.id.replace('card-', '');
       editModeComponents = editModeComponents.filter((component) => component.id !== selectedComponentId);
-      renderer(cardContainer, createLayout(editModeComponents, isEditMode), isEditMode);
+      renderer(cardContainer, createLayout(editModeLayout, editModeComponents, isEditMode), isEditMode);
     }
   });
 </script>
@@ -392,8 +430,8 @@
   async function sendDataRequest(data) {
 
     if (isEditMode) return;
-
-    const postURL = `${window.location.href}/api`;
+    const siteURL = new URL(window.location.href);
+    const postURL = siteURL.origin + siteURL.pathname + '/api';
 
     //Add device MAC address to the data object
     data.destinationMAC = deviceMAC;
@@ -420,14 +458,16 @@
     }
   }
 
-  async function saveLayout(layout = runModeComponents) {
-    const postURL = `${window.location.href}`;
+  async function saveLayout(layout, components) {
+    const siteURL = new URL(window.location.href);
+    const postURL = siteURL.origin + siteURL.pathname;
 
     try {
       const response = await fetch(postURL, {
         method: 'POST',
         body: JSON.stringify({
-          view: layout
+          layout: layout,
+          components: components
         }),
         headers: {
           'Content-Type': 'application/json',

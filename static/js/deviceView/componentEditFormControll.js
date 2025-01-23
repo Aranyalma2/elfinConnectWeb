@@ -1,6 +1,6 @@
-const modal = document.getElementById("editComponentModal");
+const componentEditModalDOM = document.getElementById("editComponentModal");
 
-const FormControll = {
+const ComponentEditFormControll = {
 	validateMinMax: function () {
 		const isSigned = isSignedCheckbox.checked;
 
@@ -57,20 +57,20 @@ const FormControll = {
 				data = ButtonStyles.checkStyleAttributes(data);
 				// Set values of the style fields
 				styleDropdownDOM.value = data.name;
-				const buttonBackgroundColorInput = modal.querySelector("#buttonBackgroundColor");
+				const buttonBackgroundColorInput = componentEditModalDOM.querySelector("#buttonBackgroundColor");
 				buttonBackgroundColorInput.value = data.backgroundColor;
 				buttonBackgroundColorInput.jscolor.fromString(data.backgroundColor);
-				const buttonTextColorInput = modal.querySelector("#buttonTextColor");
+				const buttonTextColorInput = componentEditModalDOM.querySelector("#buttonTextColor");
 				buttonTextColorInput.value = data.textColor;
 				buttonTextColorInput.jscolor.fromString(data.textColor);
-				const buttonFontSizeInput = modal.querySelector("#buttonFontSize");
+				const buttonFontSizeInput = componentEditModalDOM.querySelector("#buttonFontSize");
 				buttonFontSizeInput.value = data.fontSize;
-				const buttonBorderColorInput = modal.querySelector("#buttonBorderColor");
+				const buttonBorderColorInput = componentEditModalDOM.querySelector("#buttonBorderColor");
 				buttonBorderColorInput.value = data.borderColor;
 				buttonBorderColorInput.jscolor.fromString(data.borderColor);
-				const buttonBorderWidthInput = modal.querySelector("#buttonBorderWidth");
+				const buttonBorderWidthInput = componentEditModalDOM.querySelector("#buttonBorderWidth");
 				buttonBorderWidthInput.value = data.borderWidth;
-				const buttonTextStyleInput = modal.querySelector("#buttonTextStyle");
+				const buttonTextStyleInput = componentEditModalDOM.querySelector("#buttonTextStyle");
 				buttonTextStyleInput.value = data.textStyle;
 
 				break;
@@ -79,7 +79,7 @@ const FormControll = {
 				data = SwitchStyles.checkStyleAttributes(data);
 				// Set values of the style fields
 				styleDropdownDOM.value = data.name;
-				const switchBackgroundColorInput = modal.querySelector("#switchBackgroundColor");
+				const switchBackgroundColorInput = componentEditModalDOM.querySelector("#switchBackgroundColor");
 				switchBackgroundColorInput.value = data.backgroundColor;
 				switchBackgroundColorInput.jscolor.fromString(data.backgroundColor);
 				break;
@@ -88,22 +88,22 @@ const FormControll = {
 				data = LampStyles.checkStyleAttributes(data);
 				// Set values of the style fields
 				styleDropdownDOM.value = data.name;
-				const lampBackgroundColorOnInput = modal.querySelector("#lampBackgroundColorOn");
+				const lampBackgroundColorOnInput = componentEditModalDOM.querySelector("#lampBackgroundColorOn");
 				lampBackgroundColorOnInput.value = data.backgroundColorOn;
 				lampBackgroundColorOnInput.jscolor.fromString(data.backgroundColorOn);
-				const lampBackgroundColorOffInput = modal.querySelector("#lampBackgroundColorOff");
+				const lampBackgroundColorOffInput = componentEditModalDOM.querySelector("#lampBackgroundColorOff");
 				lampBackgroundColorOffInput.value = data.backgroundColorOff;
 				lampBackgroundColorOffInput.jscolor.fromString(data.backgroundColorOff);
-				const lampStateOnTextInput = modal.querySelector("#lampStateOnText");
+				const lampStateOnTextInput = componentEditModalDOM.querySelector("#lampStateOnText");
 				lampStateOnTextInput.value = data.stateOnText;
-				const lampStateOffTextInput = modal.querySelector("#lampStateOffText");
+				const lampStateOffTextInput = componentEditModalDOM.querySelector("#lampStateOffText");
 				lampStateOffTextInput.value = data.stateOffText;
-				const lampBorderColorInput = modal.querySelector("#lampBorderColor");
+				const lampBorderColorInput = componentEditModalDOM.querySelector("#lampBorderColor");
 				lampBorderColorInput.value = data.borderColor;
 				lampBorderColorInput.jscolor.fromString(data.borderColor);
-				const lampBorderWidthInput = modal.querySelector("#lampBorderWidth");
+				const lampBorderWidthInput = componentEditModalDOM.querySelector("#lampBorderWidth");
 				lampBorderWidthInput.value = data.borderWidth;
-				const lampEffectInput = modal.querySelector("#lampEffect");
+				const lampEffectInput = componentEditModalDOM.querySelector("#lampEffect");
 				lampEffectInput.innerHTML = dropdownDOMRenderer(LampStyles.getEffects());
 				lampEffectInput.value = data.effect;
 				break;
@@ -155,11 +155,11 @@ const FormControll = {
 	},
 
 	justShowDependantFields: function (componentType) {
-		const buttonGroups = modal.querySelectorAll(".buttonGroup");
-		const switchGroups = modal.querySelectorAll(".switchGroup");
-		const lampGroups = modal.querySelectorAll(".lampGroup");
-		const numberDisplayGroups = modal.querySelectorAll(".numberDisplayGroup");
-		const numberInputGroups = modal.querySelectorAll(".numberInputGroup");
+		const buttonGroups = componentEditModalDOM.querySelectorAll(".buttonGroup");
+		const switchGroups = componentEditModalDOM.querySelectorAll(".switchGroup");
+		const lampGroups = componentEditModalDOM.querySelectorAll(".lampGroup");
+		const numberDisplayGroups = componentEditModalDOM.querySelectorAll(".numberDisplayGroup");
+		const numberInputGroups = componentEditModalDOM.querySelectorAll(".numberInputGroup");
 
 		// Hide all type dependant fields
 		buttonGroups.forEach((group) => {
@@ -210,75 +210,75 @@ const FormControll = {
 	},
 };
 
-const isSignedCheckbox = modal.querySelector("#numberInputSigned");
-const minInput = modal.querySelector("#numberInputMin");
-const maxInput = modal.querySelector("#numberInputMax");
+const isSignedCheckbox = componentEditModalDOM.querySelector("#numberInputSigned");
+const minInput = componentEditModalDOM.querySelector("#numberInputMin");
+const maxInput = componentEditModalDOM.querySelector("#numberInputMax");
 
 // Add event listeners for real-time validation
-isSignedCheckbox.addEventListener("input", FormControll.validateMinMax);
-minInput.addEventListener("input", FormControll.validateMinMax);
-maxInput.addEventListener("input", FormControll.validateMinMax);
+isSignedCheckbox.addEventListener("input", ComponentEditFormControll.validateMinMax);
+minInput.addEventListener("input", ComponentEditFormControll.validateMinMax);
+maxInput.addEventListener("input", ComponentEditFormControll.validateMinMax);
 
-modal.addEventListener("show.bs.modal", (event) => {
+componentEditModalDOM.addEventListener("show.bs.modal", (event) => {
 	const button = event.relatedTarget;
 	const selectedComponentId = button.parentNode.parentNode.parentNode.id.replace("card-", "");
 	const selectedComponent = editModeComponents.find((component) => component.id === selectedComponentId);
 
 	if (selectedComponent === undefined) return;
 
-	const modalTitle = modal.querySelector(".modal-title");
+	const modalTitle = componentEditModalDOM.querySelector(".modal-title");
 	modalTitle.textContent = `${_texts.Edit} ${selectedComponent.name}`;
 
-	const componentIdAttribute = modal.querySelector("#formComponentId");
+	const componentIdAttribute = componentEditModalDOM.querySelector("#formComponentId");
 	componentIdAttribute.textContent = selectedComponent.id;
 
-	const componentNameInput = modal.querySelector("#formComponentName");
+	const componentNameInput = componentEditModalDOM.querySelector("#formComponentName");
 	componentNameInput.value = selectedComponent.name;
 
-	const componentTypeInput = modal.querySelector("#formComponentType");
+	const componentTypeInput = componentEditModalDOM.querySelector("#formComponentType");
 	componentTypeInput.value = selectedComponent.type;
 
-	const functionCodeInput = modal.querySelector("#formFunctionCode");
+	const functionCodeInput = componentEditModalDOM.querySelector("#formFunctionCode");
 	functionCodeInput.value = selectedComponent.modbus?.functionCode;
 
-	const deviceAddressInput = modal.querySelector("#formDeviceAddress");
+	const deviceAddressInput = componentEditModalDOM.querySelector("#formDeviceAddress");
 	deviceAddressInput.value = selectedComponent.modbus?.deviceAddress;
 
-	const registerAddressInput = modal.querySelector("#formRegisterAddress");
+	const registerAddressInput = componentEditModalDOM.querySelector("#formRegisterAddress");
 	registerAddressInput.value = selectedComponent.modbus?.registerAddress;
 
 	//Style section
 	const styleSection = document.getElementById("formSectionStyle");
-	FormControll.styleSectionRenderer(selectedComponent.type, styleSection, selectedComponent.style);
+	ComponentEditFormControll.styleSectionRenderer(selectedComponent.type, styleSection, selectedComponent.style);
 
 	//Extra parameter section
 	const extraParamSection = document.getElementById("formSectionExtra");
-	FormControll.extraParamSectionRenderer(selectedComponent.type, extraParamSection, selectedComponent.extra);
+	ComponentEditFormControll.extraParamSectionRenderer(selectedComponent.type, extraParamSection, selectedComponent.extra);
 
-	FormControll.justShowDependantFields(selectedComponent.type);
+	ComponentEditFormControll.justShowDependantFields(selectedComponent.type);
 });
 
 // Toggle visibility of extra fields based on selected type
 document.getElementById("formComponentType").addEventListener("change", function () {
 	//Extra paramter groups
 	const formComponentType = document.getElementById("formComponentType");
-	FormControll.justShowDependantFields(formComponentType.value);
+	ComponentEditFormControll.justShowDependantFields(formComponentType.value);
 
 	//Styles
 	const styleSection = document.getElementById("formSectionStyle");
-	FormControll.styleSectionRenderer(formComponentType.value, styleSection, null);
+	ComponentEditFormControll.styleSectionRenderer(formComponentType.value, styleSection, null);
 });
 
 document.getElementById("editComponentForm").addEventListener("submit", function (event) {
 	event.preventDefault();
 
-	const componentId = modal.querySelector("#formComponentId").textContent;
-	const componentName = modal.querySelector("#formComponentName").value;
-	const componentType = modal.querySelector("#formComponentType").value;
-	const functionCode = modal.querySelector("#formFunctionCode").value;
-	const deviceAddress = modal.querySelector("#formDeviceAddress").value;
-	const registerAddress = modal.querySelector("#formRegisterAddress").value;
-	const styleName = modal.querySelector("#formComponentTypeStyle").value;
+	const componentId = componentEditModalDOM.querySelector("#formComponentId").textContent;
+	const componentName = componentEditModalDOM.querySelector("#formComponentName").value;
+	const componentType = componentEditModalDOM.querySelector("#formComponentType").value;
+	const functionCode = componentEditModalDOM.querySelector("#formFunctionCode").value;
+	const deviceAddress = componentEditModalDOM.querySelector("#formDeviceAddress").value;
+	const registerAddress = componentEditModalDOM.querySelector("#formRegisterAddress").value;
+	const styleName = componentEditModalDOM.querySelector("#formComponentTypeStyle").value;
 
 	const componentObject = editModeComponents.find((component) => component.id === componentId);
 
@@ -292,48 +292,47 @@ document.getElementById("editComponentForm").addEventListener("submit", function
 
 	switch (componentType) {
 		case "button": {
-			const buttonLabel = modal.querySelector("#buttonLabel").value;
+			const buttonLabel = componentEditModalDOM.querySelector("#buttonLabel").value;
 			componentObject.extra.label = buttonLabel;
-			componentObject.style.backgroundColor = modal.querySelector("#buttonBackgroundColor").value;
-			componentObject.style.textColor = modal.querySelector("#buttonTextColor").value;
-			componentObject.style.fontSize = modal.querySelector("#buttonFontSize").value;
-			componentObject.style.borderColor = modal.querySelector("#buttonBorderColor").value;
-			componentObject.style.borderWidth = modal.querySelector("#buttonBorderWidth").value;
-			componentObject.style.textStyle = modal.querySelector("#buttonTextStyle").value;
+			componentObject.style.backgroundColor = componentEditModalDOM.querySelector("#buttonBackgroundColor").value;
+			componentObject.style.textColor = componentEditModalDOM.querySelector("#buttonTextColor").value;
+			componentObject.style.fontSize = componentEditModalDOM.querySelector("#buttonFontSize").value;
+			componentObject.style.borderColor = componentEditModalDOM.querySelector("#buttonBorderColor").value;
+			componentObject.style.borderWidth = componentEditModalDOM.querySelector("#buttonBorderWidth").value;
+			componentObject.style.textStyle = componentEditModalDOM.querySelector("#buttonTextStyle").value;
 			break;
 		}
 		case "lamp": {
-			componentObject.style.backgroundColorOn = modal.querySelector("#lampBackgroundColorOn").value;
-			componentObject.style.backgroundColorOff = modal.querySelector("#lampBackgroundColorOff").value;
-			componentObject.style.stateOnText = modal.querySelector("#lampStateOnText").value;
-			componentObject.style.stateOffText = modal.querySelector("#lampStateOffText").value;
-			componentObject.style.borderColor = modal.querySelector("#lampBorderColor").value;
-			componentObject.style.borderWidth = modal.querySelector("#lampBorderWidth").value;
-			componentObject.style.effect = modal.querySelector("#lampEffect").value;
+			componentObject.style.backgroundColorOn = componentEditModalDOM.querySelector("#lampBackgroundColorOn").value;
+			componentObject.style.backgroundColorOff = componentEditModalDOM.querySelector("#lampBackgroundColorOff").value;
+			componentObject.style.stateOnText = componentEditModalDOM.querySelector("#lampStateOnText").value;
+			componentObject.style.stateOffText = componentEditModalDOM.querySelector("#lampStateOffText").value;
+			componentObject.style.borderColor = componentEditModalDOM.querySelector("#lampBorderColor").value;
+			componentObject.style.borderWidth = componentEditModalDOM.querySelector("#lampBorderWidth").value;
+			componentObject.style.effect = componentEditModalDOM.querySelector("#lampEffect").value;
 			break;
 		}
 		case "switch": {
-			componentObject.style.backgroundColor = modal.querySelector("#switchBackgroundColor").value;
+			componentObject.style.backgroundColor = componentEditModalDOM.querySelector("#switchBackgroundColor").value;
 			break;
 		}
-		case "number-display":
-			{
-				const isSigned = modal.querySelector("#numberDisplaySigned").checked;
-				componentObject.extra.isSigned = isSigned;
-				const numberDisplaySuffix = modal.querySelector("#numberDisplaySuffix").value;
-				componentObject.extra.suffix = numberDisplaySuffix;
-				const numberDisplayDecimalPoint = modal.querySelector("#numberDisplayDecimalPoint").value;
-				componentObject.extra.decimalpoint = numberDisplayDecimalPoint;
-			}
-			break;
-		case "number-input": {
-			const isSigned = modal.querySelector("#numberInputSigned").checked;
+		case "number-display": {
+			const isSigned = componentEditModalDOM.querySelector("#numberDisplaySigned").checked;
 			componentObject.extra.isSigned = isSigned;
-			const numberInputDecimalPoint = modal.querySelector("#numberInputDecimalPoint").value;
+			const numberDisplaySuffix = componentEditModalDOM.querySelector("#numberDisplaySuffix").value;
+			componentObject.extra.suffix = numberDisplaySuffix;
+			const numberDisplayDecimalPoint = componentEditModalDOM.querySelector("#numberDisplayDecimalPoint").value;
+			componentObject.extra.decimalpoint = numberDisplayDecimalPoint;
+			break;
+		}
+		case "number-input": {
+			const isSigned = componentEditModalDOM.querySelector("#numberInputSigned").checked;
+			componentObject.extra.isSigned = isSigned;
+			const numberInputDecimalPoint = componentEditModalDOM.querySelector("#numberInputDecimalPoint").value;
 			componentObject.extra.decimalpoint = numberInputDecimalPoint;
-			const numberInputMin = modal.querySelector("#numberInputMin").value;
+			const numberInputMin = componentEditModalDOM.querySelector("#numberInputMin").value;
 			componentObject.extra.min = numberInputMin;
-			const numberInputMax = modal.querySelector("#numberInputMax").value;
+			const numberInputMax = componentEditModalDOM.querySelector("#numberInputMax").value;
 			componentObject.extra.max = numberInputMax;
 			break;
 		}
@@ -347,5 +346,5 @@ document.getElementById("editComponentForm").addEventListener("submit", function
 		return component;
 	});
 
-	renderer(cardContainer, createLayout(editModeComponents, isEditMode), isEditMode);
+	renderer(cardContainer, createLayout(editModeLayout, editModeComponents, isEditMode), isEditMode);
 });

@@ -35,8 +35,6 @@ const ButtonStyles = {
 	getRenderWithStyle: function (componentObject) {
 		componentObject.style = ButtonStyles.checkStyleAttributes(componentObject.style);
 
-		console.log(componentObject.style);
-
 		switch (componentObject.style.name) {
 			case "rectangle":
 				return ButtonStyles.getRectangleButton(componentObject);

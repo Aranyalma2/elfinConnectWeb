@@ -1,5 +1,5 @@
 //The runtime layout creator function
-function createLayout(components = [], editMode = false) {
+function createLayout(layout = {}, components = [], editMode = false) {
 	const cardArray = [];
 
 	// Sort components by order
@@ -7,7 +7,7 @@ function createLayout(components = [], editMode = false) {
 
 	// Render each component as a card
 	components.forEach((component) => {
-		const card = renderComponent(component, editMode);
+		const card = renderComponent(layout, component, editMode);
 		cardArray.push(card);
 	});
 
@@ -17,24 +17,24 @@ function createLayout(components = [], editMode = false) {
 			id: "addNewCard",
 			type: "addNew",
 		};
-		const card = renderComponent(newCardObject, editMode);
+		const card = renderComponent(layout, newCardObject, editMode);
 		cardArray.push(card);
 	}
 
 	return cardArray;
 }
 
-function renderComponent(component, editMode) {
-	const card = createCard(component, editMode);
+function renderComponent(layout, component, editMode) {
+	const card = createCard(layout, component, editMode);
 	card.innerHTML = createCardContent(component, editMode);
 	return card;
 }
 
-function createCard(component, editMode) {
+function createCard(layout, component, editMode) {
 	const card = document.createElement("div");
 	card.id = `card-${component.id}`;
 	card.className = "card m-1";
-	card.style.width = "200px";
+	card.style.minWidth = "200px";
 	card.style.height = editMode ? "175PX" : "150px";
 	if (editMode && component.type !== "addNew") {
 		card.style.border = "2px dashed #007bff";
@@ -42,6 +42,24 @@ function createCard(component, editMode) {
 	} else if (editMode && component.type === "addNew") {
 		card.style.cursor = "pointer";
 	}
+
+	switch (layout.type) {
+		case "fill": {
+			card.style.flex = "1 1 200px";
+			break;
+		}
+		case "fixed": {
+			card.style.width = "200px";
+			break;
+		}
+		default: {
+			console.log(layout);
+			console.error("Unknown layout type");
+			layout.type = "fill";
+			card.style.flex = "1 1 200px";
+		}
+	}
+
 	return card;
 }
 

@@ -126,5 +126,8 @@
 	"StateOffText": "Off state text",
 	"EGON": "Example: On",
 	"EGOFF": "Example: Off",
+	"EditLayout": "Change layout",
+	"Fix": "Fix",
+	"Fill": "Fill",
 	"": ""
 }

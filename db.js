@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const mongodb = require("mongodb");
+const { type } = require("jquery");
 
 const dbAddress = process.env.DATABASE || "localhost";
 const dbCollectionName = process.env.DATABASE_COLLECTION || "elfinconnect";
@@ -53,9 +54,14 @@ const viewComponentSchema = new mongoose.Schema({
 	extra: mongoose.Schema.Types.Mixed,
 });
 
+const layoutSchema = new mongoose.Schema({
+	type: String,
+});
+
 const ViewComponent = mongoose.model("ViewComponent", viewComponentSchema);
 
 const viewSchema = new mongoose.Schema({
+	layout: layoutSchema,
 	components: [viewComponentSchema],
 });
 

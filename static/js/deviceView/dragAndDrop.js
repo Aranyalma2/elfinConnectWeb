@@ -74,5 +74,5 @@ function handleDrop(event) {
 	draggedCard = null;
 	dragStartIndex = null;
 
-	renderer(cardContainer, createLayout(editModeComponents, isEditMode), isEditMode);
+	renderer(cardContainer, createLayout(editModeLayout, editModeComponents, isEditMode), isEditMode);
 }
