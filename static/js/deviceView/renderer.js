@@ -127,13 +127,21 @@ function createCardContent(component, editMode) {
 }
 
 function updateCardContent(componentId, data, error) {
+	const cardDOM = document.getElementById(`card-${componentId}`);
 	const viewElement = document.getElementById(componentId).querySelector(".viewContent");
 	const errorElement = document.getElementById(componentId).querySelector(".error");
 	if (errorElement) {
-		errorElement.textContent = error || "";
+		//errorElement.textContent = error || "";
 	}
 	if (error) {
+		cardDOM.classList.add("border");
+		cardDOM.classList.add("border-danger");
+		cardDOM.classList.add("border-3");
 		return;
+	} else {
+		cardDOM.classList.remove("border");
+		cardDOM.classList.remove("border-danger");
+		cardDOM.classList.remove("border-3");
 	}
 
 	const componentObject = runModeComponents.find((element) => element.id === componentId);

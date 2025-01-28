@@ -18,6 +18,22 @@
     </div>
   </div>
 
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+          <div class="toast-header">
+              <strong class="me-auto text-danger">Error</strong>
+              <div class="icons"></div>
+              <button type="button" class="btn p-0 ms-3" id="toggleErrorToastBodyButton" aria-label="Toggle Body">
+                  <i class="bi bi-chevron-down"></i>
+              </button>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+          </div>
+      </div>
+  </div>
+
+
   <!-- Edit Layout Modal -->
   <div class="modal modal-md" id="editLayoutModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -295,6 +311,8 @@
 
 <!-- Component Function&Render -->
 <script src="/js/deviceView/renderer.js"></script>
+<script src="/js/deviceView/ErrorResolver.js"></script>
+<script src="/js/deviceView/errorToaster.js"></script>
 <script src="/js/deviceView/dragAndDrop.js"></script>
 <script src="/js/deviceView/eventListeners.js"></script>
 <script src="/js/deviceView/componentEditFormControll.js"></script>
@@ -445,6 +463,7 @@
         headers: {
           'Content-Type': 'application/json',
         },
+        signal: AbortSignal.timeout(5000),
       });
 
       if (!response.ok) {
@@ -538,6 +557,7 @@
         if (response) {
           if (response.error) {
             console.error(`Error processing element ${component.id}:`, response.error);
+            ErrorToaster.addError(ErrorResolver.resolve(response.error));
             updateCardContent(component.id, null, response.error);
           } else {
             updateCardContent(component.id, response.data, null);
