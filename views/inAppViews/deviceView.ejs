@@ -28,7 +28,7 @@
               </button>
               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
           </div>
-          <div class="toast-body">
+          <div class="toast-body scrollable-toast-body">
           </div>
       </div>
   </div>
@@ -541,6 +541,7 @@
         }
       } catch (error) {
         ErrorToaster.addError(ErrorResolver.resolve(error));
+        updateCardContent(componentObject.id, null, error);
       }
   }
 
@@ -581,6 +582,7 @@
         }
       } catch (error) {
         ErrorToaster.addError(ErrorResolver.resolve(error));
+        updateCardContent(componentObject.id, null, error);
       }
     }
   }

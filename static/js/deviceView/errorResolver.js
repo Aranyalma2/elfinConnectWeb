@@ -1,12 +1,31 @@
 ErrorResolver = {
 	resolve: function (error) {
 		console.error(error);
+		if (error instanceof Error) {
+			error = error.message;
+		}
 		try {
+			if (error.includes("The operation timed out.")) {
+				return {
+					title: _texts.NetError,
+					level: "warning",
+					message: _texts.NetTimeout,
+				};
+			}
+
+			if (error.includes("NetworkError when attempting to fetch resource.")) {
+				return {
+					title: _texts.NetError,
+					level: "critical",
+					message: _texts.NetConnectError,
+				};
+			}
+
 			if (error.includes("Connection failed: Remote operation timed out")) {
 				return {
-					title: _texts.RegisterTimeout,
-					level: "warning",
-					message: _texts.OpTimeout,
+					title: _texts.OpTimeout,
+					level: "critical",
+					message: _texts.RegisterTimeout,
 				};
 			}
 

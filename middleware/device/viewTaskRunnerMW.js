@@ -136,7 +136,7 @@ function withTimeout(fn, timeoutDuration) {
 		// Set up a timeout to throw an error if the callback isn't called within the specified time
 		const timeout = setTimeout(() => {
 			timeoutReached = true;
-			const error = new Error("Connection failed: Remote operation timed out");
+			const error = new Error("Operation failed: Remote operation timed out");
 			callback(error);
 		}, timeoutDuration);
 

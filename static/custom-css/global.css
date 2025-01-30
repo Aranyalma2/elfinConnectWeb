@@ -151,3 +151,8 @@ section {
 .edit-card-btn:hover i {
 	color: #5c636a;
 }
+
+.scrollable-toast-body {
+    max-height: 80vh; /* 80% of the viewport height */
+    overflow-y: auto; /* Make it scrollable */
+}
