@@ -26,15 +26,16 @@ module.exports = function (objectrepository) {
 				.catch((err) => {
 					return next(err);
 				});
+		} else {
+			viewDB
+				.findById(res.locals.device.view)
+				.then((view) => {
+					res.locals.view = view;
+					return next();
+				})
+				.catch((err) => {
+					return next(err);
+				});
 		}
-		viewDB
-			.findById(res.locals.device.view)
-			.then((view) => {
-				res.locals.view = view;
-				return next();
-			})
-			.catch((err) => {
-				return next(err);
-			});
 	};
 };

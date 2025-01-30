@@ -129,5 +129,14 @@
 	"EditLayout": "Change layout",
 	"Fix": "Fix",
 	"Fill": "Fill",
+	"RegisterTimeout": "Register timeout",
+	"ConnectionFailed": "Connection failed",
+	"InternalError": "Internal error",
+	"OpTimeout": "Operation timed out",
+	"UnreachRemoteDevice": "Unable to reach the remote device",
+	"UnreachGatewayServer": "Unable to reach the gateway server",
+	"UnsupportedFcCode": "Unsupported function code",
+	"UnknowError": "Unknown error",
+	"Error": "Error",
 	"": ""
 }

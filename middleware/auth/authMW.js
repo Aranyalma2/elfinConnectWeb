@@ -3,31 +3,45 @@ const requireOption = require("../requireOption");
 
 // Middleware to check if a user is logged in
 exports.isLoggedIn = function (objectrepository) {
+	const userDB = requireOption(objectrepository, "User");
 	return function (req, res, next) {
 		if (typeof req.session.logedIn === "undefined" || req.session.logedIn !== true) {
 			return res.redirect("/login");
 		}
 		//Loged in
-		res.locals.user = req.session.user;
-		return next();
+		userDB
+			.findById(req.session.user._id)
+			.then((user) => {
+				res.locals.user = user;
+				return next();
+			})
+			.catch((err) => {
+				return next(err);
+			});
 	};
 };
 
 // Middleware to check if a user is logged in as Admin
 exports.isLoggedInAdmin = function (objectrepository) {
+	const userDB = requireOption(objectrepository, "User");
 	return function (req, res, next) {
-		if (
-			typeof req.session.logedIn === "undefined" ||
-			req.session.logedIn !== true ||
-			typeof req.session.user.admin === "undefined" ||
-			req.session.user.admin === false
-		) {
-			req.session.loginwaring = res.locals.texts.loginWarning_MissingAdminPermission;
+		if (typeof req.session.logedIn === "undefined" || req.session.logedIn !== true) {
 			return res.redirect("/login");
 		}
 		//Loged in as Admin
-		res.locals.user = req.session.user;
-		return next();
+		userDB
+			.findById(req.session.user._id)
+			.then((user) => {
+				if (typeof user.admin === "undefined" || user.admin === false) {
+					req.session.loginwaring = res.locals.texts.loginWarning_MissingAdminPermission;
+					return res.redirect("/login");
+				}
+				res.locals.user = user;
+				return next();
+			})
+			.catch((err) => {
+				return next(err);
+			});
 	};
 };
 

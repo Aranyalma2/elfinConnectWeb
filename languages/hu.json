@@ -129,5 +129,14 @@
 	"EditLayout": "Elrendezés módosítás",
 	"Fix": "Fix",
 	"Fill": "Kitölt",
+	"RegisterTimeout": "Regiszter időtúllépés",
+	"ConnectionFailed": "Kapcsolódási hiba",
+	"InternalError": "Rendszer hiba",
+	"OpTimeout": "Műveleti időtúllépés",
+	"UnreachRemoteDevice": "Nem érhető el a távoli eszköz",
+	"UnreachGatewayServer": "Nem érhető el a gateway szerver",
+	"UnsupportedFcCode": "Nem támogatott funkciókód",
+	"UnknowError": "Ismeretlen hiba",
+	"Error": "Hiba",
 	"": ""
 }

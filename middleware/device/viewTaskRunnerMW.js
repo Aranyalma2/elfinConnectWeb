@@ -1,5 +1,7 @@
 const gateway = require("../../gateway/serverConnectionHandler");
 
+const RemoteOperationTimeout = process.env.REMOTE_OPERATION_TIMEOUT || 3000;
+
 module.exports = function () {
 	return function (req, res, next) {
 		const component = req.body.data;
@@ -16,7 +18,9 @@ module.exports = function () {
 
 				switch (component.modbus.functionCode) {
 					case "01":
-						client.readCoils(deviceAddress, registerAddress, registerAddress, function (err, coils) {
+						const timedReadCoils = withTimeout(client.readCoils.bind(client), RemoteOperationTimeout);
+
+						timedReadCoils(deviceAddress, registerAddress, registerAddress, function (err, coils) {
 							if (err) {
 								res.locals.error = err;
 								return next();
@@ -29,7 +33,9 @@ module.exports = function () {
 						});
 						break;
 					case "02":
-						client.readDiscreteInputs(deviceAddress, registerAddress, registerAddress, function (err, discreteInputs) {
+						const timedReadDiscreteInputs = withTimeout(client.readDiscreteInputs.bind(client), RemoteOperationTimeout);
+
+						timedReadDiscreteInputs(deviceAddress, registerAddress, registerAddress, function (err, discreteInputs) {
 							if (err) {
 								res.locals.error = err;
 								return next();
@@ -42,7 +48,9 @@ module.exports = function () {
 						});
 						break;
 					case "03":
-						client.readHoldingRegisters(deviceAddress, registerAddress, registerAddress, function (err, registers) {
+						const timedReadHoldingRegisters = withTimeout(client.readHoldingRegisters.bind(client), RemoteOperationTimeout);
+
+						timedReadHoldingRegisters(deviceAddress, registerAddress, registerAddress, function (err, registers) {
 							if (err) {
 								res.locals.error = err;
 								return next();
@@ -59,7 +67,9 @@ module.exports = function () {
 						});
 						break;
 					case "04":
-						client.readInputRegisters(deviceAddress, registerAddress, registerAddress, function (err, registers) {
+						const timedReadInputRegisters = withTimeout(client.readInputRegisters.bind(client), RemoteOperationTimeout);
+
+						timedReadInputRegisters(deviceAddress, registerAddress, registerAddress, function (err, registers) {
 							if (err) {
 								res.locals.error = err;
 								return next();
@@ -76,33 +86,75 @@ module.exports = function () {
 						});
 						break;
 					case "05":
-						client.writeSingleCoil(deviceAddress, registerAddress, component.data, function (err, coils) {
+						const timedWriteSingleCoil = withTimeout(client.writeSingleCoil.bind(client), RemoteOperationTimeout);
+
+						timedWriteSingleCoil(deviceAddress, registerAddress, component.data, function (err, coils) {
 							if (err) {
 								res.locals.error = err;
 								return next();
 							}
+							res.locals.component = component;
+							res.locals.data = "";
 							return next();
 						});
 						break;
 					case "06":
-						client.writeSingleRegister(deviceAddress, registerAddress, component.data, function (err, registers) {
+						const timedWriteSingleRegister = withTimeout(client.writeSingleRegister.bind(client), RemoteOperationTimeout);
+
+						timedWriteSingleRegister(deviceAddress, registerAddress, component.data, function (err, registers) {
 							if (err) {
 								res.locals.error = err;
 								return next();
 							}
+							res.locals.component = component;
+							res.locals.data = "";
 							return next();
 						});
 						break;
 					default:
-						return next(new Error("Unsupported function code"));
+						res.locals.error = new Error("Unsupported function code");
+						return next();
 				}
 			})
 			.catch((err) => {
 				// Handle any errors here
-				console.error("Error in:", err);
+				console.error("Error in connection:", err);
 				gateway.closeConnection(res.locals.user.uuid, component.destinationMAC);
 				res.locals.error = err;
 				return next();
 			});
 	};
 };
+
+function withTimeout(fn, timeoutDuration) {
+	return function (...args) {
+		let timeoutReached = false;
+
+		// Find the callback function in the arguments
+		const callback = args[args.length - 1];
+
+		// Set up a timeout to throw an error if the callback isn't called within the specified time
+		const timeout = setTimeout(() => {
+			timeoutReached = true;
+			const error = new Error("Connection failed: Remote operation timed out");
+			callback(error);
+		}, timeoutDuration);
+
+		// Wrap the original callback to clear the timeout and prevent multiple calls
+		args[args.length - 1] = function (...callbackArgs) {
+			if (timeoutReached) {
+				// If the timeout has already been reached, we ignore this callback
+				return;
+			}
+
+			// Clear the timeout as the callback has been called within the time limit
+			clearTimeout(timeout);
+
+			// Call the original callback with the provided arguments
+			callback(...callbackArgs);
+		};
+
+		// Call the original function with the modified arguments
+		fn(...args);
+	};
+}

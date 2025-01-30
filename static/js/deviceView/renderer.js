@@ -35,7 +35,7 @@ function createCard(layout, component, editMode) {
 	card.id = `card-${component.id}`;
 	card.className = "card m-1";
 	card.style.minWidth = "200px";
-	card.style.height = editMode ? "175PX" : "150px";
+	card.style.height = editMode ? "175px" : "150px";
 	if (editMode && component.type !== "addNew") {
 		card.style.border = "2px dashed #007bff";
 		card.style.cursor = "move";
@@ -142,6 +142,10 @@ function updateCardContent(componentId, data, error) {
 		cardDOM.classList.remove("border");
 		cardDOM.classList.remove("border-danger");
 		cardDOM.classList.remove("border-3");
+	}
+
+	if (data === undefined || data === null) {
+		return;
 	}
 
 	const componentObject = runModeComponents.find((element) => element.id === componentId);

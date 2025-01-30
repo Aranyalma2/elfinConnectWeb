@@ -28,7 +28,7 @@ async function createConnection(userID, devicemac) {
 				clientSocket.write(`connme;${userID};${devicemac};1`, () => {
 					clientSocket.once("data", (data) => {
 						if (JSON.parse(data.toString()).status !== "success") {
-							reject("Connection failed: " + JSON.parse(data.toString()).reason);
+							reject(new Error("Connection failed: " + JSON.parse(data.toString()).reason));
 						}
 
 						//data;userID;PLACEHOLDER;PLACEHOLDER;PRIORITY;
@@ -42,13 +42,13 @@ async function createConnection(userID, devicemac) {
 				});
 			});
 			clientSocket.on("error", (err) => {
-				console.log("Socket error", err);
+				console.error("Socket error", err);
 				removeConnection(userID, devicemac);
-				reject(err);
+				reject(new Error("Connection failed: Unable to reach the gateway server"));
 			});
 
 			clientSocket.on("close", () => {
-				console.log("Socket closed");
+				console.error("Socket closed");
 				removeConnection(userID, devicemac);
 			});
 		});

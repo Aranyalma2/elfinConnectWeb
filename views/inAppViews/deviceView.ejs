@@ -21,7 +21,7 @@
   <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
           <div class="toast-header">
-              <strong class="me-auto text-danger">Error</strong>
+              <strong class="me-auto text-danger"> <%= texts?.Error %></strong>
               <div class="icons"></div>
               <button type="button" class="btn p-0 ms-3" id="toggleErrorToastBodyButton" aria-label="Toggle Body">
                   <i class="bi bi-chevron-down"></i>
@@ -321,8 +321,16 @@
   //Initial components array
   let runModeComponents = [];
   let editModeComponents = [];
-  let runModeLayout = <%- JSON.stringify(viewLayout || {}) %>;
-  let editModeLayout = <%- JSON.stringify(viewLayout || {}) %>;
+  //Initial layout object
+  let runModeLayout = {};
+  let editModeLayout = {};
+
+  <% if (typeof viewLayout !== 'undefined') { %>
+    runModeLayout = <%- JSON.stringify(viewLayout) %>;
+    editModeLayout = <%- JSON.stringify(viewLayout) %>;
+  <% } %>
+
+  //Initial edit mode state
   let isEditMode = false;
   //Add components to the array
   <% if (typeof viewComponents !== 'undefined' && Array.isArray(viewComponents)) { %>
@@ -385,12 +393,12 @@
             runModeComponents = updatedView.components;
             console.log('Updated layout saved');
           } else {
-            console.warn('Failed to save layout. Reverting to original layout.');
+            console.warn('Failed to load back layout. Reverting to original layout.');
           }
           renderer(cardContainer, createLayout(runModeLayout, runModeComponents, isEditMode), isEditMode);
         })
         .catch(error => {
-          console.error('Error saving layout:', error);
+          ErrorToaster.addError(ErrorResolver.resolve(error));
         });
     }
 
@@ -463,7 +471,7 @@
         headers: {
           'Content-Type': 'application/json',
         },
-        signal: AbortSignal.timeout(5000),
+        signal: AbortSignal.timeout(4000),
       });
 
       if (!response.ok) {
@@ -472,8 +480,7 @@
 
       return await response.json(); // Parse and return JSON response
     } catch (error) {
-      console.error('Error during fetch:', error);
-      return null; // Return null on error to handle gracefully
+      throw error;
     }
   }
 
@@ -499,8 +506,7 @@
 
       return await response.json(); // Parse and return JSON response
     } catch (error) {
-      console.error('Error during fetch:', error);
-      return null; // Return null on error to handle gracefully
+      throw error;
     }
   }
 </script>
@@ -523,8 +529,19 @@
     }
 
     sendComponent.modbus.functionCode = fcode;
-
-    const response = await sendDataRequest(sendComponent);
+    try {
+        const response = await sendDataRequest(sendComponent);
+        if (response) {
+          if (response.error) {
+            ErrorToaster.addError(ErrorResolver.resolve(response.error));
+            updateCardContent(componentObject.id, null, response.error);
+          } else {
+            updateCardContent(componentObject.id, null, null);
+          }
+        }
+      } catch (error) {
+        ErrorToaster.addError(ErrorResolver.resolve(error));
+      }
   }
 
 
@@ -553,18 +570,17 @@
       sendComponent.modbus.functionCode = fcode;
 
       try {
-        const response = await sendDataRequest(sendComponent); // Use await here
+        const response = await sendDataRequest(sendComponent);
         if (response) {
           if (response.error) {
-            console.error(`Error processing element ${component.id}:`, response.error);
             ErrorToaster.addError(ErrorResolver.resolve(response.error));
-            updateCardContent(component.id, null, response.error);
+            updateCardContent(componentObject.id, null, response.error);
           } else {
-            updateCardContent(component.id, response.data, null);
+            updateCardContent(componentObject.id, response.data, null);
           }
         }
       } catch (error) {
-        console.error(`Error processing element ${component.id}:`, error);
+        ErrorToaster.addError(ErrorResolver.resolve(error));
       }
     }
   }

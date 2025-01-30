@@ -7,7 +7,7 @@ module.exports = function (objectrepository) {
 			res.locals.component === undefined ||
 			res.locals.component === null
 		) {
-			res.end(JSON.stringify({ error: res.locals.error || "No data" }));
+			res.end(JSON.stringify({ error: res.locals.error?.message || "No data" }));
 			return;
 		}
 

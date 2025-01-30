@@ -4,7 +4,6 @@
 const requireOption = require("../requireOption");
 
 module.exports = function (objectrepository) {
-	const userDB = requireOption(objectrepository, "User");
 	const deviceDB = requireOption(objectrepository, "Device");
 
 	return function (req, res, next) {

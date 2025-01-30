@@ -34,7 +34,7 @@ module.exports = function (app) {
 			};
 
 			try {
-				app.use("/devices/:deviceid/delete", authMW.isLoggedIn(), delDeviceMW(objRepo), getDevicesMW(objRepo), renderMW("inAppViews/devices"));
+				app.use("/devices/:deviceid/delete", authMW.isLoggedIn(objRepo), delDeviceMW(objRepo), getDevicesMW(objRepo), renderMW("inAppViews/devices"));
 
 				app.post("/devices/:deviceid/view/api", authMW.isLoggedIn(objRepo), getDeviceMW(objRepo), viewTaskRunnerMW(), apiQueryJsonBuilderMW());
 
@@ -97,14 +97,14 @@ module.exports = function (app) {
 					res.redirect(301, "/");
 				});
 			} catch (err) {
-				console.log("MW runtime ERROR");
+				console.error("MW runtime ERROR:", err);
 				app.get("/", (req, res) => {
 					res.end(`MW runtime error: ${err.message}`);
 				});
 			}
 		})
 		.catch((err) => {
-			console.log("DB Connection ERROR");
+			console.error("DB Connection ERROR:", err);
 			app.get("/", (req, res) => {
 				res.end(`Unable to connect to the database: ${err.message}`);
 			});
