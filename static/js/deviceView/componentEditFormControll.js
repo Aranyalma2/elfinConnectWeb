@@ -9,7 +9,7 @@ const ComponentEditFormControll = {
 		const isSigned = isSignedCheckbox.checked;
 
 		if (minInput.value === "" || maxInput.value === "") return;
-		if (isSigned && (minValue === "-" || maxValue === "-")) return;
+		if (isSigned && (minInput.value === "-" || maxInput.value === "-")) return;
 
 		let minVal = parseInt(minInput.value, 10);
 		let maxVal = parseInt(maxInput.value, 10);
