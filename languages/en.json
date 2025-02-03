@@ -141,5 +141,9 @@
 	"Error": "Error",
 	"NetError": "Network error",
 	"NetConnectError": "Network connection error",
+	"Properties": "Properties",
+	"DangerZone": "Danger Zone",
+	"DeleteDevice": "Delete device",
+	"DeleteDeviceDesc": "Remove device and delete all additional data, e.g: view, properties...",
 	"": ""
 }

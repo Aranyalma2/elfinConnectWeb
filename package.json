@@ -1,6 +1,6 @@
 {
 	"name": "elfinconnectweb",
-	"version": "0.2.31.dev",
+	"version": "0.2.32.beta",
 	"description": "Elfin Connect service Web UI",
 	"main": "index.js",
 	"scripts": {

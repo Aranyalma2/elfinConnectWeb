@@ -141,5 +141,9 @@
 	"Error": "Hiba",
 	"NetError": "Hálózati hiba",
 	"NetConnectError": "Hálózati kapcsolódási hiba",
+	"Properties": "Tulajdonságok",
+	"DangerZone": "Veszélyes zóna",
+	"DeleteDevice": "Eszköz törlése",
+	"DeleteDeviceDesc": "Eszköz és minden további adat törlése, pl: nézet, tulajdonságok...",
 	"": ""
 }

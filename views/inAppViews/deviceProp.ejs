@@ -1,0 +1,52 @@
+<%- include('frameTop') -%>
+
+<section>
+    <div class="row">
+        <!-- First row for mobile view, single row for desktop view -->
+        <div class="col-12 col-md d-flex align-items-center justify-content-between mb-2 mb-md-0">
+            <a href="/devices" id="returnButton" class="btn pt-0">
+                <i class="bi bi-arrow-left big-arrow"></i>
+            </a>
+            <!-- Single row for desktop view -->
+            <div class="d-none d-md-block">
+                <h2 class="mb-3 ms-1 mt-2 d-inline-block"><%= device?.hostName || 'Device Name' %></h2>
+            </div>
+            <div class="d-md-flex ms-auto">
+                <!--
+                <button id="saveButton" class="btn btn-success m-1">
+                    <i class="bi bi-save"></i> <%= texts?.Save %>
+                </button>
+                -->
+            </div>
+        </div>
+        <!-- Second row for mobile view, hidden on desktop view -->
+        <div class="col-12 d-md-none d-flex justify-content-center">
+          <h2 class="mb-3 ms-1 d-inline-block"><%= device?.hostName || 'Device Name' %></h2>
+      </div>
+    </div>
+
+    <!-- Danger zone wrapper -->
+    <div class="p-3 mb-3 border border-danger rounded bg-light">
+        <h5 class="text-danger"><i class="bi bi-exclamation-triangle-fill p-1"></i><%= texts.DangerZone %></h5>
+        <div class="d-flex flex-column gap-3">
+            <div class="p-2 border rounded">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="p-2 ">
+                        <h5 class="fw-bold"><%= texts.DeleteDevice %></h5>
+                        <p class="text-muted"><%= texts.DeleteDeviceDesc %></p>
+                    </div>
+                    <div class="px-2">
+                        <a href="/devices/<%=device._id%>/delete" class="btn btn-danger px-3">
+                            <i class="bi bi-trash"></i> <%= texts.Delete %>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+</section>
+
+<%- include('frameBottom') -%>

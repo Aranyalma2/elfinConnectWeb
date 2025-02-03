@@ -49,6 +49,8 @@ module.exports = function (app) {
 					renderMW("inAppViews/deviceView"),
 				);
 
+				app.get("/devices/:deviceid/properties", authMW.isLoggedIn(objRepo), getDeviceMW(objRepo), renderMW("inAppViews/deviceProp"));
+
 				app.use("/devices", authMW.isLoggedIn(objRepo), getDevicesMW(objRepo), renderMW("inAppViews/devices"));
 
 				app.post("/user/changepassword", authMW.isLoggedIn(objRepo), changePassMW(objRepo), renderMW("inAppViews/user"));
