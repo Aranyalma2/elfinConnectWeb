@@ -1,5 +1,6 @@
 /*
 Version holder file
 */
+const packageInfo = require("../package.json");
 
-module.exports = "Version 0.1.69 (exp build)";
+module.exports = `Version ${packageInfo.version}`;

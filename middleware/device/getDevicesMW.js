@@ -4,25 +4,21 @@
 const requireOption = require("../requireOption");
 
 module.exports = function (objectrepository) {
-	const userDB = requireOption(objectrepository, "User");
 	const deviceDB = requireOption(objectrepository, "Device");
 
 	return function (req, res, next) {
 		if (typeof res.locals.user === "undefined") {
 			return next();
 		}
-
-		userDB.findOne({ _id: { $eq: req.session.user._id } }).then((deviceList) => {
-			deviceDB
-				.find({ _id: deviceList.allDevices })
-				.then((devices) => {
-					res.locals.devices = calcOnlineAndTime(devices);
-					return next();
-				})
-				.catch((err) => {
-					return next(err);
-				});
-		});
+		deviceDB
+			.find({ _id: res.locals.user.allDevices })
+			.then((devices) => {
+				res.locals.devices = calcOnlineAndTime(devices);
+				return next();
+			})
+			.catch((err) => {
+				return next(err);
+			});
 	};
 };
 

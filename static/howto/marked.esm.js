@@ -65,9 +65,7 @@ function unescape(html) {
 		n = n.toLowerCase();
 		if (n === "colon") return ":";
 		if (n.charAt(0) === "#") {
-			return n.charAt(1) === "x"
-				? String.fromCharCode(parseInt(n.substring(2), 16))
-				: String.fromCharCode(+n.substring(1));
+			return n.charAt(1) === "x" ? String.fromCharCode(parseInt(n.substring(2), 16)) : String.fromCharCode(+n.substring(1));
 		}
 		return "";
 	});
@@ -376,12 +374,8 @@ class _Tokenizer {
 					endEarly = true;
 				}
 				if (!endEarly) {
-					const nextBulletRegex = new RegExp(
-						`^ {0,${Math.min(3, indent - 1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ \t][^\\n]*)?(?:\\n|$))`,
-					);
-					const hrRegex = new RegExp(
-						`^ {0,${Math.min(3, indent - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`,
-					);
+					const nextBulletRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ \t][^\\n]*)?(?:\\n|$))`);
+					const hrRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`);
 					const fencesBeginRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}(?:\`\`\`|~~~)`);
 					const headingBeginRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}#`);
 					// Check if following lines should be included in List Item
@@ -512,9 +506,7 @@ class _Tokenizer {
 		if (cap) {
 			const tag = cap[1].toLowerCase().replace(/\s+/g, " ");
 			const href = cap[2] ? cap[2].replace(/^<(.*)>$/, "$1").replace(this.rules.inline.anyPunctuation, "$1") : "";
-			const title = cap[3]
-				? cap[3].substring(1, cap[3].length - 1).replace(this.rules.inline.anyPunctuation, "$1")
-				: cap[3];
+			const title = cap[3] ? cap[3].substring(1, cap[3].length - 1).replace(this.rules.inline.anyPunctuation, "$1") : cap[3];
 			return {
 				type: "def",
 				tag,
@@ -730,8 +722,7 @@ class _Tokenizer {
 				rLength,
 				delimTotal = lLength,
 				midDelimTotal = 0;
-			const endReg =
-				match[0][0] === "*" ? this.rules.inline.emStrongRDelimAst : this.rules.inline.emStrongRDelimUnd;
+			const endReg = match[0][0] === "*" ? this.rules.inline.emStrongRDelimAst : this.rules.inline.emStrongRDelimUnd;
 			endReg.lastIndex = 0;
 			// Clip maskedSrc to same section of string as src (move to lexer?)
 			maskedSrc = maskedSrc.slice(-1 * src.length + lLength);
@@ -900,8 +891,7 @@ class _Tokenizer {
  */
 const newline = /^(?: *(?:\n|$))+/;
 const blockCode = /^( {4}[^\n]+(?:\n(?: *(?:\n|$))*)?)+/;
-const fences =
-	/^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/;
+const fences = /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/;
 const hr = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/;
 const heading = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/;
 const bullet = /(?:[*+-]|\d{1,9}[.)])/;
@@ -1120,10 +1110,7 @@ const reflink = edit(/^!?\[(label)\]\[(ref)\]/)
 const nolink = edit(/^!?\[(ref)\](?:\[\])?/)
 	.replace("ref", _blockLabel)
 	.getRegex();
-const reflinkSearch = edit("reflink|nolink(?!\\()", "g")
-	.replace("reflink", reflink)
-	.replace("nolink", nolink)
-	.getRegex();
+const reflinkSearch = edit("reflink|nolink(?!\\()", "g").replace("reflink", reflink).replace("nolink", nolink).getRegex();
 /**
  * Normal Inline Grammar
  */
@@ -1491,10 +1478,7 @@ class _Lexer {
 		}
 		// Mask out escaped characters
 		while ((match = this.tokenizer.rules.inline.anyPunctuation.exec(maskedSrc)) != null) {
-			maskedSrc =
-				maskedSrc.slice(0, match.index) +
-				"++" +
-				maskedSrc.slice(this.tokenizer.rules.inline.anyPunctuation.lastIndex);
+			maskedSrc = maskedSrc.slice(0, match.index) + "++" + maskedSrc.slice(this.tokenizer.rules.inline.anyPunctuation.lastIndex);
 		}
 		while (src) {
 			if (!keepPrevChar) {
@@ -1649,13 +1633,7 @@ class _Renderer {
 		if (!lang) {
 			return "<pre><code>" + (escaped ? code : escape$1(code, true)) + "</code></pre>\n";
 		}
-		return (
-			'<pre><code class="language-' +
-			escape$1(lang) +
-			'">' +
-			(escaped ? code : escape$1(code, true)) +
-			"</code></pre>\n"
-		);
+		return '<pre><code class="language-' + escape$1(lang) + '">' + (escaped ? code : escape$1(code, true)) + "</code></pre>\n";
 	}
 	blockquote(quote) {
 		return `<blockquote>\n${quote}</blockquote>\n`;
@@ -1816,27 +1794,12 @@ class _Parser {
 		for (let i = 0; i < tokens.length; i++) {
 			const token = tokens[i];
 			// Run any renderer extensions
-			if (
-				this.options.extensions &&
-				this.options.extensions.renderers &&
-				this.options.extensions.renderers[token.type]
-			) {
+			if (this.options.extensions && this.options.extensions.renderers && this.options.extensions.renderers[token.type]) {
 				const genericToken = token;
 				const ret = this.options.extensions.renderers[genericToken.type].call({ parser: this }, genericToken);
 				if (
 					ret !== false ||
-					![
-						"space",
-						"hr",
-						"heading",
-						"code",
-						"table",
-						"blockquote",
-						"list",
-						"html",
-						"paragraph",
-						"text",
-					].includes(genericToken.type)
+					!["space", "hr", "heading", "code", "table", "blockquote", "list", "html", "paragraph", "text"].includes(genericToken.type)
 				) {
 					out += ret || "";
 					continue;
@@ -1913,11 +1876,7 @@ class _Parser {
 							if (loose) {
 								if (item.tokens.length > 0 && item.tokens[0].type === "paragraph") {
 									item.tokens[0].text = checkbox + " " + item.tokens[0].text;
-									if (
-										item.tokens[0].tokens &&
-										item.tokens[0].tokens.length > 0 &&
-										item.tokens[0].tokens[0].type === "text"
-									) {
+									if (item.tokens[0].tokens && item.tokens[0].tokens.length > 0 && item.tokens[0].tokens[0].type === "text") {
 										item.tokens[0].tokens[0].text = checkbox + " " + item.tokens[0].tokens[0].text;
 									}
 								} else {
@@ -1978,18 +1937,9 @@ class _Parser {
 		for (let i = 0; i < tokens.length; i++) {
 			const token = tokens[i];
 			// Run any renderer extensions
-			if (
-				this.options.extensions &&
-				this.options.extensions.renderers &&
-				this.options.extensions.renderers[token.type]
-			) {
+			if (this.options.extensions && this.options.extensions.renderers && this.options.extensions.renderers[token.type]) {
 				const ret = this.options.extensions.renderers[token.type].call({ parser: this }, token);
-				if (
-					ret !== false ||
-					!["escape", "html", "link", "image", "strong", "em", "codespan", "br", "del", "text"].includes(
-						token.type,
-					)
-				) {
+				if (ret !== false || !["escape", "html", "link", "image", "strong", "em", "codespan", "br", "del", "text"].includes(token.type)) {
 					out += ret || "";
 					continue;
 				}
@@ -2328,9 +2278,7 @@ class Marked {
 			// Show warning if an extension set async to true but the parse was called with async: false
 			if (this.defaults.async === true && origOpt.async === false) {
 				if (!opt.silent) {
-					console.warn(
-						"marked(): The async option was set to true by an extension. The async: false option sent to parse will be ignored.",
-					);
+					console.warn("marked(): The async option was set to true by an extension. The async: false option sent to parse will be ignored.");
 				}
 				opt.async = true;
 			}
@@ -2340,13 +2288,7 @@ class Marked {
 				return throwError(new Error("marked(): input parameter is undefined or null"));
 			}
 			if (typeof src !== "string") {
-				return throwError(
-					new Error(
-						"marked(): input parameter is of type " +
-							Object.prototype.toString.call(src) +
-							", string expected",
-					),
-				);
+				return throwError(new Error("marked(): input parameter is of type " + Object.prototype.toString.call(src) + ", string expected"));
 			}
 			if (opt.hooks) {
 				opt.hooks.options = opt;
@@ -2355,11 +2297,7 @@ class Marked {
 				return Promise.resolve(opt.hooks ? opt.hooks.preprocess(src) : src)
 					.then((src) => lexer(src, opt))
 					.then((tokens) => (opt.hooks ? opt.hooks.processAllTokens(tokens) : tokens))
-					.then((tokens) =>
-						opt.walkTokens
-							? Promise.all(this.walkTokens(tokens, opt.walkTokens)).then(() => tokens)
-							: tokens,
-					)
+					.then((tokens) => (opt.walkTokens ? Promise.all(this.walkTokens(tokens, opt.walkTokens)).then(() => tokens) : tokens))
 					.then((tokens) => parser(tokens, opt))
 					.then((html) => (opt.hooks ? opt.hooks.postprocess(html) : html))
 					.catch(throwError);

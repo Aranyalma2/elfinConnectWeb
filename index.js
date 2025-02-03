@@ -9,7 +9,6 @@ const mongoSanitize = require("express-mongo-sanitize");
 //const localesMW = require("./middleware/localesMW");
 
 const app = express();
-const PORT = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -54,6 +53,8 @@ app.use((err, req, res, next) => {
 	res.end("Problem...");
 	console.log(err);
 });
+
+const PORT = process.env.WEBPORT || 3000;
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);

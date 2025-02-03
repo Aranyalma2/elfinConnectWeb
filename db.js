@@ -1,15 +1,21 @@
 const mongoose = require("mongoose");
 const mongodb = require("mongodb");
+const { type } = require("jquery");
 
-const dbAddress = "database:27017";
-const dbCollectionName = "elfinconnect";
+const dbAddress = process.env.DATABASE || "localhost";
+const dbCollectionName = process.env.DATABASE_COLLECTION || "elfinconnect";
 
 let filesCollection;
 let gridfsBucket;
 
 const connectDB = async () => {
-	await mongoose.connect(`mongodb://${dbAddress}/${dbCollectionName}`);
-	console.log("DB Connected!");
+	try {
+		await mongoose.connect(`mongodb://${dbAddress}/${dbCollectionName}`);
+		console.log("DB Connected!");
+	} catch (err) {
+		console.log("DB Connection Error: ", err);
+		process.exit(1);
+	}
 
 	gridfsBucket = new mongodb.GridFSBucket(mongoose.connection.db, {
 		bucketName: "downloads",
@@ -22,6 +28,7 @@ const deviceSchema = new mongoose.Schema({
 	hostName: String,
 	macAddress: String,
 	lastSeenDate: Date,
+	view: { type: mongoose.Schema.Types.ObjectId, ref: "View" },
 });
 
 const Device = mongoose.model("Device", deviceSchema);
@@ -37,10 +44,36 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
+const viewComponentSchema = new mongoose.Schema({
+	id: String,
+	name: String,
+	type: String,
+	style: mongoose.Schema.Types.Mixed,
+	order: Number,
+	modbus: mongoose.Schema.Types.Mixed,
+	extra: mongoose.Schema.Types.Mixed,
+});
+
+const layoutSchema = new mongoose.Schema({
+	type: String,
+});
+
+const ViewComponent = mongoose.model("ViewComponent", viewComponentSchema);
+
+const viewSchema = new mongoose.Schema({
+	layout: layoutSchema,
+	components: [viewComponentSchema],
+});
+
+const View = mongoose.model("View", viewSchema);
+
+// Export the database connection and models
 module.exports = {
 	connectDB,
 	filesCollection: () => filesCollection,
 	gridfsBucket: () => gridfsBucket,
 	Device,
 	User,
+	View,
+	ViewComponent,
 };
