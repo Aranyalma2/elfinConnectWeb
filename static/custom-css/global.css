@@ -156,3 +156,7 @@ section {
     max-height: 80vh; /* 80% of the viewport height */
     overflow-y: auto; /* Make it scrollable */
 }
+
+.big-arrow {
+	font-size: 2.0rem; /* Adjust the size as needed */
+}

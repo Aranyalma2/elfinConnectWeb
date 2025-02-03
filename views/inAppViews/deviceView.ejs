@@ -4,35 +4,43 @@
 
 <section>
   <div class="row">
-    <div class="col">
-      <h2 class="mb-4"><%= device?.hostName || 'Device Name' %></h2>
+    <!-- First row for mobile view, single row for desktop view -->
+    <div class="col-12 col-md d-flex align-items-center justify-content-between mb-2 mb-md-0">
+        <a href="/devices" id="returnButton" class="btn pt-0">
+            <i class="bi bi-arrow-left big-arrow"></i>
+        </a>
+        <!-- Single row for desktop view -->
+        <div class="d-none d-md-block">
+            <h2 class="mb-3 ms-1 mt-2 d-inline-block"><%= device?.hostName || 'Device Name' %></h2>
+        </div>
+        <div class="d-md-flex ms-auto">
+            <button id="editLayout" class="btn btn-primary m-1 d-none" data-bs-toggle="modal" data-bs-target="#editLayoutModal">
+                <i class="bi bi-columns"></i> <%= texts?.EditLayout %>
+            </button>
+            <button id="editModeToggle" class="btn btn-success m-1">
+                <i class="bi bi-pencil-square"></i> <%= texts?.EditMode %>
+            </button>
+        </div>
     </div>
+    <!-- Second row for mobile view, hidden on desktop view -->
+    <div class="col-12 d-md-none d-flex justify-content-center">
+      <h2 class="mb-3 ms-1 d-inline-block"><%= device?.hostName || 'Device Name' %></h2>
+  </div>
+</div>
 
-    <div class="col text-end mb-4">
-      <button id="editLayout" class="btn btn-primary d-none m-1" data-bs-toggle="modal" data-bs-target="#editLayoutModal">
-        <i class="bi bi-columns"></i> <%= texts?.EditLayout %>
-      </button>
-      <button id="editModeToggle" class="btn btn-success m-1">
-        <i class="bi bi-pencil-square"></i> <%= texts?.EditMode %>
-      </button>
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+        <div class="toast-header">
+            <strong class="me-auto text-danger"><%= texts?.Error %></strong>
+            <div class="icons"></div>
+            <button type="button" class="btn p-0 ms-3" id="toggleErrorToastBodyButton" aria-label="Toggle Body">
+                <i class="bi bi-chevron-down"></i>
+            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body scrollable-toast-body"></div>
     </div>
-  </div>
-
-  <div class="toast-container position-fixed bottom-0 end-0 p-3">
-      <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
-          <div class="toast-header">
-              <strong class="me-auto text-danger"> <%= texts?.Error %></strong>
-              <div class="icons"></div>
-              <button type="button" class="btn p-0 ms-3" id="toggleErrorToastBodyButton" aria-label="Toggle Body">
-                  <i class="bi bi-chevron-down"></i>
-              </button>
-              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-          <div class="toast-body scrollable-toast-body">
-          </div>
-      </div>
-  </div>
-
+</div>
 
   <!-- Edit Layout Modal -->
   <div class="modal modal-md" id="editLayoutModal" tabindex="-1" data-bs-backdrop="static">
@@ -370,6 +378,8 @@
 
     // show layout button in editmode
     document.getElementById('editLayout').classList.toggle('d-none', !isEditMode);
+
+    document.getElementById('returnButton').classList.toggle('d-none', isEditMode);
 
     // Re-render the components
     if (isEditMode) {
