@@ -13,7 +13,7 @@
 	background-color: var(--tooltip-backgroundOn-color);
 	color: var(--tooltip-textOn-color); 
 }
-
+	
 .lamp-container .viewContent.off .lampOff {
 	display: block;
 }

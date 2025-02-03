@@ -1,5 +1,9 @@
 const componentEditModalDOM = document.getElementById("editComponentModal");
 
+const isSignedCheckbox = componentEditModalDOM.querySelector("#numberInputSigned");
+const minInput = componentEditModalDOM.querySelector("#numberInputMin");
+const maxInput = componentEditModalDOM.querySelector("#numberInputMax");
+
 const ComponentEditFormControll = {
 	validateMinMax: function () {
 		const isSigned = isSignedCheckbox.checked;
@@ -209,10 +213,6 @@ const ComponentEditFormControll = {
 		$("#myModal").modal("handleUpdate");
 	},
 };
-
-const isSignedCheckbox = componentEditModalDOM.querySelector("#numberInputSigned");
-const minInput = componentEditModalDOM.querySelector("#numberInputMin");
-const maxInput = componentEditModalDOM.querySelector("#numberInputMax");
 
 // Add event listeners for real-time validation
 isSignedCheckbox.addEventListener("input", ComponentEditFormControll.validateMinMax);
