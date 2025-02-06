@@ -42,7 +42,7 @@ module.exports = function () {
 							}
 							if (discreteInputs.length > 0) {
 								res.locals.component = component;
-								res.locals.data = discreteInputs[0].readUInt8();
+								res.locals.data = discreteInputs[0];
 							}
 							return next();
 						});
