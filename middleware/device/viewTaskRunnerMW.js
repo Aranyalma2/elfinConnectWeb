@@ -25,7 +25,7 @@ module.exports = function () {
 								res.locals.error = err;
 								return next();
 							}
-							if (coils.length > 0) {
+							if (Array.isArray(registers) && registers.length > 0 && registers[0]) {
 								res.locals.component = component;
 								res.locals.data = coils[0];
 							}
@@ -40,7 +40,7 @@ module.exports = function () {
 								res.locals.error = err;
 								return next();
 							}
-							if (discreteInputs.length > 0) {
+							if (Array.isArray(registers) && registers.length > 0 && registers[0]) {
 								res.locals.component = component;
 								res.locals.data = discreteInputs[0];
 							}
@@ -55,7 +55,7 @@ module.exports = function () {
 								res.locals.error = err;
 								return next();
 							}
-							if (registers.length > 0) {
+							if (Array.isArray(registers) && registers.length > 0 && registers[0]) {
 								res.locals.component = component;
 								if (component.extra?.isSigned) {
 									res.locals.data = registers[0].readInt16BE();
@@ -74,7 +74,7 @@ module.exports = function () {
 								res.locals.error = err;
 								return next();
 							}
-							if (registers.length > 0) {
+							if (Array.isArray(registers) && registers.length > 0 && registers[0]) {
 								res.locals.component = component;
 								if (component.extra?.isSigned) {
 									res.locals.data = registers[0].readInt16BE();
