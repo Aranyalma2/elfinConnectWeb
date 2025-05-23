@@ -28,6 +28,8 @@ module.exports = function () {
 							if (Array.isArray(registers) && registers.length > 0 && registers[0]) {
 								res.locals.component = component;
 								res.locals.data = coils[0];
+							} else {
+								res.locals.error = new Error('No data received from registers');
 							}
 							return next();
 						});
@@ -43,6 +45,8 @@ module.exports = function () {
 							if (Array.isArray(registers) && registers.length > 0 && registers[0]) {
 								res.locals.component = component;
 								res.locals.data = discreteInputs[0];
+							} else {
+								res.locals.error = new Error('No data received from registers');
 							}
 							return next();
 						});
@@ -62,6 +66,8 @@ module.exports = function () {
 								} else {
 									res.locals.data = registers[0].readUInt16BE();
 								}
+							} else {
+								res.locals.error = new Error('No data received from registers');
 							}
 							return next();
 						});
@@ -81,6 +87,8 @@ module.exports = function () {
 								} else {
 									res.locals.data = registers[0].readUInt16BE();
 								}
+							} else {
+								res.locals.error = new Error('No data received from registers');
 							}
 							return next();
 						});
