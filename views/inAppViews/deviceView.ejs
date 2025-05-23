@@ -522,14 +522,9 @@
 </script>
 
 <script>
-  let isRunning = false;
-  let passiveIndex = 0;
-  let passiveComponents = [];
   const activeQueue = [];
-
-  async function passiveRequestRunner() {
-    // No-op externally; the real passive loop runs inside internalPassiveLoop
-  }
+  let passiveQueue = [];
+  let passiveWaitUntil = Date.now();
 
   function activeRequestRunner(componentObject, value) {
     return new Promise(resolve => {
@@ -566,73 +561,74 @@
     });
   }
 
-  async function internalPassiveLoop() {
+  async function passiveRequestRunner(componentObject) {
+    const sendComponent = {
+      id: componentObject.id,
+      modbus: { ...componentObject.modbus },
+      extra: componentObject.extra,
+    };
+
+    const fcode = modbusFunctionCodeParser('read', componentObject.modbus.functionCode);
+    if (fcode === 'Invalid') return;
+
+    sendComponent.modbus.functionCode = fcode;
+
+    try {
+      const response = await sendDataRequest(sendComponent);
+      if (response?.error) {
+        ErrorToaster.addError(ErrorResolver.resolve(response.error));
+        updateCardContent(componentObject.id, null, response.error);
+      } else {
+        updateCardContent(componentObject.id, response.data, null);
+      }
+    } catch (error) {
+      ErrorToaster.addError(ErrorResolver.resolve(error));
+      updateCardContent(componentObject.id, null, error);
+    }
+  }
+
+  async function mainRunner() {
     while (true) {
       if (isEditMode) {
         await new Promise(resolve => setTimeout(resolve, 500));
         continue;
       }
 
-      // Refresh the passive component list if needed
-      if (passiveComponents.length === 0) {
-        const nodeList = document.querySelectorAll('.viewPassive');
-        passiveComponents = Array.from(nodeList).map(node =>
-          runModeComponents.find(el => el.id === node.id)
-        );
-        passiveIndex = 0;
-      }
-
-      // End of full cycle → wait 5000ms before restarting
-      if (passiveIndex >= passiveComponents.length) {
-        passiveComponents = [];
-        passiveIndex = 0;
-        await new Promise(resolve => setTimeout(resolve, 5000));
+      // 1. Handle any pending active request
+      if (activeQueue.length > 0) {
+        const fn = activeQueue.shift();
+        await fn();
         continue;
       }
 
-      const componentObject = passiveComponents[passiveIndex];
-      passiveIndex++;
+      // 2. If passive queue is empty and the wait is over, refill it
+      if (passiveQueue.length === 0 && Date.now() >= passiveWaitUntil) {
+        const nodeList = document.querySelectorAll('.viewPassive');
+        passiveQueue = Array.from(nodeList).map(node =>
+          runModeComponents.find(el => el.id === node.id)
+        );
+      }
 
-      const sendComponent = {
-        id: componentObject.id,
-        modbus: { ...componentObject.modbus },
-        extra: componentObject.extra,
-      };
+      // 3. Run one passive request if available
+      if (passiveQueue.length > 0) {
+        const componentObject = passiveQueue.shift();
+        await passiveRequestRunner(componentObject);
 
-      const fcode = modbusFunctionCodeParser('read', componentObject.modbus.functionCode);
-      if (fcode === 'Invalid') continue;
-
-      sendComponent.modbus.functionCode = fcode;
-
-      try {
-        const response = await sendDataRequest(sendComponent);
-        if (response?.error) {
-          ErrorToaster.addError(ErrorResolver.resolve(response.error));
-          updateCardContent(componentObject.id, null, response.error);
-        } else {
-          updateCardContent(componentObject.id, response.data, null);
+        // After the last passive, set 5s delay marker
+        if (passiveQueue.length === 0) {
+          passiveWaitUntil = Date.now() + 5000;
         }
-      } catch (error) {
-        ErrorToaster.addError(ErrorResolver.resolve(error));
-        updateCardContent(componentObject.id, null, error);
+
+        continue;
       }
 
-      // Process all queued active requests before continuing
-      while (activeQueue.length > 0) {
-        const fn = activeQueue.shift();
-        await fn();
-      }
+      // 4. If nothing to do, sleep briefly
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
   }
 
-  // Start the loop only once
-  if (!isRunning) {
-    isRunning = true;
-    internalPassiveLoop();
-  }
+  // Start the smart cooperative runner
+  mainRunner();
 </script>
-
-
-
 
 <%- include('frameBottom') -%>
