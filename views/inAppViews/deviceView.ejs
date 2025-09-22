@@ -522,88 +522,113 @@
 </script>
 
 <script>
-  async function activeRequestRunner(componentObject, value) {
-    const sendComponent = {
-      id: componentObject.id,
-      modbus: {
-        ...componentObject.modbus
-      },
-      extra: componentObject.extra,
-      data: value,
-    };
+  const activeQueue = [];
+  let passiveQueue = [];
+  let passiveWaitUntil = Date.now();
 
-    // Adjust the function code to write mode
-    const fcode = modbusFunctionCodeParser('write', componentObject.modbus.functionCode);
-    if (fcode === 'Invalid') {
-      return;
-    }
+  function activeRequestRunner(componentObject, value) {
+    return new Promise(resolve => {
+      activeQueue.push(async () => {
+        const sendComponent = {
+          id: componentObject.id,
+          modbus: { ...componentObject.modbus },
+          extra: componentObject.extra,
+          data: value,
+        };
 
-    sendComponent.modbus.functionCode = fcode;
-    try {
-        const response = await sendDataRequest(sendComponent);
-        if (response) {
-          if (response.error) {
+        const fcode = modbusFunctionCodeParser('write', componentObject.modbus.functionCode);
+        if (fcode === 'Invalid') {
+          resolve();
+          return;
+        }
+
+        sendComponent.modbus.functionCode = fcode;
+
+        try {
+          const response = await sendDataRequest(sendComponent);
+          if (response?.error) {
             ErrorToaster.addError(ErrorResolver.resolve(response.error));
             updateCardContent(componentObject.id, null, response.error);
           } else {
             updateCardContent(componentObject.id, null, null);
           }
+        } catch (error) {
+          ErrorToaster.addError(ErrorResolver.resolve(error));
+          updateCardContent(componentObject.id, null, error);
         }
-      } catch (error) {
-        ErrorToaster.addError(ErrorResolver.resolve(error));
-        updateCardContent(componentObject.id, null, error);
-      }
+        resolve();
+      });
+    });
   }
 
+  async function passiveRequestRunner(componentObject) {
+    const sendComponent = {
+      id: componentObject.id,
+      modbus: { ...componentObject.modbus },
+      extra: componentObject.extra,
+    };
 
-  async function passiveRequestRunner() {
-    if (isEditMode) return;
+    const fcode = modbusFunctionCodeParser('read', componentObject.modbus.functionCode);
+    if (fcode === 'Invalid') return;
 
-    const passiveViewComponents = document.querySelectorAll('.viewPassive');
+    sendComponent.modbus.functionCode = fcode;
 
-    for (const component of passiveViewComponents) {
-      const componentObject = runModeComponents.find((element) => element.id === component.id);
-
-      const sendComponent = {
-        id: componentObject.id,
-        modbus: {
-          ...componentObject.modbus
-        },
-        extra: componentObject.extra,
-      };
-
-      // Adjust the function code to read mode
-      const fcode = modbusFunctionCodeParser('read', componentObject.modbus.functionCode);
-      if (fcode === 'Invalid') {
-        continue;
+    try {
+      const response = await sendDataRequest(sendComponent);
+      if (response?.error) {
+        ErrorToaster.addError(ErrorResolver.resolve(response.error));
+        updateCardContent(componentObject.id, null, response.error);
+      } else {
+        updateCardContent(componentObject.id, response.data, null);
       }
-
-      sendComponent.modbus.functionCode = fcode;
-
-      try {
-        const response = await sendDataRequest(sendComponent);
-        if (response) {
-          if (response.error) {
-            ErrorToaster.addError(ErrorResolver.resolve(response.error));
-            updateCardContent(componentObject.id, null, response.error);
-          } else {
-            updateCardContent(componentObject.id, response.data, null);
-          }
-        }
-      } catch (error) {
-        ErrorToaster.addError(ErrorResolver.resolve(error));
-        updateCardContent(componentObject.id, null, error);
-      }
+    } catch (error) {
+      ErrorToaster.addError(ErrorResolver.resolve(error));
+      updateCardContent(componentObject.id, null, error);
     }
   }
 
-  // Call passiveRequestRunner every 5 seconds
-  passiveRequestRunner(); // Initial call
-  setInterval(() => {
-    passiveRequestRunner(); // Schedule the function
-  }, 5000);
+  async function mainRunner() {
+    while (true) {
+      if (isEditMode) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        continue;
+      }
+
+      // 1. Handle any pending active request
+      if (activeQueue.length > 0) {
+        const fn = activeQueue.shift();
+        await fn();
+        continue;
+      }
+
+      // 2. If passive queue is empty and the wait is over, refill it
+      if (passiveQueue.length === 0 && Date.now() >= passiveWaitUntil) {
+        const nodeList = document.querySelectorAll('.viewPassive');
+        passiveQueue = Array.from(nodeList).map(node =>
+          runModeComponents.find(el => el.id === node.id)
+        );
+      }
+
+      // 3. Run one passive request if available
+      if (passiveQueue.length > 0) {
+        const componentObject = passiveQueue.shift();
+        await passiveRequestRunner(componentObject);
+
+        // After the last passive, set 5s delay marker
+        if (passiveQueue.length === 0) {
+          passiveWaitUntil = Date.now() + 5000;
+        }
+
+        continue;
+      }
+
+      // 4. If nothing to do, sleep briefly
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+  }
+
+  // Start the smart cooperative runner
+  mainRunner();
 </script>
-
-
 
 <%- include('frameBottom') -%>

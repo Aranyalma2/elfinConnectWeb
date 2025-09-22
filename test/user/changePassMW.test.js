@@ -1,5 +1,5 @@
 const chai = require("chai");
-const chaiHttp = require("chai-http");
+const chaiHttp = require("chai-http").default;
 const { expect } = chai;
 const bcrypt = require("bcrypt");
 
